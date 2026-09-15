@@ -2,6 +2,26 @@
   box-sizing: border-box;
 }
 
+:root {
+  --background: #1c1c1e;
+  --surface: #242426;
+  --surface-raised: #29292c;
+  --surface-hover: #303034;
+  --border: #343438;
+  --border-strong: #49494e;
+  --text: #f3f3f1;
+  --text-muted: #a7a7a2;
+  --accent: #ff6b1a;
+  --accent-hover: #ff7a33;
+  --accent-contrast: #1b1009;
+  --focus: #ff8b4d;
+  --danger: #ffb4ab;
+  --danger-surface: #3a2424;
+  --info: #ffd0b5;
+  --info-surface: #36291f;
+  color-scheme: dark;
+}
+
 html,
 body {
   margin: 0;
@@ -13,8 +33,66 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
+  background: var(--background);
+  color: var(--text);
+  line-height: 1.5;
 }
 
 a {
   color: inherit;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button,
+a,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  color: var(--accent-contrast);
+  background: var(--accent);
+}
+
+.site-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-content {
+  flex: 1;
+}
+
+.site-footer {
+  padding: 1.35rem 1rem 1.5rem;
+  color: var(--text-muted);
+  background: var(--background);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.82rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+.site-footer a {
+  color: #d2d2cd;
+  text-decoration-color: #686866;
+  text-underline-offset: 0.2em;
+}
+.site-footer a:hover {
+  color: var(--accent-hover);
+  text-decoration-color: currentColor;
+}
+.site-footer a:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 0.15rem;
 }

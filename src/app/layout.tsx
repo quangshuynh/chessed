@@ -15,7 +15,43 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div className="site-shell">
+          <div className="site-content">{children}</div>
+          <footer className="site-footer">
+            <p>
+              This page is powered by{" "}
+              <a
+                href="https://github.com/Clariity/react-chessboard"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="react-chessboard project (opens in a new tab)"
+              >
+                react-chessboard
+              </a>
+              ,{" "}
+              <a
+                href="https://github.com/jhlywa/chess.js/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="chess.js project (opens in a new tab)"
+              >
+                chess.js
+              </a>{" "}
+              and{" "}
+              <a
+                href="https://github.com/nmrugg/stockfish.js"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Stockfish.js project (opens in a new tab)"
+              >
+                Stockfish.js
+              </a>
+              .
+            </p>
+          </footer>
+        </div>
+      </body>
     </html>
   );
 }
