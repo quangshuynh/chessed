@@ -121,9 +121,13 @@ export function ReviewPage({ sessionId }: { sessionId: string }) {
                 allowDragging: false,
                 boardStyle: {
                   borderRadius: "0.75rem",
-                  boxShadow: "0 10px 30px rgba(7, 11, 20, 0.25)",
+                  boxShadow: "0 12px 32px rgba(0, 0, 0, 0.35)",
                   width: "100%",
                 },
+                lightSquareStyle: { backgroundColor: "#d4c3ae" },
+                darkSquareStyle: { backgroundColor: "#66584d" },
+                lightSquareNotationStyle: { color: "#66584d" },
+                darkSquareNotationStyle: { color: "#d4c3ae" },
               }}
             />
           </div>

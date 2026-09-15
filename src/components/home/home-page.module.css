@@ -1,179 +1,255 @@
 .page {
-  min-height: 100vh;
-  padding: 2rem 1rem 3rem;
-  background: radial-gradient(
-    circle at top,
-    #f6f8ff 0%,
-    #eef2ff 30%,
-    #eef3f8 100%
-  );
-  color: #0d1322;
+  min-height: 100%;
+  padding: 2.5rem 1rem 3.5rem;
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(255, 107, 26, 0.09),
+      transparent 32rem
+    ),
+    var(--background);
+  color: var(--text);
 }
-
 .hero {
   max-width: 70rem;
   margin: 0 auto;
   padding: 1.5rem;
 }
-
 .badge {
   display: inline-flex;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #24458d;
-  background: #dbe7ff;
-  border-radius: 999px;
+  margin: 0 0 1rem;
   padding: 0.35rem 0.75rem;
-  margin-bottom: 1rem;
+  color: #ffc29f;
+  background: rgba(255, 107, 26, 0.1);
+  border: 1px solid rgba(255, 107, 26, 0.28);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
 }
-
 .hero h1 {
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  line-height: 1.1;
-  margin-bottom: 0.75rem;
+  margin: 0 0 0.75rem;
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
 }
-
-.hero p {
+.hero h1::after {
+  content: ".";
+  color: var(--accent);
+}
+.hero > p:not(.badge) {
   max-width: 45rem;
-  line-height: 1.5;
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.65;
 }
-
 .workflow {
-  margin-top: 1rem;
-  padding-left: 1rem;
-  display: grid;
-  gap: 0.45rem;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  list-style: none;
+  counter-reset: workflow;
 }
-
+.workflow li {
+  counter-increment: workflow;
+  color: #c7c7c2;
+  font-size: 0.85rem;
+}
+.workflow li::before {
+  content: counter(workflow);
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.4rem;
+  color: var(--accent);
+  background: #2b211c;
+  border: 1px solid #543321;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.workflow li:not(:last-child)::after {
+  content: "/";
+  margin-left: 0.55rem;
+  color: #57575b;
+}
 .mainLayout {
   max-width: 70rem;
   margin: 1rem auto 0;
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
 }
-
 .panel {
-  background: #ffffff;
+  padding: 1.35rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  padding: 1.25rem;
-  border: 1px solid #dce3f5;
-  box-shadow: 0 10px 30px rgba(13, 19, 34, 0.06);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
 }
-
 .panel h2 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem;
+  font-size: 1.18rem;
+  letter-spacing: -0.01em;
 }
-
 .form {
   display: grid;
   gap: 0.75rem;
 }
-
+.form label {
+  color: #d5d5d1;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
 .inlineRow {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 0.5rem;
+  gap: 0.55rem;
 }
-
-.form input,
-.form textarea,
-.form button,
-.gameCard button {
-  font: inherit;
-}
-
 .form input,
 .form textarea {
   width: 100%;
+  padding: 0.72rem 0.85rem;
+  color: var(--text);
+  background: #1f1f21;
+  border: 1px solid var(--border-strong);
   border-radius: 0.65rem;
-  border: 1px solid #c7d2ec;
-  padding: 0.7rem 0.85rem;
-  background: #fff;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 }
-
+.form textarea {
+  min-height: 13rem;
+  resize: vertical;
+}
+.form input::placeholder,
+.form textarea::placeholder {
+  color: #858581;
+}
+.form input:hover,
+.form textarea:hover {
+  border-color: #606066;
+}
 .form input:focus-visible,
 .form textarea:focus-visible,
 .form button:focus-visible,
 .gameCard button:focus-visible {
-  outline: 3px solid #7da2ff;
-  outline-offset: 1px;
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
 }
-
+.form input:focus-visible,
+.form textarea:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 107, 26, 0.12);
+}
 .form button,
 .gameCard button {
-  border: 0;
+  padding: 0.68rem 0.95rem;
+  color: var(--accent-contrast);
+  background: var(--accent);
+  border: 1px solid var(--accent);
   border-radius: 0.65rem;
-  background: #1f4cb7;
-  color: #fff;
-  padding: 0.65rem 0.9rem;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 750;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
 }
-
-.form button[disabled],
-.gameCard button[disabled] {
+.form button:hover:not(:disabled),
+.gameCard button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  transform: translateY(-1px);
+}
+.form button:active:not(:disabled),
+.gameCard button:active:not(:disabled) {
+  transform: translateY(0);
+}
+.form button:disabled,
+.gameCard button:disabled {
+  color: #8f8f8b;
+  background: #303034;
+  border-color: #444448;
   cursor: not-allowed;
-  opacity: 0.6;
 }
-
 .gamesList {
-  list-style: none;
-  margin-top: 1rem;
+  margin: 1rem 0 0;
+  padding: 0;
   display: grid;
   gap: 0.75rem;
+  list-style: none;
 }
-
 .gameCard {
   display: grid;
   gap: 0.85rem;
-  border: 1px solid #dce3f5;
+  padding: 0.95rem;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
   border-radius: 0.85rem;
-  padding: 0.9rem;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease;
 }
-
+.gameCard:hover {
+  background: #2c2c2f;
+  border-color: var(--border-strong);
+}
 .gameCard h3 {
+  margin: 0 0 0.55rem;
   font-size: 1rem;
-  margin-bottom: 0.5rem;
 }
-
 .gameCard dl {
+  margin: 0;
   display: grid;
   gap: 0.4rem;
 }
-
 .gameCard dl div {
   display: grid;
   grid-template-columns: minmax(7rem, auto) 1fr;
   gap: 0.5rem;
-  font-size: 0.93rem;
+  font-size: 0.91rem;
 }
-
 .gameCard dt {
-  color: #4c5d85;
+  color: var(--text-muted);
 }
-
-.error {
-  margin-top: 0.75rem;
-  color: #8d1d1d;
-  background: #ffe7e7;
-  border: 1px solid #f2c2c2;
-  border-radius: 0.6rem;
-  padding: 0.6rem 0.75rem;
+.gameCard dd {
+  margin: 0;
 }
-
+.error,
 .info {
-  margin-top: 0.75rem;
-  color: #183e8f;
-  background: #e8f0ff;
-  border: 1px solid #c4d7ff;
+  margin: 0.85rem 0 0;
+  padding: 0.65rem 0.8rem;
   border-radius: 0.6rem;
-  padding: 0.6rem 0.75rem;
 }
-
+.error {
+  color: var(--danger);
+  background: var(--danger-surface);
+  border: 1px solid #70403d;
+}
+.info {
+  color: var(--info);
+  background: var(--info-surface);
+  border: 1px solid #66442e;
+}
 @media (max-width: 640px) {
+  .page {
+    padding-top: 1.25rem;
+  }
+  .hero {
+    padding: 1rem 0.5rem 1.25rem;
+  }
+  .workflow {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .workflow li::after {
+    display: none;
+  }
   .inlineRow {
     grid-template-columns: 1fr;
   }
