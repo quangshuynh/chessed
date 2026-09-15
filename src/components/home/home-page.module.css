@@ -1,0 +1,180 @@
+.page {
+  min-height: 100vh;
+  padding: 2rem 1rem 3rem;
+  background: radial-gradient(
+    circle at top,
+    #f6f8ff 0%,
+    #eef2ff 30%,
+    #eef3f8 100%
+  );
+  color: #0d1322;
+}
+
+.hero {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.badge {
+  display: inline-flex;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #24458d;
+  background: #dbe7ff;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+}
+
+.hero p {
+  max-width: 45rem;
+  line-height: 1.5;
+}
+
+.workflow {
+  margin-top: 1rem;
+  padding-left: 1rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.mainLayout {
+  max-width: 70rem;
+  margin: 1rem auto 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+
+.panel {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  border: 1px solid #dce3f5;
+  box-shadow: 0 10px 30px rgba(13, 19, 34, 0.06);
+}
+
+.panel h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.inlineRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+}
+
+.form input,
+.form textarea,
+.form button,
+.gameCard button {
+  font: inherit;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  border-radius: 0.65rem;
+  border: 1px solid #c7d2ec;
+  padding: 0.7rem 0.85rem;
+  background: #fff;
+}
+
+.form input:focus-visible,
+.form textarea:focus-visible,
+.form button:focus-visible,
+.gameCard button:focus-visible {
+  outline: 3px solid #7da2ff;
+  outline-offset: 1px;
+}
+
+.form button,
+.gameCard button {
+  border: 0;
+  border-radius: 0.65rem;
+  background: #1f4cb7;
+  color: #fff;
+  padding: 0.65rem 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.form button[disabled],
+.gameCard button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.gamesList {
+  list-style: none;
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.gameCard {
+  display: grid;
+  gap: 0.85rem;
+  border: 1px solid #dce3f5;
+  border-radius: 0.85rem;
+  padding: 0.9rem;
+}
+
+.gameCard h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.gameCard dl {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.gameCard dl div {
+  display: grid;
+  grid-template-columns: minmax(7rem, auto) 1fr;
+  gap: 0.5rem;
+  font-size: 0.93rem;
+}
+
+.gameCard dt {
+  color: #4c5d85;
+}
+
+.error {
+  margin-top: 0.75rem;
+  color: #8d1d1d;
+  background: #ffe7e7;
+  border: 1px solid #f2c2c2;
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.75rem;
+}
+
+.info {
+  margin-top: 0.75rem;
+  color: #183e8f;
+  background: #e8f0ff;
+  border: 1px solid #c4d7ff;
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .inlineRow {
+    grid-template-columns: 1fr;
+  }
+}
