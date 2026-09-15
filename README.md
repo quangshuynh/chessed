@@ -1,5 +1,9 @@
 # Chessed
 
+[![CI](https://github.com/quangshuynh/chessed/actions/workflows/ci.yml/badge.svg)](https://github.com/quangshuynh/chessed/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/quangshuynh/chessed)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)](https://www.typescriptlang.org/)
+
 Chessed is an independent open-source web application for reviewing chess games.
 
 > Chessed is **not affiliated with or endorsed by Chess.com**.
