@@ -1,53 +1,49 @@
-export type MoveClassification =
-  | "Brilliant"
-  | "Great"
-  | "Best"
-  | "Good"
-  | "Inaccuracy"
-  | "Mistake"
-  | "Miss"
-  | "Blunder";
+/** Canonical scores are always from White's perspective: positive favors White. */
+export type EngineEvaluation =
+  | { kind: "centipawns"; perspective: "white"; value: number }
+  | {
+      kind: "mate";
+      perspective: "white";
+      /** Positive: White can force mate; negative: White is being mated. */
+      moves: number;
+    };
 
-export interface EngineEvaluation {
-  scoreCp?: number;
-  mateIn?: number;
-  bestLineUci: string[];
+export interface DepthAnalysisLimit {
+  kind: "depth";
+  value: number;
+}
+
+export type AnalysisLimit = DepthAnalysisLimit;
+
+export interface PositionAnalysisRequest {
+  fen: string;
+  limit?: AnalysisLimit;
+  signal?: AbortSignal;
+}
+
+export interface EngineIdentity {
+  name: string;
+  version?: string;
 }
 
 export interface PositionAnalysis {
-  ply: number;
   fen: string;
   evaluation: EngineEvaluation;
+  bestMoveUci: string | null;
+  principalVariationUci: string[];
+  limit: { requested: AnalysisLimit; achievedDepth: number };
+  engine: EngineIdentity;
 }
 
-export interface ReviewSummary {
-  whiteAccuracy?: number;
-  blackAccuracy?: number;
-  whitePerformanceRating?: number;
-  blackPerformanceRating?: number;
-}
-
-export interface ReviewedMove {
-  ply: number;
-  classification?: MoveClassification;
-  evaluationBefore?: EngineEvaluation;
-  evaluationAfter?: EngineEvaluation;
-}
-
-export interface ReviewResult {
-  positions: PositionAnalysis[];
-  moves: ReviewedMove[];
-  summary: ReviewSummary;
+export interface GamePositionAnalysis {
+  /** Index into ParsedReviewGame.positions; 0 is the starting position. */
+  positionIndex: number;
+  /** The following move's ply, or null for the final position. */
+  followingMovePly: number | null;
+  analysis: PositionAnalysis;
 }
 
 export interface EngineAnalyzer {
-  analyzePosition(fen: string): Promise<EngineEvaluation>;
-}
-
-export interface ChessedReviewEngine {
-  reviewGame(input: {
-    pgn: string;
-    gameId?: string;
-    source: "chesscom" | "manual-pgn";
-  }): Promise<ReviewResult>;
+  analyzePosition(request: PositionAnalysisRequest): Promise<PositionAnalysis>;
+  dispose(): void;
 }

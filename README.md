@@ -18,7 +18,7 @@ This repository contains the initial MVP foundation:
 - PGN parsing and move/position reconstruction (including custom FEN starts)
 - Initial review screen with interactive board, move navigation, move list, game metadata, and placeholders for future analysis features
 
-Stockfish analysis, Chessed move classifications, accuracy scoring, and performance-rating logic are intentionally left for future deterministic work.
+The Stockfish analysis boundary is implemented. Chessed move classifications, accuracy scoring, and performance-rating logic remain intentionally deferred.
 
 ## MVP workflow
 
@@ -59,23 +59,27 @@ npm run build
 
 - `src/lib/sources/chesscom/*`: Chess.com retrieval service boundary
 - `src/lib/chess/*`: chess-domain parsing and game representation
-- `src/lib/review/interfaces.ts`: future analysis/review engine interfaces (placeholders only)
+- `src/lib/review/interfaces.ts`: engine-independent normalized analysis contract
+- `src/lib/analysis/*`: Stockfish worker adapter, UCI normalization, and serial game-position analysis
 - `src/components/*`: UI presentation components
 - `src/app/api/chesscom/[username]/games`: API boundary for Chess.com integration
 
 Conceptual pipeline:
 
-Chess.com/PGN → PGN parsing → chess positions → (future) Stockfish analysis → (future) Chessed review/scoring → interactive UI
+Chess.com/PGN → PGN parsing → chess positions → Stockfish analysis → (future) Chessed review/scoring → interactive UI
 
 ## Current limitations
 
 - Review sessions are stored in browser session storage (no backend persistence)
 - Chess.com games without PGN data cannot be opened
-- Engine lines/evaluations, classification labels, accuracy, and performance estimates are placeholder UI only
+- Engine analysis is not wired into the UI yet; classifications, accuracy, and performance estimates remain placeholders
+
+Stockfish runs client-side in a single-threaded WebAssembly Web Worker. The default limit is depth 12, and normalized evaluations are always from White's perspective. See [the analysis architecture](docs/stockfish-analysis.md).
 
 ## Third-party libraries and attribution
 
 - [chess.js](https://github.com/jhlywa/chess.js) (MIT)
 - [react-chessboard](https://github.com/Clariity/react-chessboard) (MIT)
+- [Stockfish.js 18](https://github.com/nmrugg/stockfish.js) (GPLv3; unmodified lite single-threaded build, with its license in `public/stockfish/Copying.txt`)
 
 See `LICENSE` for this project license.
