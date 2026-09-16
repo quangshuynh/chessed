@@ -35,6 +35,27 @@ export interface EngineCandidate {
   principalVariationUci: string[];
 }
 
+export interface PositionAnalysisSnapshot {
+  evaluation: EngineEvaluation;
+  bestMoveUci: string | null;
+  principalVariationUci: string[];
+  candidates?: EngineCandidate[];
+  limit: { requested: AnalysisLimit; achievedDepth: number };
+}
+
+export type GreatConfirmation =
+  | {
+      status: "confirmed";
+      purpose: "great-boundary";
+      original: PositionAnalysisSnapshot;
+    }
+  | {
+      status: "unavailable";
+      purpose: "great-boundary";
+      requested: AnalysisLimit;
+      reason: string;
+    };
+
 export interface PositionAnalysis {
   fen: string;
   evaluation: EngineEvaluation;
@@ -44,6 +65,8 @@ export interface PositionAnalysis {
   candidates?: EngineCandidate[];
   limit: { requested: AnalysisLimit; achievedDepth: number };
   engine: EngineIdentity;
+  /** Bounded deeper evidence used only for a near-boundary Great candidate. */
+  greatConfirmation?: GreatConfirmation;
 }
 
 export interface AnalyzedGamePosition {

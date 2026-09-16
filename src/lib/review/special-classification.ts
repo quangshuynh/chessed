@@ -17,6 +17,9 @@ export type SpecialMoveClassification = "great" | "brilliant" | "miss";
 export const SPECIAL_CLASSIFICATION_POLICY = {
   requiredCandidateCount: 2,
   greatMinimumOutcomeSeparation: 0.04,
+  greatConfirmationMinimumSeparation: 0.03,
+  greatConfirmationMaximumSeparation: 0.05,
+  greatConfirmationDepth: 16,
   brilliantMinimumOutcomeSeparation: 0.025,
   brilliantMinimumMaterialExposure: 3,
   brilliantMinimumSustainedMaterialLoss: 1,
@@ -31,6 +34,7 @@ export interface SpecialClassificationEvidence {
   candidateCount: number;
   candidateOutcomeSeparation: number | null;
   bestLineMaterial: MaterialProjection | null;
+  greatConfirmation: "not-required" | "confirmed";
   rule:
     | "exceptional-sacrifice"
     | "narrow-critical-move"
@@ -60,6 +64,9 @@ export type SpecialClassificationReason =
   | "compensation-insufficient"
   | "brilliant-separation-insufficient"
   | "great-separation-insufficient"
+  | "great-confirmation-required"
+  | "great-confirmation-unavailable"
+  | "routine-material-capture"
   | "material-exposure-insufficient"
   | "material-not-sustained"
   | "played-move-retains-mate"
@@ -85,6 +92,25 @@ export interface SpecialPolicyEvidence {
   bestOutcomeExpectation: number | null;
   outcomeDrop: number | null;
   terminalResult: "win" | "loss" | "draw" | null;
+  routineMaterialCapture: boolean;
+  greatConfirmation: "not-required" | "confirmed" | "unavailable";
+}
+
+export function isGreatConfirmationCandidate(
+  audit: SpecialClassificationAudit,
+): boolean {
+  const separation = audit.evidence?.candidateOutcomeSeparation;
+  return (
+    separation !== undefined &&
+    audit.evidence?.routineMaterialCapture === false &&
+    separation >=
+      SPECIAL_CLASSIFICATION_POLICY.greatConfirmationMinimumSeparation &&
+    separation <=
+      SPECIAL_CLASSIFICATION_POLICY.greatConfirmationMaximumSeparation &&
+    (audit.result?.classification === "great" ||
+      audit.reasons.includes("great-separation-insufficient") ||
+      audit.reasons.includes("great-confirmation-required"))
+  );
 }
 
 function playerEvaluation(
@@ -203,6 +229,10 @@ export function evaluateSpecialMove(input: {
     candidateCount: candidates.length,
     candidateOutcomeSeparation: separation,
     bestLineMaterial,
+    greatConfirmation:
+      input.analysisBefore.greatConfirmation?.status === "confirmed"
+        ? ("confirmed" as const)
+        : ("not-required" as const),
   };
   const playedBest = input.playedMoveUci === best.moveUci;
   const beforeExpectation = expectation(
@@ -210,6 +240,15 @@ export function evaluateSpecialMove(input: {
     input.player,
   );
   const bestExpectation = expectation(best.evaluation, input.player);
+  const confirmationStatus = input.analysisBefore.greatConfirmation?.status;
+  const routineMaterialCapture =
+    bestLineMaterial.firstMove.capture &&
+    bestLineMaterial.firstMove.capturedValue >= 3 &&
+    bestLineMaterial.firstMove.materialGain >= 3 &&
+    bestLineMaterial.finalBalance - bestLineMaterial.initialBalance >= 3 &&
+    !bestLineMaterial.firstMove.promotion &&
+    (favorableMate(best.evaluation, input.player) ||
+      (bestExpectation !== null && bestExpectation >= 0.6));
   const policyEvidence: SpecialPolicyEvidence = {
     candidateCount: candidates.length,
     candidateOutcomeSeparation: separation,
@@ -222,6 +261,13 @@ export function evaluateSpecialMove(input: {
     bestOutcomeExpectation: bestExpectation,
     outcomeDrop: input.ordinary.evidence.outcomeDrop,
     terminalResult: input.terminalResult,
+    routineMaterialCapture,
+    greatConfirmation:
+      confirmationStatus === "confirmed"
+        ? "confirmed"
+        : confirmationStatus === "unavailable"
+          ? "unavailable"
+          : "not-required",
   };
 
   if (
@@ -266,14 +312,22 @@ export function evaluateSpecialMove(input: {
           SPECIAL_CLASSIFICATION_POLICY.brilliantMinimumOutcomeExpectation)) &&
     separation >= SPECIAL_CLASSIFICATION_POLICY.greatMinimumOutcomeSeparation
   ) {
-    return {
-      result: {
-        classification: "great",
-        evidence: { ...commonEvidence, rule: "narrow-critical-move" },
-      },
-      reasons: [],
-      evidence: policyEvidence,
-    };
+    const needsConfirmation =
+      separation <=
+        SPECIAL_CLASSIFICATION_POLICY.greatConfirmationMaximumSeparation &&
+      confirmationStatus !== "confirmed";
+    if (needsConfirmation || routineMaterialCapture) {
+      // Rejection reasons below preserve why an otherwise qualifying move is Best.
+    } else {
+      return {
+        result: {
+          classification: "great",
+          evidence: { ...commonEvidence, rule: "narrow-critical-move" },
+        },
+        reasons: [],
+        evidence: policyEvidence,
+      };
+    }
   }
 
   if (!playedBest) {
@@ -359,6 +413,19 @@ export function evaluateSpecialMove(input: {
       separation < SPECIAL_CLASSIFICATION_POLICY.greatMinimumOutcomeSeparation
     )
       reasons.add("great-separation-insufficient");
+    if (
+      separation >=
+        SPECIAL_CLASSIFICATION_POLICY.greatConfirmationMinimumSeparation &&
+      separation <=
+        SPECIAL_CLASSIFICATION_POLICY.greatConfirmationMaximumSeparation &&
+      confirmationStatus !== "confirmed"
+    )
+      reasons.add(
+        confirmationStatus === "unavailable"
+          ? "great-confirmation-unavailable"
+          : "great-confirmation-required",
+      );
+    if (routineMaterialCapture) reasons.add("routine-material-capture");
     if (
       bestLineMaterial.exposure <
       SPECIAL_CLASSIFICATION_POLICY.brilliantMinimumMaterialExposure

@@ -1,6 +1,6 @@
 # Special move-classification methodology
 
-Chessed review methodology `chessed-review-v2` adds three optional special
+Chessed review methodology `chessed-review-v3` adds three optional special
 classifications: **Great**, **Brilliant**, and **Miss**. They are Chessed-defined
 concepts and do not reproduce Chess.com's Game Review algorithm.
 
@@ -86,13 +86,25 @@ Great means an unusually important best move in a narrow position. It requires:
 - at least two legal moves;
 - rank 1 exceeds rank 2 by at least 0.04 outcome expectation, including a sole
   favorable-mate line versus a non-mating alternative; and
+- separation from 0.03 through 0.05 must be confirmed by a depth-16,
+  MultiPV-3 search of that position; the confirmed ordering and score are
+  authoritative;
+- a routine immediate material pickup is excluded when the root move captures
+  at least a minor piece, the line retains at least three material points, and
+  the resulting expectation is at least 0.60 (or favorable mate); and
 - if the PV exposes 3 or more material points, the engine still shows at least
   0.50 outcome expectation or favorable mate.
 
-Thus Great is not an alias for Best: equal candidates, tiny separations,
-routine moves, and forced only-legal moves are rejected. A critical defensive
-resource can qualify because separation is mover-relative. Brilliant is
-evaluated first, so a move cannot receive both.
+Thus Great is a uniquely important best move whose alternatives materially
+worsen the result, excluding an immediate stable material pickup unless the
+best line is preserving a narrow result. This is objective material/outcome
+evidence, not a claim about human difficulty. Forced only-legal moves remain
+excluded. Brilliant is evaluated first, so a move cannot receive both.
+
+Depth-12 evidence is retained when confirmation runs. If ordering changes, the
+depth-16 result wins. A non-cancellation confirmation error records unavailable
+confirmation and leaves the ordinary classification in place; it never awards
+Great. Cancellation still rejects the whole review.
 
 ## Miss
 
@@ -146,6 +158,11 @@ one-machine observations. The remaining long-game cost is explicitly accepted
 because ranked alternatives are indispensable to distinguish Great/Brilliant
 from ordinary Best and Miss from ordinary loss; the selective policy avoids the
 cost where a special label is impossible without weakening that evidence.
+
+After bounded confirmation was added, no-confirmation fixtures measured 1.55
+s, 3.65 s, and 5.22 s for 5, 17, and 31 positions. Interaction remained 69-78
+ms and cancellation was 76 ms. Each confirmation adds one serial
+depth-16/MultiPV-3 search; no worker or global-depth change was introduced.
 
 Chessed adopts engine-ranked alternatives, explicit mate semantics, legal PV
 replay, and conservative multi-signal composition. It rejects

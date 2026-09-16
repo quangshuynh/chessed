@@ -25,7 +25,7 @@ import {
   type SpecialMoveClassification,
 } from "@/lib/review/special-classification";
 
-export const REVIEW_METHODOLOGY_VERSION = "chessed-review-v2";
+export const REVIEW_METHODOLOGY_VERSION = "chessed-review-v3";
 
 export interface ReviewPlayerMetadata {
   color: PlayerColor;

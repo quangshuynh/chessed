@@ -44,6 +44,12 @@ function scenarios(): ProbeScenario[] {
     "legal-trap-piece-offer",
     "mate-in-one-not-played",
     "quiet-king-centralization",
+    "hanging-rook-capture",
+    "hanging-minor-capture",
+    "hanging-queen-nonchecking",
+    "critical-checking-queen-capture",
+    "defensive-rook-capture",
+    "quiet-back-rank-defense",
   ]);
   for (const position of SPECIAL_POSITION_CORPUS.filter(({ id }) =>
     depthIds.has(id),
