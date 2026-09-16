@@ -1,5 +1,6 @@
 import type { OrdinaryMoveClassification } from "@/lib/review/classification";
 import type { EngineEvaluation, TerminalReason } from "@/lib/review/interfaces";
+import type { SpecialMoveClassification } from "@/lib/review/special-classification";
 
 const CLASSIFICATION_LABELS: Record<OrdinaryMoveClassification, string> = {
   best: "Best",
@@ -8,6 +9,12 @@ const CLASSIFICATION_LABELS: Record<OrdinaryMoveClassification, string> = {
   mistake: "Mistake",
   blunder: "Blunder",
 };
+const SPECIAL_CLASSIFICATION_LABELS: Record<SpecialMoveClassification, string> =
+  {
+    great: "Great",
+    brilliant: "Brilliant",
+    miss: "Miss",
+  };
 
 export function formatEvaluation(evaluation: EngineEvaluation): string {
   if (evaluation.kind === "mate") {
@@ -18,6 +25,12 @@ export function formatEvaluation(evaluation: EngineEvaluation): string {
   if (evaluation.value === 0) return "0.00";
   const pawns = evaluation.value / 100;
   return `${pawns > 0 ? "+" : ""}${pawns.toFixed(2)}`;
+}
+
+export function formatSpecialClassification(
+  classification: SpecialMoveClassification,
+): string {
+  return SPECIAL_CLASSIFICATION_LABELS[classification];
 }
 
 export function formatClassification(

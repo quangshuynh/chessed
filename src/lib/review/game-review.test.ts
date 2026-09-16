@@ -32,6 +32,7 @@ function positionAnalysis(input: {
   evaluation: EngineEvaluation;
   bestMoveUci?: string | null;
   depth?: number;
+  candidates?: PositionAnalysis["candidates"];
 }): PositionAnalysis {
   const requested =
     input.request.limit ?? ({ kind: "depth", value: 12 } as const);
@@ -41,6 +42,7 @@ function positionAnalysis(input: {
     evaluation: input.evaluation,
     bestMoveUci,
     principalVariationUci: bestMoveUci ? [bestMoveUci] : [],
+    candidates: input.candidates,
     limit: { requested, achievedDepth: input.depth ?? requested.value },
     engine: { name: "Deterministic", version: "1.0" },
   };
@@ -85,6 +87,86 @@ function analyzedPosition(
 }
 
 describe("whole-game review orchestration", () => {
+  it("selectively enriches only a first-pass special candidate", async () => {
+    const game = parsePgnToReviewGame("1. e4");
+    const analyzePosition = vi.fn(async (request: PositionAnalysisRequest) => {
+      const root = request.fen === game.positions[0];
+      const candidates = root
+        ? request.candidateCount === 3
+          ? [
+              {
+                rank: 1,
+                moveUci: "e2e4",
+                evaluation: cp(100),
+                principalVariationUci: ["e2e4"],
+              },
+              {
+                rank: 2,
+                moveUci: "d2d4",
+                evaluation: cp(0),
+                principalVariationUci: ["d2d4"],
+              },
+            ]
+          : [
+              {
+                rank: 1,
+                moveUci: "e2e4",
+                evaluation: cp(100),
+                principalVariationUci: ["e2e4"],
+              },
+            ]
+        : [];
+      return {
+        ...positionAnalysis({
+          request,
+          evaluation: cp(100),
+          bestMoveUci: root ? "e2e4" : null,
+        }),
+        candidates,
+      };
+    });
+    const review = await reviewGame({
+      game,
+      analyzer: { analyzePosition, dispose: vi.fn() },
+    });
+    expect(
+      analyzePosition.mock.calls.map(([request]) => request.candidateCount),
+    ).toEqual([undefined, undefined, 3]);
+    expect(review.moves[0].specialClassification?.classification).toBe("great");
+  });
+
+  it("composes Brilliant over a preserved ordinary Best result", () => {
+    const game = parsePgnToReviewGame(`[SetUp "1"]
+[FEN "4k3/8/6p1/8/8/8/8/3QK3 w - - 0 1"]
+
+1. Qh5`);
+    const before = analyzedPosition(game, 0, cp(50), "d1h5");
+    before.analysis.candidates = [
+      {
+        rank: 1,
+        moveUci: "d1h5",
+        evaluation: cp(55),
+        principalVariationUci: ["d1h5", "g6h5"],
+      },
+      {
+        rank: 2,
+        moveUci: "d1d2",
+        evaluation: cp(-80),
+        principalVariationUci: ["d1d2"],
+      },
+    ];
+    const review = buildWholeGameReview({
+      game,
+      positions: [before, analyzedPosition(game, 1, cp(55))],
+    });
+    expect(review.moves[0]).toMatchObject({
+      classification: { status: "classified", classification: "best" },
+      specialClassification: { classification: "brilliant" },
+    });
+    expect(review.counts.best).toBe(1);
+    expect(review.specialCounts).toEqual({ great: 0, brilliant: 1, miss: 0 });
+  });
+
   it("produces an ordered complete review with metadata, counts, and provenance", async () => {
     const game = parsePgnToReviewGame(`[Event "Orchestration"]
 [Date "2026.09.15"]

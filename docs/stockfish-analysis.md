@@ -14,6 +14,13 @@ Stockfish reports scores for the side to move. The adapter always converts them 
 
 The game helper processes `ParsedReviewGame.positions` in order and associates each non-terminal position with the following move's ply. Terminal positions are identified through chess.js and recorded without asking Stockfish for output. Position `n - 1` and position `n` can therefore be compared with consistent semantics. Move loss is computed in the separate review-domain layer; this adapter computes no classification.
 
+Each position first receives a single-PV search. Review orchestration repeats a
+position with a bounded MultiPV of three only when first-pass evidence could
+qualify for a special label. The adapter groups final-depth UCI lines by rank
+and exposes normalized candidates (rank, root move, White-relative evaluation,
+and PV). Raw protocol tokens do not cross the analysis boundary. See the
+[special-classification methodology](special-move-classification.md).
+
 ## Limits, lifecycle, and failure
 
 The default is depth 12, overridable from 1 through 99. Fixed depth is more reproducible than fixed wall time, but scores may still change with engine version, build, platform, or search implementation; results retain engine identity and achieved depth.

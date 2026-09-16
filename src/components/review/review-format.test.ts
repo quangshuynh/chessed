@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { formatClassification, formatEvaluation } from "./review-format";
+import {
+  formatClassification,
+  formatEvaluation,
+  formatSpecialClassification,
+} from "./review-format";
 
 describe("review presentation formatting", () => {
   it.each([
@@ -27,5 +31,13 @@ describe("review presentation formatting", () => {
     ["blunder", "Blunder"],
   ] as const)("labels the %s ordinary classification", (value, expected) => {
     expect(formatClassification(value)).toBe(expected);
+  });
+
+  it.each([
+    ["great", "Great"],
+    ["brilliant", "Brilliant"],
+    ["miss", "Miss"],
+  ] as const)("labels the %s special classification", (value, expected) => {
+    expect(formatSpecialClassification(value)).toBe(expected);
   });
 });

@@ -81,6 +81,7 @@ function fakeReview(): WholeGameReview {
         classification: classes[index],
         evidence: {} as never,
       },
+      specialClassification: null,
       observation: {} as never,
       analysisBefore: null,
       analysisAfter: null,
@@ -93,8 +94,9 @@ function fakeReview(): WholeGameReview {
       blunder: 1,
       unavailable: 0,
     },
+    specialCounts: { great: 0, brilliant: 0, miss: 0 },
     provenance: {
-      methodologyVersion: "chessed-ordinary-v1",
+      methodologyVersion: "chessed-review-v2",
       engines: [],
       requestedLimits: [],
       achievedDepthRange: null,
@@ -251,6 +253,25 @@ describe("review-page analysis workflow", () => {
     fireEvent.click(screen.getByRole("button", { name: /5\. Bb5/ }));
     expect(screen.getByText("3. Bb5")).toBeTruthy();
     expect(screen.getByText("M3")).toBeTruthy();
+  });
+
+  it("shows composed special labels while retaining ordinary review data", async () => {
+    const review = fakeReview();
+    (["great", "brilliant", "miss"] as const).forEach((value, index) => {
+      review.moves[index].specialClassification = {
+        classification: value,
+        evidence: {} as never,
+      };
+    });
+    renderPage({ reviewRunner: vi.fn().mockResolvedValue(review) });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    for (const label of ["Great", "Brilliant", "Miss"]) {
+      expect(await screen.findByText(label)).toBeTruthy();
+    }
+    expect(review.moves[0].classification).toMatchObject({
+      classification: "best",
+    });
   });
 
   it("shows unavailable evidence and terminal checkmate/draw semantics", async () => {
