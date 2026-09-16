@@ -12,7 +12,7 @@ Alternatives considered were main-thread WebAssembly (poor responsiveness), mult
 
 Stockfish reports scores for the side to move. The adapter always converts them to **White's perspective**: positive favors White and negative favors Black. Centipawns and mate are separate variants. Mate `+3` means White can force mate in 3; mate `-2` means White is being mated in 2. Mate is never converted to centipawns.
 
-The game helper analyzes `ParsedReviewGame.positions` in order and associates each position with the following move's ply. Position `n - 1` and position `n` can therefore later be compared with consistent semantics. It computes no move loss or classification.
+The game helper processes `ParsedReviewGame.positions` in order and associates each non-terminal position with the following move's ply. Terminal positions are identified through chess.js and recorded without asking Stockfish for output. Position `n - 1` and position `n` can therefore be compared with consistent semantics. Move loss is computed in the separate review-domain layer; this adapter computes no classification.
 
 ## Limits, lifecycle, and failure
 

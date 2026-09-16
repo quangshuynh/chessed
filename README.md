@@ -18,7 +18,7 @@ This repository contains the initial MVP foundation:
 - PGN parsing and move/position reconstruction (including custom FEN starts)
 - Initial review screen with interactive board, move navigation, move list, game metadata, and placeholders for future analysis features
 
-The Stockfish analysis boundary is implemented. Chessed move classifications, accuracy scoring, and performance-rating logic remain intentionally deferred.
+The Stockfish analysis boundary and engine-independent move-quality observation layer are implemented. Chessed move classifications, accuracy scoring, and performance-rating logic remain intentionally deferred.
 
 ## MVP workflow
 
@@ -60,6 +60,7 @@ npm run build
 - `src/lib/sources/chesscom/*`: Chess.com retrieval service boundary
 - `src/lib/chess/*`: chess-domain parsing and game representation
 - `src/lib/review/interfaces.ts`: engine-independent normalized analysis contract
+- `src/lib/review/move-quality.ts`: pure player-relative move-quality observations
 - `src/lib/analysis/*`: Stockfish worker adapter, UCI normalization, and serial game-position analysis
 - `src/components/*`: UI presentation components
 - `src/app/api/chesscom/[username]/games`: API boundary for Chess.com integration
@@ -75,6 +76,8 @@ Chess.com/PGN → PGN parsing → chess positions → Stockfish analysis → (fu
 - Engine analysis is not wired into the UI yet; classifications, accuracy, and performance estimates remain placeholders
 
 Stockfish runs client-side in a single-threaded WebAssembly Web Worker. The default limit is depth 12, and normalized evaluations are always from White's perspective. See [the analysis architecture](docs/stockfish-analysis.md).
+
+Move-quality observations convert those scores centrally to the mover's perspective, preserve mate transitions without fake centipawn arithmetic, and represent terminal or missing analysis explicitly. See [the move-quality model](docs/move-quality.md).
 
 ## Third-party libraries and attribution
 

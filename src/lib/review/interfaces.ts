@@ -35,13 +35,33 @@ export interface PositionAnalysis {
   engine: EngineIdentity;
 }
 
-export interface GamePositionAnalysis {
+export interface AnalyzedGamePosition {
+  status: "analyzed";
   /** Index into ParsedReviewGame.positions; 0 is the starting position. */
   positionIndex: number;
   /** The following move's ply, or null for the final position. */
   followingMovePly: number | null;
   analysis: PositionAnalysis;
 }
+
+export type TerminalReason =
+  | "checkmate"
+  | "stalemate"
+  | "insufficient-material"
+  | "threefold-repetition"
+  | "fifty-move-rule"
+  | "draw";
+
+export interface TerminalGamePosition {
+  status: "terminal";
+  positionIndex: number;
+  followingMovePly: null;
+  fen: string;
+  reason: TerminalReason;
+  winner: "white" | "black" | null;
+}
+
+export type GamePositionAnalysis = AnalyzedGamePosition | TerminalGamePosition;
 
 export interface EngineAnalyzer {
   analyzePosition(request: PositionAnalysisRequest): Promise<PositionAnalysis>;
