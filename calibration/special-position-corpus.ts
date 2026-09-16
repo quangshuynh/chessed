@@ -22,13 +22,20 @@ export type CalibrationProperty =
   | "defensive-resource"
   | "critical-capture"
   | "multiple-winning-alternatives"
-  | "only-move-holding-result";
+  | "only-move-holding-result"
+  | "draw-preservation"
+  | "mate-avoidance"
+  | "perpetual-check"
+  | "stalemate-resource"
+  | "tactical-intermezzo";
 
 export interface SpecialPositionCase {
   id: string;
   fen: string;
   moveUci: string;
   provenance: string;
+  objectiveProperty?: string;
+  falsificationValue?: string;
   expectedProperties: readonly CalibrationProperty[];
 }
 
@@ -198,5 +205,135 @@ export const SPECIAL_POSITION_CORPUS: readonly SpecialPositionCase[] = [
     provenance:
       "Constructed quiet-defense control with several legal alternatives.",
     expectedProperties: ["defensive-resource", "quiet-move"],
+  },
+  {
+    id: "reti-1921-drawing-king-move",
+    fen: "7K/8/k1P5/7p/8/8/8/8 w - - 0 1",
+    moveUci: "h8g7",
+    provenance:
+      "Richard Réti, 1921 endgame study, published position and solution 1.Kg7!: https://en.wikipedia.org/wiki/R%C3%A9ti_endgame_study",
+    objectiveProperty:
+      "The quiet diagonal king move preserves the draw by pursuing promotion and interception simultaneously.",
+    falsificationValue:
+      "Tests quiet draw preservation and objective uniqueness versus forced legality.",
+    expectedProperties: [
+      "defensive-resource",
+      "quiet-move",
+      "draw-preservation",
+    ],
+  },
+  {
+    id: "yates-marshall-1929-kb2",
+    fen: "8/8/8/8/pK6/8/5P2/1k6 b - - 0 60",
+    moveUci: "b1b2",
+    provenance:
+      "Yates–Marshall, 1929, published game position and drawing move 60...Kb2!: https://en.wikipedia.org/wiki/R%C3%A9ti_endgame_study#Yates_vs._Marshall",
+    objectiveProperty:
+      "The king move preserves the draw by combining pursuit of the pawn with support for promotion; 60...Kc2 loses.",
+    falsificationValue:
+      "Tests a quiet only-like drawing defense from a played game.",
+    expectedProperties: [
+      "defensive-resource",
+      "quiet-move",
+      "draw-preservation",
+    ],
+  },
+  {
+    id: "lasker-tarrasch-1914-h4",
+    fen: "8/6K1/8/ppp2k2/8/1P6/1P5P/8 w - - 0 40",
+    moveUci: "h2h4",
+    provenance:
+      "Lasker–Tarrasch, 1914, published game position and drawing maneuver 40.h4: https://en.wikipedia.org/wiki/R%C3%A9ti_endgame_study#Lasker_vs._Tarrasch",
+    objectiveProperty:
+      "The pawn move creates the tempo mechanism used to draw the pawn ending.",
+    falsificationValue:
+      "Tests a non-capture defensive intermezzo preserving equality.",
+    expectedProperties: [
+      "defensive-resource",
+      "draw-preservation",
+      "tactical-intermezzo",
+    ],
+  },
+  {
+    id: "hamppe-meitner-1872-perpetual",
+    fen: "r1bk3r/2p2ppp/1pK5/p2pp3/8/P7/1PPP2PP/R1BQ2NR b - - 0 16",
+    moveUci: "c8b7",
+    provenance:
+      "Hamppe–Meitner, Vienna 1872, published game position and perpetual-check resource 16...Bb7+: https://en.wikipedia.org/wiki/Perpetual_check#Hamppe_vs._Meitner",
+    objectiveProperty:
+      "The bishop check begins a forced perpetual despite Black's material deficit.",
+    falsificationValue: "Tests a forcing draw resource and Black perspective.",
+    expectedProperties: [
+      "defensive-resource",
+      "draw-preservation",
+      "perpetual-check",
+    ],
+  },
+  {
+    id: "leko-kramnik-2008-perpetual",
+    fen: "r6k/pp4pp/2p5/5Q2/7P/2q5/2P2PP1/1K1R3R b - - 0 24",
+    moveUci: "c3b4",
+    provenance:
+      "Leko–Kramnik, Corus 2008, published position after 24.Qxf5 and drawing 24...Qb4+: https://en.wikipedia.org/wiki/Perpetual_check#Leko_vs._Kramnik",
+    objectiveProperty:
+      "The queen check initiates the documented perpetual-check draw.",
+    falsificationValue:
+      "Tests a Black defensive queen resource with many legal moves.",
+    expectedProperties: [
+      "defensive-resource",
+      "draw-preservation",
+      "perpetual-check",
+    ],
+  },
+  {
+    id: "fischer-tal-1960-perpetual",
+    fen: "2k5/pp2n2Q/4q3/P2p4/P7/2p5/2P2PKP/5R2 b - - 0 21",
+    moveUci: "e6g4",
+    provenance:
+      "Fischer–Tal, Leipzig Olympiad 1960, published position and drawing 21...Qg4+: https://en.wikipedia.org/wiki/Perpetual_check#Fischer_vs._Tal",
+    objectiveProperty:
+      "The queen check forces the documented perpetual and saves the draw.",
+    falsificationValue:
+      "Tests mate pressure, perpetual evidence, and Black perspective.",
+    expectedProperties: [
+      "defensive-resource",
+      "draw-preservation",
+      "perpetual-check",
+      "mate-avoidance",
+    ],
+  },
+  {
+    id: "matulovic-minev-1956-stalemate",
+    fen: "8/8/R7/7k/5P2/7K/r7/8 b - - 0 3",
+    moveUci: "a2a6",
+    provenance:
+      "Matulović–Minev, 1956, published game position after 3.f4 and sole drawing 3...Rxa6!: https://en.wikipedia.org/wiki/Stalemate#Matulovi%C4%87_versus_Minev",
+    objectiveProperty:
+      "The rook capture offers stalemate after 4.Rxa6; other Black moves lose.",
+    falsificationValue:
+      "Tests a defensive capture whose material appearance hides a stalemate mechanism.",
+    expectedProperties: [
+      "defensive-resource",
+      "critical-capture",
+      "draw-preservation",
+      "stalemate-resource",
+    ],
+  },
+  {
+    id: "rhine-2006-stalemate-study",
+    fen: "2K4Q/8/1qkb2b1/2n5/2p4R/3NN3/1n6/1R6 w - - 0 1",
+    moveUci: "d3e5",
+    provenance:
+      "Frederick Rhine, 2006 published White-to-draw study and solution 1.Ne5+: https://en.wikipedia.org/wiki/Stalemate#In_studies",
+    objectiveProperty:
+      "The knight check starts the published unique drawing sequence based on stalemate.",
+    falsificationValue:
+      "Tests a complex only-like defense, intermezzo, and eventual material sacrifice.",
+    expectedProperties: [
+      "defensive-resource",
+      "draw-preservation",
+      "stalemate-resource",
+      "tactical-intermezzo",
+    ],
   },
 ] as const;

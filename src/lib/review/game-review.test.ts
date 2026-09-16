@@ -200,6 +200,75 @@ describe("whole-game review orchestration", () => {
     });
   });
 
+  it("confirms consecutive plies for both players without perspective or progress leakage", async () => {
+    const game = parsePgnToReviewGame("1. e4 e5");
+    const analyzePosition = vi.fn(async (request: PositionAnalysisRequest) => {
+      const positionIndex = game.positions.indexOf(request.fen);
+      const move = game.moves[positionIndex];
+      const isBlack = positionIndex % 2 === 1;
+      const rootEvaluation = cp(66);
+      const candidates =
+        move && request.candidateCount === 3
+          ? [
+              {
+                rank: 1,
+                moveUci: move.uci,
+                evaluation: rootEvaluation,
+                principalVariationUci: [move.uci],
+              },
+              {
+                rank: 2,
+                moveUci: isBlack ? "b8c6" : "d2d4",
+                evaluation: cp(isBlack ? 132 : 0),
+                principalVariationUci: [isBlack ? "b8c6" : "d2d4"],
+              },
+            ]
+          : move
+            ? [
+                {
+                  rank: 1,
+                  moveUci: move.uci,
+                  evaluation: rootEvaluation,
+                  principalVariationUci: [move.uci],
+                },
+              ]
+            : [];
+      return {
+        ...positionAnalysis({
+          request,
+          evaluation: rootEvaluation,
+          bestMoveUci: move?.uci,
+        }),
+        candidates,
+      };
+    });
+    const progress = vi.fn();
+    const review = await reviewGame({
+      game,
+      analyzer: { analyzePosition, dispose: vi.fn() },
+      onProgress: progress,
+    });
+
+    expect(review.moves.map((move) => move.player)).toEqual(["white", "black"]);
+    expect(
+      review.moves.map(
+        (move) => move.analysisBefore?.greatConfirmation?.status,
+      ),
+    ).toEqual(["confirmed", "confirmed"]);
+    expect(review.moves[0].specialClassification?.classification).toBe("great");
+    const confirmationRequests = analyzePosition.mock.calls.filter(
+      ([request]) => request.limit?.value === 16,
+    );
+    expect(confirmationRequests.map(([request]) => request.fen)).toEqual(
+      game.positions.slice(0, 2),
+    );
+    expect(progress.mock.calls.at(-1)?.[0]).toEqual({
+      phase: "confirmation",
+      completedPositions: 7,
+      totalPositions: 7,
+    });
+  });
+
   it("does not award Great when required confirmation fails", async () => {
     const game = parsePgnToReviewGame("1. e4");
     const analyzePosition = vi.fn(async (request: PositionAnalysisRequest) => {

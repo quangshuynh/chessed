@@ -30,12 +30,16 @@ export interface CalibrationObservation {
 export interface CalibrationReportRow {
   id: string;
   provenance: string;
+  objectiveProperty: string | null;
+  falsificationValue: string | null;
   expectedProperties: readonly string[];
   depth: number;
   multiPv: number;
   ordinaryClassification: string;
   specialClassification: string | null;
   specialRule: string | null;
+  confirmationTrigger: boolean;
+  confirmationResult: "not-required" | "required" | "confirmed" | "unavailable";
   rejectionReasons: readonly string[];
   beforeEvaluation: EngineEvaluation;
   playedMoveEvaluation: EngineEvaluation | "terminal" | null;
@@ -123,6 +127,8 @@ export function buildCalibrationReport(
     return {
       id: observation.position.id,
       provenance: observation.position.provenance,
+      objectiveProperty: observation.position.objectiveProperty ?? null,
+      falsificationValue: observation.position.falsificationValue ?? null,
       expectedProperties: observation.position.expectedProperties,
       depth: observation.depth,
       multiPv: observation.multiPv,
@@ -132,6 +138,17 @@ export function buildCalibrationReport(
           : `unavailable:${classification.reason}`,
       specialClassification: audit.result?.classification ?? null,
       specialRule: audit.result?.evidence.rule ?? null,
+      confirmationTrigger: audit.reasons.includes(
+        "great-confirmation-required",
+      ),
+      confirmationResult:
+        audit.evidence?.greatConfirmation === "confirmed"
+          ? "confirmed"
+          : audit.evidence?.greatConfirmation === "unavailable"
+            ? "unavailable"
+            : audit.reasons.includes("great-confirmation-required")
+              ? "required"
+              : "not-required",
       rejectionReasons: audit.reasons,
       beforeEvaluation: observation.analysisBefore.evaluation,
       playedMoveEvaluation:

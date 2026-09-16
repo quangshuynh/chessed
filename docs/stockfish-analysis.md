@@ -55,6 +55,16 @@ Cancellation after a real worker appeared took approximately 80 ms, including UI
 
 These results show the current depth-12 serial design is practically usable for the measured fixtures, so no performance optimization or architecture change was justified.
 
+## Defensive confirmation soak
+
+The opt-in `npm run test:e2e:soak` target adds an 83-position historical game,
+repeated completion/cancellation/retry, a real depth-16 confirmation, narrow
+viewport plus 4x CPU throttling, worker target checks, and conservative CDP heap
+observations. The measured long run performed 54 MultiPV enrichments and one
+confirmation in 10.55 seconds; cancellation took 51 ms. One worker was present
+per active run and none survived completion, cancellation, or navigation. Full
+conditions and limitations are in `browser-confirmation-soak.md`.
+
 ## SAN presentation
 
 Engine evidence retains canonical UCI. `src/lib/chess/notation.ts` creates a chess.js position from the relevant pre-move FEN and legally replays UCI to obtain SAN; SAN rules are not reimplemented. PV conversion advances the same position after every move, preserving captures, disambiguation, castling, promotion, check, checkmate, custom-FEN state, and truncated legal lines. Numbering comes from the FEN fullmove number and side to move, so a Black-starting line begins, for example, `18... Kxh7 19. Ng5+ Kg8`.

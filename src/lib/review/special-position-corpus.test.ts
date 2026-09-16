@@ -49,4 +49,27 @@ describe("special-classification calibration corpus", () => {
     chess.move({ from: "f7", to: "f8" });
     expect(chess.isCheckmate()).toBe(true);
   });
+
+  it("records independently sourced defensive properties without label truth", () => {
+    const sourced = SPECIAL_POSITION_CORPUS.filter(({ id }) =>
+      [
+        "reti-1921-drawing-king-move",
+        "yates-marshall-1929-kb2",
+        "lasker-tarrasch-1914-h4",
+        "hamppe-meitner-1872-perpetual",
+        "leko-kramnik-2008-perpetual",
+        "fischer-tal-1960-perpetual",
+        "matulovic-minev-1956-stalemate",
+        "rhine-2006-stalemate-study",
+      ].includes(id),
+    );
+    expect(sourced).toHaveLength(8);
+    for (const fixture of sourced) {
+      expect(fixture.provenance).toMatch(/^.+https:\/\//);
+      expect(fixture.objectiveProperty?.length).toBeGreaterThan(30);
+      expect(fixture.falsificationValue?.length).toBeGreaterThan(30);
+      expect(fixture.expectedProperties).toContain("defensive-resource");
+      expect(fixture).not.toHaveProperty("expectedClassification");
+    }
+  });
 });

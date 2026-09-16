@@ -7,7 +7,9 @@ entry point:
 parsed/reconstructed game
   -> normalized position analysis
   -> move-quality observations
-  -> ordinary classifications
+  -> selective MultiPV enrichment
+  -> optional depth-16 Great confirmation
+  -> ordinary and special classifications
   -> whole-game review result
 ```
 
@@ -77,6 +79,12 @@ discards all partial state. A monotonically increasing run identity prevents a
 cancelled, replaced, or unmounted run from publishing late progress or results.
 Failure and cancellation both permit a fresh explicit retry.
 
+Repeated-run tests also resolve an older cancelled promise after its successor
+has started. Run identity prevents that stale completion from replacing current
+progress or results; retry resets progress and confirmation state to the new
+game's initial denominator. Consecutive-confirmation tests cover adjacent White
+and Black plies so confirmed evidence cannot cross a position or perspective.
+
 The session is loaded from browser session storage after mount, avoiding server
 render access to browser-only storage and the Stockfish Web Worker. Loading a
 different session resets the selected ply and completed review.
@@ -123,10 +131,9 @@ version.
 
 ## Current UI limitations and deferred work
 
-Review results are memory-only and disappear on reload. Best moves and principal
-variations are displayed in UCI notation. There is no evaluation graph, time
-estimate, persistent cache, Great, Brilliant, Miss, accuracy, Elo/performance
-estimate, coaching, opening analysis, or server-side Stockfish.
+Review results are memory-only and disappear on reload. There is no evaluation
+graph, time estimate, persistent cache, accuracy, Elo/performance estimate,
+coaching, opening analysis, or server-side Stockfish.
 
 ## Falsification coverage
 
