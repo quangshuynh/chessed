@@ -7,7 +7,7 @@ import type {
 import { Chess } from "chess.js";
 
 export interface GameAnalysisProgress {
-  phase: "analysis";
+  phase: "analysis" | "enrichment" | "confirmation";
   completedPositions: number;
   totalPositions: number;
 }

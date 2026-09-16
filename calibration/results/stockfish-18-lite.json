@@ -84,6 +84,10 @@
         "sustainedLoss": 9,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -93,7 +97,9 @@
       "beforeOutcomeExpectation": null,
       "bestOutcomeExpectation": null,
       "outcomeDrop": null,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -107,6 +113,7 @@
     "specialRule": null,
     "rejectionReasons": [
       "great-separation-insufficient",
+      "great-confirmation-required",
       "material-exposure-insufficient",
       "material-not-sustained"
     ],
@@ -209,6 +216,10 @@
         "sustainedLoss": -1,
         "firstMove": {
           "capture": true,
+          "capturedPiece": "p",
+          "capturedValue": 1,
+          "materialGain": 1,
+          "capturedPieceDefended": true,
           "check": false,
           "promotion": false
         }
@@ -218,7 +229,9 @@
       "beforeOutcomeExpectation": 0.598687660112452,
       "bestOutcomeExpectation": 0.598687660112452,
       "outcomeDrop": 0.000586142613780205,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -355,6 +368,10 @@
         "sustainedLoss": -8,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
@@ -364,7 +381,9 @@
       "beforeOutcomeExpectation": 0.8955547630771975,
       "bestOutcomeExpectation": 0.8955547630771975,
       "outcomeDrop": 0.00022835783175800817,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -466,6 +485,10 @@
         "sustainedLoss": -8,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
@@ -475,7 +498,9 @@
       "beforeOutcomeExpectation": 0.9236272713613177,
       "bestOutcomeExpectation": 0.9236272713613177,
       "outcomeDrop": 0.4236272713613177,
-      "terminalResult": "draw"
+      "terminalResult": "draw",
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -543,6 +568,10 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -552,7 +581,9 @@
       "beforeOutcomeExpectation": null,
       "bestOutcomeExpectation": null,
       "outcomeDrop": null,
-      "terminalResult": "win"
+      "terminalResult": "win",
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -625,6 +656,10 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -634,7 +669,9 @@
       "beforeOutcomeExpectation": null,
       "bestOutcomeExpectation": null,
       "outcomeDrop": null,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -644,9 +681,13 @@
     "depth": 12,
     "multiPv": 3,
     "ordinaryClassification": "best",
-    "specialClassification": "great",
-    "specialRule": "narrow-critical-move",
-    "rejectionReasons": [],
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
     "beforeEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
@@ -718,6 +759,10 @@
         "sustainedLoss": -9,
         "firstMove": {
           "capture": true,
+          "capturedPiece": "q",
+          "capturedValue": 9,
+          "materialGain": 9,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -727,7 +772,9 @@
       "beforeOutcomeExpectation": 0.7637176621133208,
       "bestOutcomeExpectation": 0.7637176621133208,
       "outcomeDrop": 0.011179538621920893,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -843,6 +890,10 @@
         "sustainedLoss": -1,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
@@ -852,7 +903,9 @@
       "beforeOutcomeExpectation": 0.9160803205339056,
       "bestOutcomeExpectation": 0.9160803205339056,
       "outcomeDrop": 0.40632546091695143,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -947,6 +1000,10 @@
         "sustainedLoss": -5,
         "firstMove": {
           "capture": true,
+          "capturedPiece": "q",
+          "capturedValue": 9,
+          "materialGain": 9,
+          "capturedPieceDefended": true,
           "check": false,
           "promotion": false
         }
@@ -956,7 +1013,9 @@
       "beforeOutcomeExpectation": 0.49634152870538195,
       "bestOutcomeExpectation": 0.49634152870538195,
       "outcomeDrop": 0,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -1075,6 +1134,10 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
@@ -1084,7 +1147,9 @@
       "beforeOutcomeExpectation": 0.5237625731585906,
       "bestOutcomeExpectation": 0.5237625731585906,
       "outcomeDrop": 0.0024340604951184064,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -1197,6 +1262,10 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
@@ -1206,7 +1275,9 @@
       "beforeOutcomeExpectation": 0.5195022960916297,
       "bestOutcomeExpectation": 0.5195022960916297,
       "outcomeDrop": 0.008528448883759254,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -1320,6 +1391,10 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
@@ -1329,7 +1404,9 @@
       "beforeOutcomeExpectation": 0.5134114164118219,
       "bestOutcomeExpectation": 0.5134114164118219,
       "outcomeDrop": 0.0018281234409228686,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -1445,6 +1522,10 @@
         "sustainedLoss": -4,
         "firstMove": {
           "capture": true,
+          "capturedPiece": "q",
+          "capturedValue": 9,
+          "materialGain": 9,
+          "capturedPieceDefended": true,
           "check": true,
           "promotion": false
         }
@@ -1454,7 +1535,794 @@
       "beforeOutcomeExpectation": 0.5024390050446069,
       "bestOutcomeExpectation": 0.5024390050446069,
       "outcomeDrop": 0.0024390050446069234,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "hanging-rook-capture",
+    "provenance": "Constructed: an undefended rook is immediately capturable.",
+    "expectedProperties": ["hanging-rook", "material-win"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "brilliant-separation-insufficient",
+      "great-separation-insufficient",
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 841
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 1196
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 841
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "a8b7",
+          "e2h5",
+          "b7c6",
+          "g1f2",
+          "c6d7",
+          "h5g5",
+          "d7d6",
+          "g5a5"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1a5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 804
+        },
+        "principalVariationUci": [
+          "e1a5",
+          "a8b7",
+          "a5b5",
+          "b7c7",
+          "b5e2",
+          "c7d6",
+          "e2b5",
+          "d6e6",
+          "g1f2",
+          "e6f7"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 600
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "e2c2",
+          "f1a1",
+          "a8b7",
+          "a1b1",
+          "b7c6",
+          "b1c2",
+          "c6d5"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.009432288649078635,
+      "bestLineMaterial": {
+        "initialBalance": 4,
+        "minimumBalance": 4,
+        "finalBalance": 9,
+        "exposure": 0,
+        "sustainedLoss": -5,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "r",
+          "capturedValue": 5,
+          "materialGain": 5,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 15,
+      "beforeOutcomeExpectation": 0.8860707856556991,
+      "bestOutcomeExpectation": 0.8860707856556991,
+      "outcomeDrop": 0,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "hanging-minor-capture",
+    "provenance": "Constructed: an undefended knight is immediately capturable.",
+    "expectedProperties": ["hanging-minor-piece", "material-win"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 464
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 452
+    },
+    "outcomeLoss": 0.005437014473464008,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 464
+        },
+        "principalVariationUci": ["e1e2", "a8b7", "e2e5", "b7b6"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "g1g2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 19
+        },
+        "principalVariationUci": [
+          "g1g2",
+          "e2c3",
+          "e1e3",
+          "c3b5",
+          "e3e5",
+          "b5d4",
+          "e5a5",
+          "a8b7"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "g1f2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 15
+        },
+        "principalVariationUci": [
+          "g1f2",
+          "e2d4",
+          "e1b1",
+          "d4e6",
+          "b1b6",
+          "e6c7"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.2445705477995047,
+      "bestLineMaterial": {
+        "initialBalance": 2,
+        "minimumBalance": 2,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": -3,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "n",
+          "capturedValue": 3,
+          "materialGain": 3,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 6,
+      "beforeOutcomeExpectation": 0.7561538407704037,
+      "bestOutcomeExpectation": 0.7561538407704037,
+      "outcomeDrop": 0.005437014473464008,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "hanging-queen-nonchecking",
+    "provenance": "Constructed: an undefended queen pickup gives no check.",
+    "expectedProperties": ["hanging-queen", "material-win"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 443
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 430
+    },
+    "outcomeLoss": 0.006045634167170966,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 443
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "a8b7",
+          "e2e6",
+          "b7a7",
+          "g1f2",
+          "a7b7",
+          "e6h6",
+          "b7c7",
+          "h6g6",
+          "c7b7",
+          "g6g1",
+          "b7c7"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -222
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "a8b7",
+          "f1b1",
+          "b7c6",
+          "b1f1",
+          "c6d6",
+          "f1f2",
+          "e2e1",
+          "f2f1"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1a1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -237
+        },
+        "principalVariationUci": [
+          "e1a1",
+          "a8b8",
+          "a1b1",
+          "b8a7",
+          "b1f1",
+          "e2g4",
+          "g1h1"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.3787390643440073,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -4,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": -9,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "q",
+          "capturedValue": 9,
+          "materialGain": 9,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 7,
+      "beforeOutcomeExpectation": 0.7465862847818941,
+      "bestOutcomeExpectation": 0.7465862847818941,
+      "outcomeDrop": 0.006045634167170966,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "critical-checking-queen-capture",
+    "provenance": "Constructed control: the material capture is also a forcing check.",
+    "expectedProperties": ["critical-capture", "material-win"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 2
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 0
+    },
+    "outcomeLoss": 0.0012195097769001073,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1f2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 2
+        },
+        "principalVariationUci": [
+          "e1f2",
+          "e7e2",
+          "f2e2",
+          "e8d7",
+          "e2e3",
+          "d7c6",
+          "e3d4",
+          "c6b5",
+          "d4d5",
+          "b5b4",
+          "d5e5",
+          "b4c3",
+          "e5e6"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1d2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 1
+        },
+        "principalVariationUci": [
+          "e1d2",
+          "e7e2",
+          "d2e2",
+          "e8d7",
+          "e2e3",
+          "d7c6",
+          "e3d4",
+          "c6b5",
+          "d4d5",
+          "b5b6",
+          "d5e5",
+          "b6a5",
+          "e5f6",
+          "a5b6"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e2e7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "e2e7",
+          "e8e7",
+          "e1e2",
+          "e7e6",
+          "e2f3",
+          "e6f5",
+          "f3g3",
+          "f5g5",
+          "g3h3",
+          "g5h5",
+          "h3h2",
+          "h5g6"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.0006097539816173336,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -9,
+        "finalBalance": 0,
+        "exposure": 5,
+        "sustainedLoss": -4,
+        "firstMove": {
+          "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 3,
+      "legalMoveCount": 9,
+      "beforeOutcomeExpectation": 0.5012195097769001,
+      "bestOutcomeExpectation": 0.5012195097769001,
+      "outcomeDrop": 0.0012195097769001073,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "two-hanging-rooks",
+    "provenance": "Constructed control: two major pieces are available to capture.",
+    "expectedProperties": ["material-win", "multiple-winning-alternatives"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "blunder",
+    "specialClassification": "miss",
+    "specialRule": "missed-forcing-resource",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 330
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": -1
+    },
+    "outcomeLoss": 0.1916267307059536,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "a1h8",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 330
+        },
+        "principalVariationUci": [
+          "a1h8",
+          "a8b7",
+          "e1b1",
+          "b7c6",
+          "h8c8",
+          "c6d6",
+          "b1b6",
+          "d6e5",
+          "c8e6",
+          "e5d4",
+          "e6g4",
+          "d4d5"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "g1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "g1f1",
+          "e2f2",
+          "f1g1",
+          "f2g2",
+          "g1h1",
+          "g2h2",
+          "h1g1"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "a1c1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": ["a1c1", "e2g2", "g1h1", "g2h2", "h1g1"]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.19101697491067093,
+      "bestLineMaterial": {
+        "initialBalance": 4,
+        "minimumBalance": 4,
+        "finalBalance": 4,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 18,
+      "beforeOutcomeExpectation": 0.6910169749106709,
+      "bestOutcomeExpectation": 0.6910169749106709,
+      "outcomeDrop": 0.1916267307059536,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "defensive-rook-capture",
+    "provenance": "Constructed defensive control: capture the advanced queen before it attacks the king.",
+    "expectedProperties": ["defensive-resource", "critical-capture"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 625
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 578
+    },
+    "outcomeLoss": 0.017456585835037286,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 625
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "g7g5",
+          "e2e1",
+          "h7h6",
+          "h2h3",
+          "g8h7",
+          "f2f3",
+          "h7g6",
+          "g2g4"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1b1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -318
+        },
+        "principalVariationUci": [
+          "e1b1",
+          "g7g5",
+          "h2h3",
+          "h7h6",
+          "g2g3",
+          "e2f3",
+          "b1a1",
+          "g8g7",
+          "a1e1"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -327
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "g7g5",
+          "h2h3",
+          "h7h6",
+          "f1b1",
+          "g8h7",
+          "b1f1",
+          "e2e5",
+          "f1b1",
+          "h6h5",
+          "b1f1",
+          "e5b2"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.5059172022332667,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -4,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": -9,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "q",
+          "capturedValue": 9,
+          "materialGain": 9,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 13,
+      "beforeOutcomeExpectation": 0.8211840568016016,
+      "bestOutcomeExpectation": 0.8211840568016016,
+      "outcomeDrop": 0.017456585835037286,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "quiet-back-rank-defense",
+    "provenance": "Constructed quiet-defense control with several legal alternatives.",
+    "expectedProperties": ["defensive-resource", "quiet-move"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 613
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 608
+    },
+    "outcomeLoss": 0.0018315511429904952,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f1c1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 613
+        },
+        "principalVariationUci": ["f1c1", "h7h5", "c1c8", "g8h7"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "f1a1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 610
+        },
+        "principalVariationUci": [
+          "f1a1",
+          "h7h6",
+          "h2h3",
+          "g7g5",
+          "g1h2",
+          "g8h7",
+          "a1e1"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "f2f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 606
+        },
+        "principalVariationUci": ["f2f3", "g7g5", "f1d1", "f7f6", "d1b1"]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.0010972369876605104,
+      "bestLineMaterial": {
+        "initialBalance": 5,
+        "minimumBalance": 5,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 12,
+      "beforeOutcomeExpectation": 0.8168458051537093,
+      "bestOutcomeExpectation": 0.8168458051537093,
+      "outcomeDrop": 0.0018315511429904952,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -1495,18 +2363,21 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 246
+          "value": 188
         },
         "principalVariationUci": [
           "b3b7",
           "f7f6",
-          "b7c8",
-          "e8e7",
           "g5e3",
-          "h7h6",
-          "e3a7",
-          "h6h5",
-          "a2a4"
+          "f8e7",
+          "b7c8",
+          "e7d8",
+          "e3c5",
+          "a7a6",
+          "c5b4",
+          "f6f5",
+          "e4f5",
+          "e6f5"
         ]
       },
       {
@@ -1545,6 +2416,10 @@
         "sustainedLoss": 9,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -1554,7 +2429,9 @@
       "beforeOutcomeExpectation": null,
       "bestOutcomeExpectation": null,
       "outcomeDrop": null,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -1591,6 +2468,31 @@
       },
       {
         "rank": 2,
+        "moveUci": "b3b7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 197
+        },
+        "principalVariationUci": [
+          "b3b7",
+          "f7f6",
+          "g5e3",
+          "a7a6",
+          "b7c8",
+          "e8e7",
+          "a2a4",
+          "g7g6",
+          "a4a5",
+          "h7h5",
+          "c1b1",
+          "f8g7",
+          "c8b7",
+          "h8b8"
+        ]
+      },
+      {
+        "rank": 3,
         "moveUci": "b3c3",
         "evaluation": {
           "kind": "centipawns",
@@ -1603,41 +2505,18 @@
           "c3c8",
           "e8e7",
           "g5e3",
-          "a7a6",
-          "a2a4",
           "h7h5",
-          "c8c7",
-          "e7e8",
+          "a2a4",
+          "g7g6",
           "a4a5",
-          "f8e7"
-        ]
-      },
-      {
-        "rank": 3,
-        "moveUci": "b3b7",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 164
-        },
-        "principalVariationUci": [
-          "b3b7",
-          "f7f6",
-          "b7c8",
-          "e8e7",
-          "g5e3",
-          "a7a5",
-          "b2b3",
-          "h7h5",
-          "a2a4",
-          "g7g5",
-          "c1b2",
           "f8g7",
           "e3c5",
           "d7c5",
           "c8c5",
           "e7f7",
-          "c5a5"
+          "c5a7",
+          "f7g8",
+          "d1d7"
         ]
       }
     ],
@@ -1652,6 +2531,10 @@
         "sustainedLoss": 9,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -1661,7 +2544,9 @@
       "beforeOutcomeExpectation": null,
       "bestOutcomeExpectation": null,
       "outcomeDrop": null,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -1702,7 +2587,7 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 294
+          "value": 306
         },
         "principalVariationUci": [
           "b3c3",
@@ -1710,16 +2595,29 @@
           "c3c8",
           "e8e7",
           "g5e3",
-          "g7g6",
-          "c8c7",
+          "h7h5",
+          "c8b7",
           "e7e8",
           "e3a7",
           "f8e7",
-          "c7c8",
-          "e8f7",
-          "c8d7",
-          "e6a2",
-          "d7c6"
+          "b7c8",
+          "e7d8",
+          "a2a4",
+          "h5h4",
+          "a4a5",
+          "h4h3",
+          "g2h3",
+          "h8h4",
+          "f2f3",
+          "e8e7",
+          "a5a6",
+          "h4h3",
+          "a7c5",
+          "d7c5",
+          "c8c5",
+          "e7e8",
+          "c5b5",
+          "e8e7"
         ]
       },
       {
@@ -1728,7 +2626,7 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 278
+          "value": 295
         },
         "principalVariationUci": [
           "b3b7",
@@ -1736,27 +2634,26 @@
           "b7c8",
           "e8e7",
           "g5e3",
-          "a7a6",
+          "h7h5",
+          "e3a7",
+          "g7g6",
+          "c1b1",
+          "f6f5",
           "c8c7",
           "e7e8",
-          "a2a4",
-          "h7h5",
-          "a4a5",
+          "e4f5",
+          "g6f5",
+          "a7b6",
           "f8e7",
           "c7c8",
-          "e7d8",
-          "e3c5",
-          "f6f5",
-          "d1d6",
-          "e6f7",
-          "c5b6",
-          "f7e7",
-          "d6e6",
-          "e7e6",
-          "c8d8",
           "e8f7",
-          "d8h8",
-          "f7g6"
+          "c8h8",
+          "d7b6",
+          "h8h5",
+          "f7g7",
+          "h5e8",
+          "e5e4",
+          "a2a4"
         ]
       }
     ],
@@ -1771,6 +2668,10 @@
         "sustainedLoss": 9,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -1780,7 +2681,9 @@
       "beforeOutcomeExpectation": null,
       "bestOutcomeExpectation": null,
       "outcomeDrop": null,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -1794,20 +2697,21 @@
     "specialRule": null,
     "rejectionReasons": [
       "great-separation-insufficient",
+      "great-confirmation-required",
       "material-exposure-insufficient",
       "material-not-sustained"
     ],
     "beforeEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 168
+      "value": 165
     },
     "playedMoveEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 168
+      "value": 164
     },
-    "outcomeLoss": 0,
+    "outcomeLoss": 0.0005858605108810533,
     "candidates": [
       {
         "rank": 1,
@@ -1815,26 +2719,19 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 168
+          "value": 165
         },
         "principalVariationUci": [
           "f3e5",
           "d6e5",
           "d1g4",
-          "f8g7",
+          "b8c6",
           "g4f3",
           "g8f6",
           "c3d5",
-          "e8g8",
+          "f8g7",
           "d5f6",
-          "g7f6",
-          "c2c3",
-          "f6g5",
-          "a2a4",
-          "g5h6",
-          "a4a5",
-          "a7a6",
-          "e1g1"
+          "g7f6"
         ]
       },
       {
@@ -1843,7 +2740,7 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 109
+          "value": 105
         },
         "principalVariationUci": [
           "d2d4",
@@ -1853,7 +2750,7 @@
           "d1f3",
           "c6e5",
           "f3e2",
-          "e5c4"
+          "f8g7"
         ]
       },
       {
@@ -1862,26 +2759,26 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 76
+          "value": 74
         },
         "principalVariationUci": [
           "h2h3",
           "g4f3",
           "d1f3",
-          "d8d7",
-          "b2b4",
+          "g8f6",
+          "h3h4",
+          "f8g7",
+          "h4h5",
           "b8c6",
-          "c3d5",
-          "c6d4",
-          "f3d3",
-          "c7c6",
-          "d5e3"
+          "h5g6",
+          "f7g6",
+          "d2d3"
         ]
       }
     ],
     "policyEvidence": {
       "candidateCount": 3,
-      "candidateOutcomeSeparation": 0.034954691791225456,
+      "candidateOutcomeSeparation": 0.03559677558822272,
       "bestLineMaterial": {
         "initialBalance": 0,
         "minimumBalance": -2,
@@ -1890,16 +2787,22 @@
         "sustainedLoss": -1,
         "firstMove": {
           "capture": true,
+          "capturedPiece": "p",
+          "capturedValue": 1,
+          "materialGain": 1,
+          "capturedPieceDefended": true,
           "check": false,
           "promotion": false
         }
       },
       "playedRank": 1,
       "legalMoveCount": 35,
-      "beforeOutcomeExpectation": 0.601029394177235,
-      "bestOutcomeExpectation": 0.601029394177235,
-      "outcomeDrop": 0,
-      "terminalResult": null
+      "beforeOutcomeExpectation": 0.5992735206233331,
+      "bestOutcomeExpectation": 0.5992735206233331,
+      "outcomeDrop": 0.0005858605108810533,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -1909,20 +2812,24 @@
     "depth": 14,
     "multiPv": 3,
     "ordinaryClassification": "best",
-    "specialClassification": "great",
-    "specialRule": "narrow-critical-move",
-    "rejectionReasons": [],
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "great-confirmation-required",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
     "beforeEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 173
+      "value": 176
     },
     "playedMoveEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 165
+      "value": 173
     },
-    "outcomeLoss": 0.004676544526329263,
+    "outcomeLoss": 0.0017488648021847242,
     "candidates": [
       {
         "rank": 1,
@@ -1930,20 +2837,25 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 173
+          "value": 176
         },
         "principalVariationUci": [
           "f3e5",
           "d6e5",
           "d1g4",
           "b8c6",
+          "g4f3",
+          "d8d7",
+          "c4b5",
+          "a7a6",
+          "b5c6",
+          "d7c6",
           "d2d3",
           "f8g7",
-          "a2a4",
-          "g8f6",
-          "g4d1",
-          "e8g8",
-          "c3e2"
+          "c1e3",
+          "g8e7",
+          "e1c1",
+          "e8g8"
         ]
       },
       {
@@ -1952,7 +2864,7 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 93
+          "value": 96
         },
         "principalVariationUci": [
           "d2d4",
@@ -1962,139 +2874,9 @@
           "d1f3",
           "c6e5",
           "f3e2",
-          "e5c4",
-          "e2c4",
-          "f8g7",
-          "c4b5",
           "c7c6",
-          "b5b7",
-          "g8e7",
-          "c1g5"
-        ]
-      },
-      {
-        "rank": 3,
-        "moveUci": "h2h3",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 72
-        },
-        "principalVariationUci": [
-          "h2h3",
-          "g4f3",
-          "d1f3",
-          "g8f6",
-          "g2g4",
-          "h7h6",
-          "d2d3",
-          "b8c6",
-          "c1e3",
-          "c6d4",
-          "e3d4",
-          "e5d4",
-          "c3e2",
+          "c4b3",
           "f8g7",
-          "e1c1",
-          "e8g8",
-          "h3h4",
-          "h6h5",
-          "g4g5"
-        ]
-      }
-    ],
-    "policyEvidence": {
-      "candidateCount": 3,
-      "candidateOutcomeSeparation": 0.04748464335526237,
-      "bestLineMaterial": {
-        "initialBalance": 0,
-        "minimumBalance": -2,
-        "finalBalance": 1,
-        "exposure": 2,
-        "sustainedLoss": -1,
-        "firstMove": {
-          "capture": true,
-          "check": false,
-          "promotion": false
-        }
-      },
-      "playedRank": 1,
-      "legalMoveCount": 35,
-      "beforeOutcomeExpectation": 0.6039500651496623,
-      "bestOutcomeExpectation": 0.6039500651496623,
-      "outcomeDrop": 0.004676544526329263,
-      "terminalResult": null
-    }
-  },
-  {
-    "id": "legal-trap-piece-offer",
-    "provenance": "Légal trap teaching line reconstructed from its public historical move sequence; position before 5.Nxe5.",
-    "expectedProperties": ["historical-sacrifice", "piece-sacrifice"],
-    "depth": 16,
-    "multiPv": 3,
-    "ordinaryClassification": "best",
-    "specialClassification": "great",
-    "specialRule": "narrow-critical-move",
-    "rejectionReasons": [],
-    "beforeEvaluation": {
-      "kind": "centipawns",
-      "perspective": "white",
-      "value": 178
-    },
-    "playedMoveEvaluation": {
-      "kind": "centipawns",
-      "perspective": "white",
-      "value": 170
-    },
-    "outcomeLoss": 0.004664802689452685,
-    "candidates": [
-      {
-        "rank": 1,
-        "moveUci": "f3e5",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 178
-        },
-        "principalVariationUci": [
-          "f3e5",
-          "d6e5",
-          "d1g4",
-          "b8c6",
-          "d2d3",
-          "c6d4",
-          "g4d1",
-          "f8h6",
-          "c1h6",
-          "g8h6",
-          "c3e2",
-          "e8g8",
-          "c2c3",
-          "d4e2",
-          "d1e2",
-          "g8g7",
-          "g2g3",
-          "d8d6",
-          "e1c1"
-        ]
-      },
-      {
-        "rank": 2,
-        "moveUci": "d2d4",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 78
-        },
-        "principalVariationUci": [
-          "d2d4",
-          "b8c6",
-          "d4e5",
-          "d6e5",
-          "e1g1",
-          "d8d1",
-          "f1d1",
-          "a7a6",
           "c1e3"
         ]
       },
@@ -2104,26 +2886,30 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 63
+          "value": 80
         },
         "principalVariationUci": [
           "h2h3",
           "g4f3",
           "d1f3",
           "g8f6",
-          "d2d3",
+          "d2d4",
+          "b8d7",
+          "c1e3",
           "f8g7",
           "g2g4",
-          "b8c6",
-          "c3e2",
-          "e8g8",
-          "h3h4"
+          "e5d4",
+          "e3d4",
+          "c7c6",
+          "e1c1",
+          "d8e7",
+          "g4g5"
         ]
       }
     ],
     "policyEvidence": {
       "candidateCount": 3,
-      "candidateOutcomeSeparation": 0.05944529457098091,
+      "candidateOutcomeSeparation": 0.04742832309731926,
       "bestLineMaterial": {
         "initialBalance": 0,
         "minimumBalance": -2,
@@ -2132,16 +2918,163 @@
         "sustainedLoss": -1,
         "firstMove": {
           "capture": true,
+          "capturedPiece": "p",
+          "capturedValue": 1,
+          "materialGain": 1,
+          "capturedPieceDefended": true,
           "check": false,
           "promotion": false
         }
       },
       "playedRank": 1,
       "legalMoveCount": 35,
-      "beforeOutcomeExpectation": 0.6068633406148151,
-      "bestOutcomeExpectation": 0.6068633406148151,
-      "outcomeDrop": 0.004664802689452685,
-      "terminalResult": null
+      "beforeOutcomeExpectation": 0.605698929951847,
+      "bestOutcomeExpectation": 0.605698929951847,
+      "outcomeDrop": 0.0017488648021847242,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "legal-trap-piece-offer",
+    "provenance": "Légal trap teaching line reconstructed from its public historical move sequence; position before 5.Nxe5.",
+    "expectedProperties": ["historical-sacrifice", "piece-sacrifice"],
+    "depth": 16,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "great-separation-insufficient",
+      "great-confirmation-required",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 162
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 165
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f3e5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 162
+        },
+        "principalVariationUci": [
+          "f3e5",
+          "d6e5",
+          "d1g4",
+          "b8c6",
+          "g4f3",
+          "d8d7",
+          "c3e2",
+          "c6a5",
+          "c4d5",
+          "f8g7",
+          "d2d3",
+          "c7c6",
+          "d5b3",
+          "a5b3",
+          "a2b3",
+          "g8e7",
+          "h2h4",
+          "h7h5"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "d2d4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 104
+        },
+        "principalVariationUci": [
+          "d2d4",
+          "b8c6",
+          "d4e5",
+          "g4f3",
+          "d1f3",
+          "c6e5",
+          "f3e2",
+          "f8g7",
+          "c4b3",
+          "d8d7",
+          "c1e3",
+          "e5g4",
+          "e3f4",
+          "g7c3",
+          "b2c3",
+          "e8c8",
+          "e1c1",
+          "d8e8"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "h2h3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 84
+        },
+        "principalVariationUci": [
+          "h2h3",
+          "g4f3",
+          "d1f3",
+          "d8f6",
+          "f3e2",
+          "g8e7",
+          "c3b5",
+          "e8d8",
+          "e1g1",
+          "b8c6",
+          "d2d3",
+          "a7a6",
+          "b5c3",
+          "f8g7",
+          "c1e3"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.034438308686937535,
+      "bestLineMaterial": {
+        "initialBalance": 0,
+        "minimumBalance": -2,
+        "finalBalance": 1,
+        "exposure": 2,
+        "sustainedLoss": -1,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "p",
+          "capturedValue": 1,
+          "materialGain": 1,
+          "capturedPieceDefended": true,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 35,
+      "beforeOutcomeExpectation": 0.5975150943228761,
+      "bestOutcomeExpectation": 0.5975150943228761,
+      "outcomeDrop": 0,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -2214,6 +3147,10 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -2223,7 +3160,9 @@
       "beforeOutcomeExpectation": null,
       "bestOutcomeExpectation": null,
       "outcomeDrop": null,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -2296,6 +3235,10 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -2305,7 +3248,9 @@
       "beforeOutcomeExpectation": null,
       "bestOutcomeExpectation": null,
       "outcomeDrop": null,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -2378,6 +3323,10 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -2387,7 +3336,9 @@
       "beforeOutcomeExpectation": null,
       "bestOutcomeExpectation": null,
       "outcomeDrop": null,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -2409,78 +3360,72 @@
     "beforeEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 26
+      "value": 35
     },
     "playedMoveEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 17
+      "value": 32
     },
-    "outcomeLoss": 0.005483979006356887,
+    "outcomeLoss": 0.001826216571842565,
     "candidates": [
       {
         "rank": 1,
-        "moveUci": "e3f4",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 26
-        },
-        "principalVariationUci": [
-          "e3f4",
-          "d5e6",
-          "f4g5",
-          "e6f7",
-          "g5h6",
-          "f7f6",
-          "h2h4",
-          "f6f5",
-          "h6h7",
-          "f5g4"
-        ]
-      },
-      {
-        "rank": 2,
         "moveUci": "h2h4",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 18
+          "value": 35
         },
         "principalVariationUci": [
           "h2h4",
           "d5e5",
+          "h4h5",
+          "e5f5",
           "e3f3",
-          "e5f6",
-          "f3f4",
-          "f6g7",
-          "f4g5"
+          "f5g5",
+          "h5h6",
+          "g5f6"
         ]
       },
       {
-        "rank": 3,
+        "rank": 2,
         "moveUci": "e3f3",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 17
+          "value": 33
         },
         "principalVariationUci": [
           "e3f3",
           "d5e6",
-          "f3g4",
-          "e6f6",
-          "g4h5",
-          "f6g7",
           "h2h4",
-          "g7h7",
-          "h5g5"
+          "e6f6",
+          "h4h5",
+          "f6g5"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e3f4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 32
+        },
+        "principalVariationUci": [
+          "e3f4",
+          "d5e6",
+          "h2h4",
+          "e6f7",
+          "h4h5",
+          "f7g7"
         ]
       }
     ],
     "policyEvidence": {
       "candidateCount": 3,
-      "candidateOutcomeSeparation": 0.004874500618253341,
+      "candidateOutcomeSeparation": 0.0012174173920239673,
       "bestLineMaterial": {
         "initialBalance": 1,
         "minimumBalance": 1,
@@ -2489,16 +3434,22 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
       },
       "playedRank": null,
       "legalMoveCount": 8,
-      "beforeOutcomeExpectation": 0.5158483478261238,
-      "bestOutcomeExpectation": 0.5158483478261238,
-      "outcomeDrop": 0.005483979006356887,
-      "terminalResult": null
+      "beforeOutcomeExpectation": 0.5213285126634722,
+      "bestOutcomeExpectation": 0.5213285126634722,
+      "outcomeDrop": 0.001826216571842565,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -2520,14 +3471,14 @@
     "beforeEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 4
+      "value": 22
     },
     "playedMoveEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 0
+      "value": 17
     },
-    "outcomeLoss": 0.0024390050446069234,
+    "outcomeLoss": 0.0030470475920549855,
     "candidates": [
       {
         "rank": 1,
@@ -2535,19 +3486,25 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 4
+          "value": 22
         },
         "principalVariationUci": [
           "e3f4",
           "d5e6",
           "f4g5",
           "e6f7",
-          "g5f5",
-          "f7g7",
-          "f5e4",
-          "g7f6",
-          "e4d3",
-          "f6f5"
+          "g5h6",
+          "f7g8",
+          "h2h4",
+          "g8h8",
+          "h6g6",
+          "h8g8",
+          "h4h5",
+          "g8h8",
+          "h5h6",
+          "h8g8",
+          "g6g5",
+          "g8h7"
         ]
       },
       {
@@ -2556,19 +3513,23 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 2
+          "value": 17
         },
         "principalVariationUci": [
           "e3f3",
           "d5e5",
           "f3g4",
           "e5f6",
-          "g4f4",
+          "h2h4",
           "f6g6",
-          "f4e4",
-          "g6h5",
-          "e4d3",
-          "h5g6"
+          "h4h5",
+          "g6g7",
+          "g4g5",
+          "g7h7",
+          "h5h6",
+          "h7g8",
+          "g5g4",
+          "g8h7"
         ]
       },
       {
@@ -2577,24 +3538,27 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 1
+          "value": 16
         },
         "principalVariationUci": [
           "h2h3",
           "d5e5",
-          "e3d3",
-          "e5f4",
-          "d3e2",
-          "f4e4",
           "h3h4",
-          "e4f5",
-          "e2f3"
+          "e5f5",
+          "e3f3",
+          "f5g6",
+          "f3g4",
+          "g6h6",
+          "h4h5",
+          "h6g7",
+          "g4h3",
+          "g7h8"
         ]
       }
     ],
     "policyEvidence": {
       "candidateCount": 3,
-      "candidateOutcomeSeparation": 0.001219495267706816,
+      "candidateOutcomeSeparation": 0.0030470475920549855,
       "bestLineMaterial": {
         "initialBalance": 1,
         "minimumBalance": 1,
@@ -2603,22 +3567,2262 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
       },
       "playedRank": null,
       "legalMoveCount": 8,
-      "beforeOutcomeExpectation": 0.5024390050446069,
-      "bestOutcomeExpectation": 0.5024390050446069,
-      "outcomeDrop": 0.0024390050446069234,
-      "terminalResult": null
+      "beforeOutcomeExpectation": 0.5134114164118219,
+      "bestOutcomeExpectation": 0.5134114164118219,
+      "outcomeDrop": 0.0030470475920549855,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
     "id": "quiet-king-centralization",
     "provenance": "Constructed pawn ending for quiet-move and depth-stability testing.",
     "expectedProperties": ["quiet-move", "many-legal-alternatives"],
+    "depth": 16,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 13
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 12
+    },
+    "outcomeLoss": 0.0006096143509841667,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e3f4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 13
+        },
+        "principalVariationUci": [
+          "e3f4",
+          "d5e6",
+          "f4g5",
+          "e6f7",
+          "g5h6",
+          "f7g8",
+          "h6g6",
+          "g8h8",
+          "g6f6",
+          "h8h7",
+          "f6f7",
+          "h7h6",
+          "h2h3",
+          "h6g5",
+          "f7g7",
+          "g5h5",
+          "g7h8"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e3f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 12
+        },
+        "principalVariationUci": [
+          "e3f3",
+          "d5e6",
+          "f3g4",
+          "e6f6",
+          "g4h5",
+          "f6g7",
+          "h5g5",
+          "g7h7",
+          "g5f5",
+          "h7g7"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "h2h4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 10
+        },
+        "principalVariationUci": [
+          "h2h4",
+          "d5e5",
+          "e3f3",
+          "e5f5",
+          "f3g3",
+          "f5g6",
+          "g3g4",
+          "g6h6",
+          "h4h5",
+          "h6h7",
+          "g4g5",
+          "h7g7",
+          "h5h6",
+          "g7g8",
+          "g5g4",
+          "g8h8",
+          "g4h4",
+          "h8h7",
+          "h4h5",
+          "h7g8",
+          "h5g5",
+          "g8h7"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.0006096143509841667,
+      "bestLineMaterial": {
+        "initialBalance": 1,
+        "minimumBalance": 1,
+        "finalBalance": 1,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 8,
+      "beforeOutcomeExpectation": 0.5079261652292885,
+      "bestOutcomeExpectation": 0.5079261652292885,
+      "outcomeDrop": 0.0006096143509841667,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "hanging-rook-capture",
+    "provenance": "Constructed: an undefended rook is immediately capturable.",
+    "expectedProperties": ["hanging-rook", "material-win"],
+    "depth": 10,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "brilliant-separation-insufficient",
+      "great-separation-insufficient",
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 826
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 832
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 826
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "a8b7",
+          "e2b5",
+          "b7c7",
+          "b5a6",
+          "c7d7",
+          "g1f2",
+          "d7e8",
+          "a6g6",
+          "e8f8"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1a5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 754
+        },
+        "principalVariationUci": [
+          "e1a5",
+          "a8b7",
+          "a5b5",
+          "b7c7",
+          "b5e2",
+          "c7d6",
+          "e2b5",
+          "d6e6"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1a1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 283
+        },
+        "principalVariationUci": [
+          "e1a1",
+          "a8b7",
+          "a1g7",
+          "b7b6",
+          "g7d4",
+          "b6b7",
+          "d4b4",
+          "b7c6"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.019491744572642022,
+      "bestLineMaterial": {
+        "initialBalance": 4,
+        "minimumBalance": 4,
+        "finalBalance": 9,
+        "exposure": 0,
+        "sustainedLoss": -5,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "r",
+          "capturedValue": 5,
+          "materialGain": 5,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 15,
+      "beforeOutcomeExpectation": 0.8823250274902845,
+      "bestOutcomeExpectation": 0.8823250274902845,
+      "outcomeDrop": 0,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "hanging-rook-capture",
+    "provenance": "Constructed: an undefended rook is immediately capturable.",
+    "expectedProperties": ["hanging-rook", "material-win"],
+    "depth": 14,
+    "multiPv": 3,
+    "ordinaryClassification": "good",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "outcome-loss-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 1064
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 1226
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1a5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 1064
+        },
+        "principalVariationUci": [
+          "e1a5",
+          "a8b7",
+          "a5b5",
+          "b7c7",
+          "b5e2",
+          "c7c6",
+          "e2h5",
+          "c6d6",
+          "h5f5",
+          "d6e7",
+          "g1f2",
+          "e7e8",
+          "f5e6",
+          "e8d8",
+          "e6d6",
+          "d8e8",
+          "d6c7",
+          "e8f8",
+          "f2e3",
+          "f8e8",
+          "e3d4",
+          "e8f8",
+          "d4e4",
+          "f8e8",
+          "e4e5",
+          "e8f8"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 1057
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "a8b7",
+          "e2e6",
+          "b7c7",
+          "g1f2",
+          "c7b7",
+          "e6d6",
+          "b7c8",
+          "f2e3",
+          "c8b7",
+          "e3d4",
+          "b7c8",
+          "d6e6",
+          "c8d8"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 762
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "e2c2",
+          "f1a1",
+          "a8b7",
+          "a1b1",
+          "b7c6",
+          "b1c2",
+          "c6d5",
+          "g1f2"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.0011115710335235507,
+      "bestLineMaterial": {
+        "initialBalance": 4,
+        "minimumBalance": 4,
+        "finalBalance": 9,
+        "exposure": 0,
+        "sustainedLoss": -5,
+        "firstMove": {
+          "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": 2,
+      "legalMoveCount": 15,
+      "beforeOutcomeExpectation": 0.930546976135393,
+      "bestOutcomeExpectation": 0.930546976135393,
+      "outcomeDrop": 0,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "hanging-rook-capture",
+    "provenance": "Constructed: an undefended rook is immediately capturable.",
+    "expectedProperties": ["hanging-rook", "material-win"],
+    "depth": 16,
+    "multiPv": 3,
+    "ordinaryClassification": "blunder",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "ordinary-result-is-not-best",
+      "prior-expectation-unavailable",
+      "best-expectation-unavailable",
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 12
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 1340
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 12
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "a8b7",
+          "e2e6",
+          "b7c7",
+          "g1f2",
+          "c7b7",
+          "f2e3",
+          "b7c7",
+          "e3e4",
+          "c7d8",
+          "e6d6",
+          "d8c8",
+          "d6c6",
+          "c8b8",
+          "e4d4",
+          "b8a7",
+          "c6b5",
+          "a7a8",
+          "d4d5",
+          "a8a7",
+          "d5c6",
+          "a7a8",
+          "b5b7"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1a5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 985
+        },
+        "principalVariationUci": [
+          "e1a5",
+          "a8b7",
+          "a5b5",
+          "b7c7",
+          "b5e2",
+          "c7d7",
+          "e2a6",
+          "d7e8",
+          "g1f2",
+          "e8f7",
+          "f2e3",
+          "f7g8"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 966
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "e2a2",
+          "f1f8",
+          "a8b7",
+          "f8f7",
+          "b7c6",
+          "f7a2",
+          "c6b5",
+          "a2b1",
+          "b5c5",
+          "g1f2",
+          "c5d4",
+          "b1f5",
+          "d4c4",
+          "f2e3",
+          "c4b4",
+          "f5h5",
+          "b4c3",
+          "h5c5",
+          "c3b2",
+          "e3d2",
+          "b2b3",
+          "c5a5",
+          "b3c4",
+          "d2e3",
+          "c4b3",
+          "e3d3",
+          "b3b2",
+          "a5a4",
+          "b2c1"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 1,
+      "bestLineMaterial": {
+        "initialBalance": 4,
+        "minimumBalance": 4,
+        "finalBalance": 9,
+        "exposure": 0,
+        "sustainedLoss": -5,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "r",
+          "capturedValue": 5,
+          "materialGain": 5,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 15,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "hanging-minor-capture",
+    "provenance": "Constructed: an undefended knight is immediately capturable.",
+    "expectedProperties": ["hanging-minor-piece", "material-win"],
+    "depth": 10,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 452
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 436
+    },
+    "outcomeLoss": 0.0073742809181234215,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 452
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "a8b7",
+          "e2e5",
+          "b7c6",
+          "g1g2",
+          "c6d6",
+          "e5a5",
+          "d6e6",
+          "a5a6",
+          "e6f5"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "g1f2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 18
+        },
+        "principalVariationUci": [
+          "g1f2",
+          "e2d4",
+          "e1e5",
+          "d4c6",
+          "f2e3",
+          "a8b7"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "g1h2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 18
+        },
+        "principalVariationUci": [
+          "g1h2",
+          "e2d4",
+          "e1b1",
+          "d4f5",
+          "b1b6",
+          "f5e7",
+          "b6a6",
+          "a8b7"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.23974297908906927,
+      "bestLineMaterial": {
+        "initialBalance": 2,
+        "minimumBalance": 2,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": -3,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "n",
+          "capturedValue": 3,
+          "materialGain": 3,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 6,
+      "beforeOutcomeExpectation": 0.7507168262969397,
+      "bestOutcomeExpectation": 0.7507168262969397,
+      "outcomeDrop": 0.0073742809181234215,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "hanging-minor-capture",
+    "provenance": "Constructed: an undefended knight is immediately capturable.",
+    "expectedProperties": ["hanging-minor-piece", "material-win"],
+    "depth": 14,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 435
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 411
+    },
+    "outcomeLoss": 0.011339091850323335,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 435
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "a8b7",
+          "e2c2",
+          "b7b6",
+          "g1f2",
+          "b6a5",
+          "c2c1",
+          "a5b5",
+          "f2e3",
+          "b5b6",
+          "e3e4",
+          "b6b5",
+          "c1c8"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "g1f2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 37
+        },
+        "principalVariationUci": [
+          "g1f2",
+          "e2d4",
+          "e1b1",
+          "d4e6",
+          "b1b6",
+          "e6d8",
+          "f2f3",
+          "a8a7",
+          "f3e3"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "g1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 35
+        },
+        "principalVariationUci": [
+          "g1f1",
+          "e2f4",
+          "e1b1",
+          "f4d5",
+          "f1e2",
+          "d5e7",
+          "b1b7",
+          "e7f5"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.2203312646881459,
+      "bestLineMaterial": {
+        "initialBalance": 2,
+        "minimumBalance": 2,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": -3,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "n",
+          "capturedValue": 3,
+          "materialGain": 3,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 6,
+      "beforeOutcomeExpectation": 0.7428769414465732,
+      "bestOutcomeExpectation": 0.7428769414465732,
+      "outcomeDrop": 0.011339091850323335,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "hanging-minor-capture",
+    "provenance": "Constructed: an undefended knight is immediately capturable.",
+    "expectedProperties": ["hanging-minor-piece", "material-win"],
+    "depth": 16,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 394
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 648
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 394
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "a8b7",
+          "e2b2",
+          "b7c7",
+          "g1f2",
+          "c7c8",
+          "b2b1",
+          "c8c7",
+          "f2e3",
+          "c7d6"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "g1f2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 38
+        },
+        "principalVariationUci": [
+          "g1f2",
+          "e2c3",
+          "e1b1",
+          "c3d5",
+          "b1b6",
+          "d5e7",
+          "f2e3",
+          "e7c8",
+          "e3e4",
+          "c8b6"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "g1g2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 35
+        },
+        "principalVariationUci": [
+          "g1g2",
+          "e2d4",
+          "e1b1",
+          "a8a7",
+          "b1b6",
+          "a7a8",
+          "g2f2",
+          "d4f5",
+          "f2f3",
+          "a8a7",
+          "f3g4",
+          "f5e3",
+          "g4g5",
+          "a7b6",
+          "g5f6"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.20016293660521334,
+      "bestLineMaterial": {
+        "initialBalance": 2,
+        "minimumBalance": 2,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": -3,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "n",
+          "capturedValue": 3,
+          "materialGain": 3,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 6,
+      "beforeOutcomeExpectation": 0.7233170959249409,
+      "bestOutcomeExpectation": 0.7233170959249409,
+      "outcomeDrop": 0,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "hanging-queen-nonchecking",
+    "provenance": "Constructed: an undefended queen pickup gives no check.",
+    "expectedProperties": ["hanging-queen", "material-win"],
+    "depth": 10,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 642
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 694
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 642
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "a8b8",
+          "e2c2",
+          "b8b7",
+          "g1f2",
+          "b7b6",
+          "f2e3",
+          "b6b5",
+          "e3d4",
+          "b5b6",
+          "d4d5",
+          "b6b7",
+          "d5d6"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1a1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -251
+        },
+        "principalVariationUci": [
+          "e1a1",
+          "a8b8",
+          "a1f1",
+          "b8b7",
+          "f1f7",
+          "b7b6"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -261
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "a8b7",
+          "f1f7",
+          "b7c6",
+          "f7f1",
+          "c6c5",
+          "f1f5",
+          "c5d6",
+          "f5f2"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.4756330872197844,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -4,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": -9,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "q",
+          "capturedValue": 9,
+          "materialGain": 9,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 7,
+      "beforeOutcomeExpectation": 0.8271917109075679,
+      "bestOutcomeExpectation": 0.8271917109075679,
+      "outcomeDrop": 0,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "hanging-queen-nonchecking",
+    "provenance": "Constructed: an undefended queen pickup gives no check.",
+    "expectedProperties": ["hanging-queen", "material-win"],
+    "depth": 14,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 776
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 623
+    },
+    "outcomeLoss": 0.048594496014858324,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 776
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "a8b7",
+          "e2c2",
+          "b7b6",
+          "g1f2",
+          "b6b5",
+          "f2e3",
+          "b5b6",
+          "e3d3",
+          "b6a5",
+          "c2b2",
+          "a5a4",
+          "b2b8",
+          "a4a3"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -238
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "a8b8",
+          "f1f7",
+          "e2e3",
+          "f7f2",
+          "e3c1",
+          "f2f1"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1a1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -238
+        },
+        "principalVariationUci": [
+          "e1a1",
+          "a8b7",
+          "a1b1",
+          "b7c6",
+          "b1f1",
+          "c6d6",
+          "f1f2",
+          "e2e3",
+          "g1h1",
+          "e3e1",
+          "h1g2"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.5102407761333065,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -4,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": -9,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "q",
+          "capturedValue": 9,
+          "materialGain": 9,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 7,
+      "beforeOutcomeExpectation": 0.86906113362803,
+      "bestOutcomeExpectation": 0.86906113362803,
+      "outcomeDrop": 0.048594496014858324,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "hanging-queen-nonchecking",
+    "provenance": "Constructed: an undefended queen pickup gives no check.",
+    "expectedProperties": ["hanging-queen", "material-win"],
+    "depth": 16,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "prior-expectation-unavailable",
+      "best-expectation-unavailable",
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 19
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 17
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 19
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "a8b7",
+          "e2c2",
+          "b7b6",
+          "g1f2",
+          "b6b5",
+          "f2e2",
+          "b5b4",
+          "e2d3",
+          "b4b3",
+          "c2c8",
+          "b3b4",
+          "c8c1",
+          "b4b5",
+          "d3d4",
+          "b5b6",
+          "d4d5",
+          "b6b7",
+          "d5d6",
+          "b7b6",
+          "c1b1",
+          "b6a5",
+          "d6c5",
+          "a5a6",
+          "b1b2",
+          "a6a7",
+          "b2b3",
+          "a7a6",
+          "b3b1",
+          "a6a7",
+          "c5c6",
+          "a7a8",
+          "b1a1",
+          "a8b8",
+          "a1a4",
+          "b8c8",
+          "a4a8"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -167
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "a8b8",
+          "f1f8",
+          "b8c7",
+          "f8f1",
+          "e2c4",
+          "f1f3",
+          "c4c1",
+          "f3f1",
+          "c1e3",
+          "g1g2"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1a1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -223
+        },
+        "principalVariationUci": [
+          "e1a1",
+          "a8b8",
+          "a1b1",
+          "b8a7",
+          "b1f1",
+          "a7a6",
+          "f1f8",
+          "a6b5",
+          "f8f1",
+          "b5c4",
+          "f1f2",
+          "e2g4",
+          "g1h2",
+          "c4c3",
+          "f2f1",
+          "c3d2",
+          "h2h1",
+          "g4h5",
+          "h1g2"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 1,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -4,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": -9,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "q",
+          "capturedValue": 9,
+          "materialGain": 9,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 7,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "critical-checking-queen-capture",
+    "provenance": "Constructed control: the material capture is also a forcing check.",
+    "expectedProperties": ["critical-capture", "material-win"],
+    "depth": 10,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 0
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": -2
+    },
+    "outcomeLoss": 0.0012195097769001073,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1f2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "e1f2",
+          "e7e2",
+          "f2e2",
+          "e8d7",
+          "e2e3",
+          "d7c7",
+          "e3f4",
+          "c7d6",
+          "f4f5",
+          "d6c7"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e2e7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "e2e7",
+          "e8e7",
+          "e1f2",
+          "e7d6",
+          "f2g3",
+          "d6c5",
+          "g3f3",
+          "c5b6",
+          "f3e4",
+          "b6c7"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1d1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -1
+        },
+        "principalVariationUci": [
+          "e1d1",
+          "e8d7",
+          "e2e7",
+          "d7e7",
+          "d1c2",
+          "e7d6",
+          "c2b3",
+          "d6e5",
+          "b3c3"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -9,
+        "finalBalance": 0,
+        "exposure": 5,
+        "sustainedLoss": -4,
+        "firstMove": {
+          "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 2,
+      "legalMoveCount": 9,
+      "beforeOutcomeExpectation": 0.5,
+      "bestOutcomeExpectation": 0.5,
+      "outcomeDrop": 0.0012195097769001073,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "critical-checking-queen-capture",
+    "provenance": "Constructed control: the material capture is also a forcing check.",
+    "expectedProperties": ["critical-capture", "material-win"],
+    "depth": 14,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 0
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 0
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1d2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "e1d2",
+          "e8d7",
+          "e2e7",
+          "d7e7",
+          "d2e3",
+          "e7d7",
+          "e3d3",
+          "d7c6",
+          "d3c4",
+          "c6d6",
+          "c4d4",
+          "d6c6"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1f2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "e1f2",
+          "e7e2",
+          "f2e2",
+          "e8d7",
+          "e2d3",
+          "d7c6",
+          "d3c4",
+          "c6b6",
+          "c4d5",
+          "b6b5",
+          "d5d4",
+          "b5c6"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e2e7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -1
+        },
+        "principalVariationUci": [
+          "e2e7",
+          "e8e7",
+          "e1d2",
+          "e7d6",
+          "d2c2",
+          "d6e5",
+          "c2c3",
+          "e5f4",
+          "c3b2",
+          "f4g5",
+          "b2c2",
+          "g5g6"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -4,
+        "finalBalance": 0,
+        "exposure": 0,
+        "sustainedLoss": -4,
+        "firstMove": {
+          "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 3,
+      "legalMoveCount": 9,
+      "beforeOutcomeExpectation": 0.5,
+      "bestOutcomeExpectation": 0.5,
+      "outcomeDrop": 0,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "critical-checking-queen-capture",
+    "provenance": "Constructed control: the material capture is also a forcing check.",
+    "expectedProperties": ["critical-capture", "material-win"],
+    "depth": 16,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "brilliant-separation-insufficient",
+      "great-separation-insufficient",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 0
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 0
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e2e7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "e2e7",
+          "e8e7",
+          "e1f2",
+          "e7f6",
+          "f2g3",
+          "f6g5",
+          "g3f3",
+          "g5f5",
+          "f3g3"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1f2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "e1f2",
+          "e7e2",
+          "f2e2",
+          "e8f7",
+          "e2f3",
+          "f7g6",
+          "f3g4",
+          "g6f6",
+          "g4f4",
+          "f6g6",
+          "f4g4"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1d2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "e1d2",
+          "e7e2",
+          "d2e2",
+          "e8f7",
+          "e2f3",
+          "f7g6",
+          "f3g4",
+          "g6f6",
+          "g4f4",
+          "f6g6",
+          "f4e5",
+          "g6g5",
+          "e5e6",
+          "g5g6"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -4,
+        "finalBalance": 0,
+        "exposure": 0,
+        "sustainedLoss": -4,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "q",
+          "capturedValue": 9,
+          "materialGain": 9,
+          "capturedPieceDefended": true,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 9,
+      "beforeOutcomeExpectation": 0.5,
+      "bestOutcomeExpectation": 0.5,
+      "outcomeDrop": 0,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "defensive-rook-capture",
+    "provenance": "Constructed defensive control: capture the advanced queen before it attacks the king.",
+    "expectedProperties": ["defensive-resource", "critical-capture"],
+    "depth": 10,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 628
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 583
+    },
+    "outcomeLoss": 0.016611853920857622,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 628
+        },
+        "principalVariationUci": ["e1e2", "f7f6", "e2e8", "g8f7", "e8e1"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -330
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "g7g5",
+          "g2g3",
+          "g8g7",
+          "h2h4",
+          "g5h4",
+          "g3h4"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1c1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -347
+        },
+        "principalVariationUci": [
+          "e1c1",
+          "g7g5",
+          "h2h3",
+          "h7h6",
+          "g2g3",
+          "g8g7"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.5132729526692859,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -4,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": -9,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "q",
+          "capturedValue": 9,
+          "materialGain": 9,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 13,
+      "beforeOutcomeExpectation": 0.8222559777586149,
+      "bestOutcomeExpectation": 0.8222559777586149,
+      "outcomeDrop": 0.016611853920857622,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "defensive-rook-capture",
+    "provenance": "Constructed defensive control: capture the advanced queen before it attacks the king.",
+    "expectedProperties": ["defensive-resource", "critical-capture"],
+    "depth": 14,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 605
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 602
+    },
+    "outcomeLoss": 0.0011108007684001997,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 605
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "g7g5",
+          "g1f1",
+          "g5g4",
+          "e2e8",
+          "g8g7",
+          "g2g3",
+          "h7h5",
+          "e8e5",
+          "h5h4",
+          "e5g5",
+          "g7f6"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1a1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -341
+        },
+        "principalVariationUci": [
+          "e1a1",
+          "g7g5",
+          "h2h3",
+          "e2e5",
+          "a1c1",
+          "h7h6"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -342
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "g7g5",
+          "h2h3",
+          "h7h6",
+          "f1a1",
+          "e2e5",
+          "a1c1",
+          "g8h7"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.5106243562755598,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -4,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": -9,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "q",
+          "capturedValue": 9,
+          "materialGain": 9,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 13,
+      "beforeOutcomeExpectation": 0.8139085443043108,
+      "bestOutcomeExpectation": 0.8139085443043108,
+      "outcomeDrop": 0.0011108007684001997,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "defensive-rook-capture",
+    "provenance": "Constructed defensive control: capture the advanced queen before it attacks the king.",
+    "expectedProperties": ["defensive-resource", "critical-capture"],
+    "depth": 16,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "routine-material-capture",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 626
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 621
+    },
+    "outcomeLoss": 0.0017949526724686526,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 626
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "g7g5",
+          "g1f1",
+          "g5g4",
+          "g2g3",
+          "h7h5",
+          "e2a2",
+          "h5h4",
+          "g3h4",
+          "f7f5",
+          "f1g2",
+          "g8f7",
+          "g2g3",
+          "f7g7"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -297
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "e2e8",
+          "f1c1",
+          "g7g5",
+          "h2h3",
+          "e8e5"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1c1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -307
+        },
+        "principalVariationUci": [
+          "e1c1",
+          "e2e8",
+          "h2h3",
+          "f7f5",
+          "c1d1",
+          "h7h6",
+          "d1a1",
+          "f5f4"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.4951149696872227,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -4,
+        "finalBalance": 6,
+        "exposure": 0,
+        "sustainedLoss": -10,
+        "firstMove": {
+          "capture": true,
+          "capturedPiece": "q",
+          "capturedValue": 9,
+          "materialGain": 9,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 13,
+      "beforeOutcomeExpectation": 0.8215419245759809,
+      "bestOutcomeExpectation": 0.8215419245759809,
+      "outcomeDrop": 0.0017949526724686526,
+      "terminalResult": null,
+      "routineMaterialCapture": true,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "quiet-back-rank-defense",
+    "provenance": "Constructed quiet-defense control with several legal alternatives.",
+    "expectedProperties": ["defensive-resource", "quiet-move"],
+    "depth": 10,
+    "multiPv": 3,
+    "ordinaryClassification": "good",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 656
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 612
+    },
+    "outcomeLoss": 0.015537761364904146,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f1d1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 656
+        },
+        "principalVariationUci": ["f1d1", "g7g5", "f2f3", "g5g4", "f3f4"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "f1b1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 626
+        },
+        "principalVariationUci": [
+          "f1b1",
+          "g7g6",
+          "g1f1",
+          "g6g5",
+          "b1b8",
+          "g8g7"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "f2f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 621
+        },
+        "principalVariationUci": [
+          "f2f3",
+          "f7f5",
+          "f1d1",
+          "g8f7",
+          "d1e1",
+          "g7g6"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.010476460557943601,
+      "bestLineMaterial": {
+        "initialBalance": 5,
+        "minimumBalance": 5,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 12,
+      "beforeOutcomeExpectation": 0.8320183851339245,
+      "bestOutcomeExpectation": 0.8320183851339245,
+      "outcomeDrop": 0.015537761364904146,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "quiet-back-rank-defense",
+    "provenance": "Constructed quiet-defense control with several legal alternatives.",
+    "expectedProperties": ["defensive-resource", "quiet-move"],
+    "depth": 14,
+    "multiPv": 3,
+    "ordinaryClassification": "good",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 658
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 605
+    },
+    "outcomeLoss": 0.01879051165892176,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f1d1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 658
+        },
+        "principalVariationUci": [
+          "f1d1",
+          "f7f5",
+          "g1f1",
+          "f5f4",
+          "f1e2",
+          "f4f3",
+          "e2f3",
+          "g8f7",
+          "f3f4",
+          "g7g6",
+          "f4e5",
+          "f7e7",
+          "d1a1"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "f2f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 655
+        },
+        "principalVariationUci": [
+          "f2f3",
+          "f7f6",
+          "g1f2",
+          "g8f7",
+          "f1b1",
+          "g7g5",
+          "f2e3",
+          "f7e6"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "f1a1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 646
+        },
+        "principalVariationUci": [
+          "f1a1",
+          "g7g5",
+          "g1f1",
+          "g5g4",
+          "g2g3",
+          "h7h5",
+          "f1e2",
+          "h5h4",
+          "e2e3",
+          "h4g3",
+          "f2g3",
+          "f7f6"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.0010218342320226226,
+      "bestLineMaterial": {
+        "initialBalance": 5,
+        "minimumBalance": 5,
+        "finalBalance": 6,
+        "exposure": 0,
+        "sustainedLoss": -1,
+        "firstMove": {
+          "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 12,
+      "beforeOutcomeExpectation": 0.8326990559632326,
+      "bestOutcomeExpectation": 0.8326990559632326,
+      "outcomeDrop": 0.01879051165892176,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
+    }
+  },
+  {
+    "id": "quiet-back-rank-defense",
+    "provenance": "Constructed quiet-defense control with several legal alternatives.",
+    "expectedProperties": ["defensive-resource", "quiet-move"],
     "depth": 16,
     "multiPv": 3,
     "ordinaryClassification": "good",
@@ -2634,112 +5838,124 @@
     "beforeEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 0
+      "value": 691
     },
     "playedMoveEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 1
+      "value": 661
     },
-    "outcomeLoss": 0,
+    "outcomeLoss": 0.009897824704499625,
     "candidates": [
       {
         "rank": 1,
-        "moveUci": "e3f4",
+        "moveUci": "f1a1",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 0
+          "value": 691
         },
         "principalVariationUci": [
-          "e3f4",
-          "d5e6",
-          "h2h4",
-          "e6f7",
-          "h4h5",
-          "f7g7",
-          "f4g3",
-          "g7h6",
-          "g3h4",
-          "h6g7",
-          "h4g5",
-          "g7h7",
-          "g5f5",
-          "h7h6",
-          "f5f6"
+          "f1a1",
+          "f7f6",
+          "g1f1",
+          "g8f7",
+          "f1e2",
+          "f7e6",
+          "e2f3",
+          "e6f5",
+          "a1a5",
+          "f5e6",
+          "f3e4",
+          "f6f5",
+          "e4f4"
         ]
       },
       {
         "rank": 2,
-        "moveUci": "h2h4",
+        "moveUci": "f1e1",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 0
+          "value": 675
         },
         "principalVariationUci": [
-          "h2h4",
-          "d5e5",
-          "e3f3",
-          "e5f6",
-          "f3g4",
-          "f6g6",
-          "h4h5",
-          "g6g7",
-          "g4g5",
-          "g7h7",
-          "g5f5",
-          "h7h6",
-          "f5g4"
+          "f1e1",
+          "f7f5",
+          "g1f1",
+          "h7h5",
+          "f1e2",
+          "h5h4",
+          "e2d3",
+          "g8f7",
+          "d3d4",
+          "f7f6",
+          "h2h3",
+          "g7g5",
+          "e1b1",
+          "g5g4",
+          "b1b6",
+          "f6g5",
+          "d4e5",
+          "g4h3",
+          "g2h3",
+          "f5f4",
+          "f2f3"
         ]
       },
       {
         "rank": 3,
-        "moveUci": "e3f3",
+        "moveUci": "f1d1",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 0
+          "value": 670
         },
         "principalVariationUci": [
-          "e3f3",
-          "d5e5",
-          "f3g4",
-          "e5f6",
-          "h2h4",
-          "f6g6",
-          "h4h5",
-          "g6g7",
-          "g4g5",
-          "g7h7",
-          "h5h6",
-          "h7g8",
-          "g5f4",
-          "g8h7"
+          "f1d1",
+          "f7f5",
+          "g1f1",
+          "g8f7",
+          "f1e2",
+          "f7f6",
+          "e2e3",
+          "f6g5",
+          "d1a1",
+          "g5g4",
+          "a1a8",
+          "h7h6",
+          "f2f3",
+          "g4h4"
         ]
       }
     ],
     "policyEvidence": {
       "candidateCount": 3,
-      "candidateOutcomeSeparation": 0,
+      "candidateOutcomeSeparation": 0.0052177764400016535,
       "bestLineMaterial": {
-        "initialBalance": 1,
-        "minimumBalance": 1,
-        "finalBalance": 1,
+        "initialBalance": 5,
+        "minimumBalance": 5,
+        "finalBalance": 5,
         "exposure": 0,
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
       },
-      "playedRank": null,
-      "legalMoveCount": 8,
-      "beforeOutcomeExpectation": 0.5,
-      "bestOutcomeExpectation": 0.5,
-      "outcomeDrop": 0,
-      "terminalResult": null
+      "playedRank": 2,
+      "legalMoveCount": 12,
+      "beforeOutcomeExpectation": 0.8436137519312118,
+      "bestOutcomeExpectation": 0.8436137519312118,
+      "outcomeDrop": 0.009897824704499625,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -2780,7 +5996,7 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 294
+          "value": 263
         },
         "principalVariationUci": [
           "b3b7",
@@ -2788,13 +6004,21 @@
           "b7c8",
           "e8e7",
           "g5e3",
-          "h7h5",
-          "e3a7",
           "g7g6",
+          "c8c7",
+          "e7e8",
+          "e3a7",
+          "h7h5",
+          "c7c8",
+          "e8e7",
           "c1b1",
-          "f8g7",
-          "a7c5",
-          "d7c5"
+          "h8h7",
+          "a2a4",
+          "f6f5",
+          "a4a5",
+          "h7f7",
+          "a5a6",
+          "e7f6"
         ]
       }
     ],
@@ -2809,6 +6033,10 @@
         "sustainedLoss": 9,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -2818,7 +6046,9 @@
       "beforeOutcomeExpectation": null,
       "bestOutcomeExpectation": null,
       "outcomeDrop": null,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -2855,42 +6085,11 @@
       },
       {
         "rank": 2,
-        "moveUci": "b3c3",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 293
-        },
-        "principalVariationUci": [
-          "b3c3",
-          "f7f6",
-          "c3c8",
-          "e8e7",
-          "g5e3",
-          "h7h5",
-          "e3a7",
-          "g7g6",
-          "c1b1",
-          "f6f5",
-          "c8c7",
-          "e7e8",
-          "a7b6",
-          "f8e7",
-          "c7c8",
-          "e8f7",
-          "c8h8",
-          "d7b6",
-          "h8h7",
-          "f7f6"
-        ]
-      },
-      {
-        "rank": 3,
         "moveUci": "b3b7",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 288
+          "value": 293
         },
         "principalVariationUci": [
           "b3b7",
@@ -2899,12 +6098,42 @@
           "e8e7",
           "g5e3",
           "h7h5",
+          "c8b7",
+          "e7e8",
           "e3a7",
-          "g7g6",
-          "c1b1",
-          "h8h7",
+          "h8h6",
+          "a7e3"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "b3c3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 285
+        },
+        "principalVariationUci": [
+          "b3c3",
+          "f7f6",
+          "c3c8",
+          "e8e7",
+          "g5e3",
+          "h7h5",
+          "c8b7",
+          "e7e8",
+          "e3a7",
+          "f8e7",
+          "b7c8",
+          "e7d8",
+          "a2a4",
+          "h8f8",
           "a7e3",
-          "f8h6"
+          "h5h4",
+          "a4a5",
+          "e8e7",
+          "c8b7",
+          "d8a5"
         ]
       },
       {
@@ -2913,18 +6142,15 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 142
+          "value": 109
         },
         "principalVariationUci": [
           "b3b5",
           "f8e7",
-          "g5e7",
-          "e6e7",
-          "b5b7",
-          "e7g5",
-          "c1b1",
-          "g5d8",
-          "b7a7"
+          "g5e3",
+          "h8f8",
+          "e3a7",
+          "f7f5"
         ]
       }
     ],
@@ -2939,6 +6165,10 @@
         "sustainedLoss": 9,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -2948,7 +6178,9 @@
       "beforeOutcomeExpectation": null,
       "bestOutcomeExpectation": null,
       "outcomeDrop": null,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -2985,46 +6217,11 @@
       },
       {
         "rank": 2,
-        "moveUci": "b3b7",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 295
-        },
-        "principalVariationUci": [
-          "b3b7",
-          "f7f6",
-          "b7c8",
-          "e8e7",
-          "g5e3",
-          "g7g6",
-          "c8c7",
-          "e7e8",
-          "e3a7",
-          "f8e7",
-          "c7c8",
-          "e8f7",
-          "c8h8",
-          "d7f8",
-          "d1d5",
-          "e6g4",
-          "a7c5",
-          "g4g5",
-          "c5e3",
-          "g5g2",
-          "c1b1",
-          "g2h1",
-          "e3c1",
-          "h1e4"
-        ]
-      },
-      {
-        "rank": 3,
         "moveUci": "b3c3",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 291
+          "value": 310
         },
         "principalVariationUci": [
           "b3c3",
@@ -3032,19 +6229,61 @@
           "c3c8",
           "e8e7",
           "g5e3",
-          "g7g6",
+          "g7g5",
           "c8c7",
           "e7e8",
           "e3a7",
+          "g5g4",
+          "a2a4",
+          "h8g8",
+          "c7c8",
+          "e8e7",
+          "a7e3"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "b3b7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 303
+        },
+        "principalVariationUci": [
+          "b3b7",
+          "f7f6",
+          "b7c8",
+          "e8e7",
+          "g5e3",
+          "a7a6",
+          "a2a4",
+          "h7h5",
+          "c8c7",
+          "e7e8",
+          "a4a5",
           "f8e7",
           "c7c8",
+          "e7d8",
+          "e3c5",
+          "f6f5",
+          "d1d6",
+          "e6f7",
+          "c5b6",
+          "f7e7",
+          "d6e6",
+          "e7e6",
+          "c8d8",
           "e8f7",
-          "c8h8",
-          "d7f8",
-          "c1b1",
-          "e6g4",
-          "d1c1",
-          "g4g2"
+          "d8h8",
+          "d7f6",
+          "e4f5",
+          "e6f5",
+          "h8a8",
+          "f5f4",
+          "b6e3",
+          "f4h2",
+          "a8a6",
+          "h2g2"
         ]
       },
       {
@@ -3053,38 +6292,37 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 110
+          "value": 83
         },
         "principalVariationUci": [
           "b3b5",
-          "f7f6",
+          "f8e7",
           "g5e3",
-          "f8d6",
-          "e3a7",
-          "e8e7",
+          "e7d6",
           "b5c6",
-          "h8d8",
-          "a7e3",
-          "d8b8",
-          "a2a4",
-          "d6b4"
+          "e8e7",
+          "e3a7",
+          "h8d8"
         ]
       },
       {
         "rank": 5,
-        "moveUci": "b3a4",
+        "moveUci": "d1d7",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 50
+          "value": 64
         },
         "principalVariationUci": [
-          "b3a4",
-          "f8c5",
-          "g5e3",
-          "c5e3",
-          "f2e3",
-          "h8f8"
+          "d1d7",
+          "e8d7",
+          "b3b7",
+          "d7d6",
+          "f2f4",
+          "e6c4",
+          "b2b3",
+          "c4c5",
+          "b3b4"
         ]
       }
     ],
@@ -3099,6 +6337,10 @@
         "sustainedLoss": 9,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": true,
           "promotion": false
         }
@@ -3108,7 +6350,9 @@
       "beforeOutcomeExpectation": null,
       "bestOutcomeExpectation": null,
       "outcomeDrop": null,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -3123,19 +6367,20 @@
     "rejectionReasons": [
       "brilliant-separation-insufficient",
       "great-separation-insufficient",
+      "material-exposure-insufficient",
       "material-not-sustained"
     ],
     "beforeEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 37
+      "value": 43
     },
     "playedMoveEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 37
+      "value": 42
     },
-    "outcomeLoss": 0,
+    "outcomeLoss": 0.0006081209803271426,
     "candidates": [
       {
         "rank": 1,
@@ -3143,7 +6388,7 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 37
+          "value": 43
         },
         "principalVariationUci": [
           "e2e4",
@@ -3151,21 +6396,11 @@
           "b1c3",
           "d7d5",
           "d2d4",
+          "d5e4",
+          "c3e4",
           "g8f6",
-          "e4e5",
-          "f6d7",
-          "f2f4",
-          "c7c5",
-          "g1f3",
-          "c5d4",
-          "f3d4",
-          "f8c5",
-          "c1e3",
-          "b8c6",
-          "d1d2",
-          "c6d4",
-          "e3d4",
-          "e8g8"
+          "e4f6",
+          "d8f6"
         ]
       },
       {
@@ -3174,41 +6409,52 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 19
+          "value": 21
         },
         "principalVariationUci": [
           "d2d4",
           "d7d5",
+          "e2e3",
+          "e7e6",
+          "c2c4",
+          "f8e7",
           "g1f3",
           "g8f6",
-          "c1f4",
-          "c8f5",
-          "e2e3",
-          "e7e6"
+          "b1c3",
+          "e8g8",
+          "f1e2",
+          "d5c4",
+          "e2c4"
         ]
       }
     ],
     "policyEvidence": {
       "candidateCount": 2,
-      "candidateOutcomeSeparation": 0.01096238378752834,
+      "candidateOutcomeSeparation": 0.013393425965603889,
       "bestLineMaterial": {
         "initialBalance": 0,
-        "minimumBalance": -3,
+        "minimumBalance": -1,
         "finalBalance": 0,
-        "exposure": 3,
+        "exposure": 1,
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
       },
       "playedRank": 1,
       "legalMoveCount": 20,
-      "beforeOutcomeExpectation": 0.5225456767584273,
-      "bestOutcomeExpectation": 0.5225456767584273,
-      "outcomeDrop": 0,
-      "terminalResult": null
+      "beforeOutcomeExpectation": 0.5261955053478319,
+      "bestOutcomeExpectation": 0.5261955053478319,
+      "outcomeDrop": 0.0006081209803271426,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -3223,19 +6469,20 @@
     "rejectionReasons": [
       "brilliant-separation-insufficient",
       "great-separation-insufficient",
+      "material-exposure-insufficient",
       "material-not-sustained"
     ],
     "beforeEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 37
+      "value": 39
     },
     "playedMoveEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 37
+      "value": 34
     },
-    "outcomeLoss": 0,
+    "outcomeLoss": 0.0030427384293320037,
     "candidates": [
       {
         "rank": 1,
@@ -3243,116 +6490,119 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 37
+          "value": 39
         },
         "principalVariationUci": [
           "e2e4",
           "e7e5",
           "g1f3",
-          "d7d5",
-          "f3e5",
-          "f8d6",
+          "b8c6",
           "d2d4",
-          "d5e4",
-          "f1c4",
-          "d6e5",
-          "d4e5",
-          "d8d1",
-          "e1d1"
+          "e5d4",
+          "f3d4",
+          "g8f6",
+          "d4c6",
+          "d7c6",
+          "d1d8",
+          "e8d8",
+          "f1d3",
+          "f8c5",
+          "e1g1"
         ]
       },
       {
         "rank": 2,
-        "moveUci": "g1f3",
+        "moveUci": "d2d4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 22
+        },
+        "principalVariationUci": [
+          "d2d4",
+          "d7d5",
+          "c2c4",
+          "e7e6",
+          "b1c3",
+          "f8e7",
+          "g1f3",
+          "g8f6",
+          "c1g5",
+          "e8g8"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e2e3",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
           "value": 16
         },
         "principalVariationUci": [
-          "g1f3",
+          "e2e3",
           "d7d5",
           "d2d4",
-          "g8f6",
-          "c1f4",
           "e7e6",
-          "e2e3",
-          "c7c5",
-          "c2c3",
-          "b8c6",
-          "b1d2",
-          "f8e7",
-          "f1d3",
-          "c5c4"
-        ]
-      },
-      {
-        "rank": 3,
-        "moveUci": "d2d4",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 13
-        },
-        "principalVariationUci": [
-          "d2d4",
-          "g8f6",
           "c2c4",
-          "e7e6",
-          "b1c3",
-          "d7d5",
-          "c1f4",
+          "g8f6",
+          "g1f3",
+          "f8e7",
+          "f1e2",
           "d5c4",
-          "e2e3",
-          "b7b5"
+          "e2c4",
+          "e8g8",
+          "b1c3"
         ]
       },
       {
         "rank": 4,
-        "moveUci": "e2e3",
+        "moveUci": "g1f3",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 9
+          "value": 15
         },
         "principalVariationUci": [
-          "e2e3",
-          "g8f6",
-          "d2d4",
-          "e7e6",
           "g1f3",
-          "f8e7",
-          "c2c4",
           "d7d5",
-          "b1c3",
-          "e8g8",
-          "f1e2",
-          "d5c4",
-          "e2c4"
+          "e2e3",
+          "e7e6",
+          "d2d4",
+          "g8f6",
+          "c2c4",
+          "f8e7",
+          "f1e2"
         ]
       }
     ],
     "policyEvidence": {
       "candidateCount": 4,
-      "candidateOutcomeSeparation": 0.012790817141473121,
+      "candidateOutcomeSeparation": 0.010351156746768786,
       "bestLineMaterial": {
         "initialBalance": 0,
-        "minimumBalance": -9,
+        "minimumBalance": -1,
         "finalBalance": 0,
-        "exposure": 9,
+        "exposure": 1,
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
       },
       "playedRank": 1,
       "legalMoveCount": 20,
-      "beforeOutcomeExpectation": 0.5225456767584273,
-      "bestOutcomeExpectation": 0.5225456767584273,
-      "outcomeDrop": 0,
-      "terminalResult": null
+      "beforeOutcomeExpectation": 0.5237625731585906,
+      "bestOutcomeExpectation": 0.5237625731585906,
+      "outcomeDrop": 0.0030427384293320037,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -3373,12 +6623,12 @@
     "beforeEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 34
+      "value": 33
     },
     "playedMoveEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 36
+      "value": 34
     },
     "outcomeLoss": 0,
     "candidates": [
@@ -3388,7 +6638,7 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 34
+          "value": 33
         },
         "principalVariationUci": [
           "e2e4",
@@ -3402,131 +6652,140 @@
           "f2f4",
           "c7c5",
           "g1f3",
+          "c5d4",
+          "f3d4",
           "b8c6",
           "c1e3",
-          "f8e7",
+          "f8c5",
           "d1d2",
-          "a7a6",
-          "f1d3",
           "e8g8"
         ]
       },
       {
         "rank": 2,
-        "moveUci": "d2d4",
+        "moveUci": "g1f3",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 17
+          "value": 21
         },
         "principalVariationUci": [
+          "g1f3",
+          "g8f6",
           "d2d4",
           "d7d5",
           "c1f4",
           "e7e6",
           "e2e3",
-          "f8e7",
-          "g1f3",
           "c7c5",
-          "d4c5",
-          "e7c5"
+          "f1e2",
+          "c5d4",
+          "e3d4",
+          "f8e7",
+          "b1c3",
+          "e8g8"
         ]
       },
       {
         "rank": 3,
-        "moveUci": "e2e3",
+        "moveUci": "d2d4",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 15
+          "value": 21
         },
         "principalVariationUci": [
-          "e2e3",
-          "g8f6",
           "d2d4",
-          "e7e6",
-          "c2c4",
           "d7d5",
-          "b1c3",
+          "c1f4",
+          "g8f6",
+          "e2e3",
+          "e7e6",
+          "g1f3",
+          "c7c5",
+          "f1e2",
+          "c5d4",
+          "e3d4",
           "f8e7",
-          "c4d5",
-          "e6d5",
-          "f1d3",
-          "b8c6"
+          "b1c3",
+          "e8g8"
         ]
       },
       {
         "rank": 4,
-        "moveUci": "g1f3",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 15
-        },
-        "principalVariationUci": [
-          "g1f3",
-          "d7d5",
-          "d2d4",
-          "e7e6",
-          "e2e3",
-          "g8f6",
-          "c2c4",
-          "c7c5",
-          "b1c3",
-          "c5d4",
-          "e3d4",
-          "f8e7",
-          "f1d3",
-          "d5c4",
-          "d3c4",
-          "e8g8",
-          "e1g1"
-        ]
-      },
-      {
-        "rank": 5,
         "moveUci": "c2c4",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 15
+          "value": 20
         },
         "principalVariationUci": [
           "c2c4",
           "e7e5",
           "b1c3",
-          "g8f6",
-          "g1f3",
           "b8c6",
+          "g1f3",
+          "g8f6",
+          "d2d4",
+          "e5d4",
+          "f3d4",
+          "f8c5",
+          "d4b3"
+        ]
+      },
+      {
+        "rank": 5,
+        "moveUci": "e2e3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 19
+        },
+        "principalVariationUci": [
           "e2e3",
           "d7d5",
           "d2d4",
-          "e5d4",
-          "f3d4"
+          "e7e6",
+          "g1f3",
+          "f8d6",
+          "f1e2",
+          "g8f6",
+          "c2c4",
+          "e8g8",
+          "e1g1",
+          "c7c5",
+          "d4c5",
+          "d6c5"
         ]
       }
     ],
     "policyEvidence": {
       "candidateCount": 5,
-      "candidateOutcomeSeparation": 0.010355465909491768,
+      "candidateOutcomeSeparation": 0.007309015889220283,
       "bestLineMaterial": {
         "initialBalance": 0,
-        "minimumBalance": 0,
+        "minimumBalance": -1,
         "finalBalance": 0,
-        "exposure": 0,
+        "exposure": 1,
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
       },
       "playedRank": 1,
       "legalMoveCount": 20,
-      "beforeOutcomeExpectation": 0.5207198347292586,
-      "bestOutcomeExpectation": 0.5207198347292586,
+      "beforeOutcomeExpectation": 0.5201110952714483,
+      "bestOutcomeExpectation": 0.5201110952714483,
       "outcomeDrop": 0,
-      "terminalResult": null
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -3535,7 +6794,7 @@
     "expectedProperties": ["quiet-move", "many-legal-alternatives"],
     "depth": 12,
     "multiPv": 2,
-    "ordinaryClassification": "best",
+    "ordinaryClassification": "good",
     "specialClassification": null,
     "specialRule": null,
     "rejectionReasons": [
@@ -3548,14 +6807,14 @@
     "beforeEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 0
+      "value": 58
     },
     "playedMoveEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 0
+      "value": 31
     },
-    "outcomeLoss": 0,
+    "outcomeLoss": 0.01641355430066127,
     "candidates": [
       {
         "rank": 1,
@@ -3563,51 +6822,42 @@
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 0
+          "value": 58
         },
         "principalVariationUci": [
           "e3f4",
           "d5e6",
-          "f4g4",
-          "e6f6",
           "h2h4",
-          "f6g7",
+          "e6f7",
+          "f4g5",
+          "f7g8",
           "h4h5",
-          "g7h6",
-          "g4h4",
-          "h6g7",
-          "h4g4"
+          "g8f7"
         ]
       },
       {
         "rank": 2,
-        "moveUci": "h2h3",
+        "moveUci": "h2h4",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 0
+          "value": 57
         },
         "principalVariationUci": [
-          "h2h3",
-          "d5e5",
-          "e3f3",
-          "e5f5",
-          "h3h4",
-          "f5g6",
-          "f3g4",
-          "g6h7",
-          "g4g5",
-          "h7g7",
+          "h2h4",
+          "d5e6",
           "h4h5",
-          "g7h7",
-          "h5h6",
-          "h7h8"
+          "e6f7",
+          "e3e4",
+          "f7g8",
+          "e4f3",
+          "g8g7"
         ]
       }
     ],
     "policyEvidence": {
       "candidateCount": 2,
-      "candidateOutcomeSeparation": 0,
+      "candidateOutcomeSeparation": 0.0006067676000914846,
       "bestLineMaterial": {
         "initialBalance": 1,
         "minimumBalance": 1,
@@ -3616,16 +6866,22 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
       },
       "playedRank": null,
       "legalMoveCount": 8,
-      "beforeOutcomeExpectation": 0.5,
-      "bestOutcomeExpectation": 0.5,
-      "outcomeDrop": 0,
-      "terminalResult": null
+      "beforeOutcomeExpectation": 0.5353069932927612,
+      "bestOutcomeExpectation": 0.5353069932927612,
+      "outcomeDrop": 0.01641355430066127,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -3647,105 +6903,123 @@
     "beforeEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 1
+      "value": 41
     },
     "playedMoveEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 0
+      "value": 30
     },
-    "outcomeLoss": 0.0006097557952827737,
+    "outcomeLoss": 0.00669466170309585,
     "candidates": [
       {
         "rank": 1,
-        "moveUci": "e3f3",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 1
-        },
-        "principalVariationUci": [
-          "e3f3",
-          "d5e6",
-          "f3f4",
-          "e6f6",
-          "h2h3",
-          "f6g6",
-          "f4g4",
-          "g6h6",
-          "g4f5",
-          "h6h5"
-        ]
-      },
-      {
-        "rank": 2,
         "moveUci": "e3f4",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 1
+          "value": 41
         },
         "principalVariationUci": [
           "e3f4",
           "d5e6",
-          "f4g4",
-          "e6f6",
+          "f4g5",
+          "e6f7",
           "h2h4",
-          "f6g7",
-          "g4g5",
-          "g7h7",
+          "f7g7",
           "h4h5",
-          "h7g7",
+          "g7h8",
+          "g5g6",
+          "h8g8",
           "h5h6",
-          "g7h8"
+          "g8h8",
+          "g6f5",
+          "h8h7"
         ]
       },
       {
-        "rank": 3,
-        "moveUci": "e3f2",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 1
-        },
-        "principalVariationUci": [
-          "e3f2",
-          "d5e6",
-          "h2h4",
-          "e6f5",
-          "f2g3",
-          "f5g6",
-          "g3g4",
-          "g6g7",
-          "g4g5"
-        ]
-      },
-      {
-        "rank": 4,
+        "rank": 2,
         "moveUci": "h2h3",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 0
+          "value": 38
         },
         "principalVariationUci": [
           "h2h3",
+          "d5e6",
+          "e3f4",
+          "e6f6",
+          "h3h4",
+          "f6g6",
+          "f4g4",
+          "g6h6",
+          "h4h5",
+          "h6h7",
+          "g4g5",
+          "h7g7",
+          "h5h6",
+          "g7h7",
+          "g5h5",
+          "h7g8"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "h2h4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 38
+        },
+        "principalVariationUci": [
+          "h2h4",
           "d5e5",
           "e3f3",
           "e5f5",
-          "h3h4",
-          "f5g6",
-          "f3g4",
-          "g6g7",
+          "f3g3",
+          "f5f6",
+          "g3f4",
+          "f6g6",
+          "f4g4",
+          "g6h6",
+          "h4h5",
+          "h6h7",
           "g4g5",
-          "g7h7",
-          "h4h5"
+          "h7g7",
+          "h5h6",
+          "g7h7"
+        ]
+      },
+      {
+        "rank": 4,
+        "moveUci": "e3f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 38
+        },
+        "principalVariationUci": [
+          "e3f3",
+          "d5e5",
+          "f3g4",
+          "e5f6",
+          "h2h3",
+          "f6g6",
+          "h3h4",
+          "g6h6",
+          "h4h5",
+          "h6h7",
+          "g4g5",
+          "h7g7",
+          "h5h6",
+          "g7h7"
         ]
       }
     ],
     "policyEvidence": {
       "candidateCount": 4,
-      "candidateOutcomeSeparation": 0,
+      "candidateOutcomeSeparation": 0.0018250281592124828,
       "bestLineMaterial": {
         "initialBalance": 1,
         "minimumBalance": 1,
@@ -3754,16 +7028,22 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
       },
       "playedRank": null,
       "legalMoveCount": 8,
-      "beforeOutcomeExpectation": 0.5006097557952828,
-      "bestOutcomeExpectation": 0.5006097557952828,
-      "outcomeDrop": 0.0006097557952827737,
-      "terminalResult": null
+      "beforeOutcomeExpectation": 0.52497918747894,
+      "bestOutcomeExpectation": 0.52497918747894,
+      "outcomeDrop": 0.00669466170309585,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   },
   {
@@ -3772,7 +7052,7 @@
     "expectedProperties": ["quiet-move", "many-legal-alternatives"],
     "depth": 12,
     "multiPv": 5,
-    "ordinaryClassification": "best",
+    "ordinaryClassification": "good",
     "specialClassification": null,
     "specialRule": null,
     "rejectionReasons": [
@@ -3785,22 +7065,97 @@
     "beforeEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": 4
+      "value": 33
     },
     "playedMoveEvaluation": {
       "kind": "centipawns",
       "perspective": "white",
-      "value": -1
+      "value": 13
     },
-    "outcomeLoss": 0.003048760839889586,
+    "outcomeLoss": 0.012184930042159814,
     "candidates": [
       {
         "rank": 1,
+        "moveUci": "e3f4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 33
+        },
+        "principalVariationUci": [
+          "e3f4",
+          "d5e6",
+          "f4g5",
+          "e6f7",
+          "h2h4",
+          "f7g8",
+          "g5g4",
+          "g8f7",
+          "h4h5",
+          "f7g7",
+          "g4g5",
+          "g7g8",
+          "g5g6"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e3f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 30
+        },
+        "principalVariationUci": [
+          "e3f3",
+          "d5e6",
+          "f3f4",
+          "e6f6",
+          "h2h4",
+          "f6g6",
+          "f4g4",
+          "g6h6",
+          "h4h5",
+          "h6h7",
+          "g4g5",
+          "h7g7"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e3f2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 22
+        },
+        "principalVariationUci": [
+          "e3f2",
+          "d5e4",
+          "f2g3",
+          "e4f5",
+          "g3h4",
+          "f5f6",
+          "h2h3",
+          "f6g6",
+          "h4g4",
+          "g6f6",
+          "g4h5",
+          "f6f7",
+          "h5g5",
+          "f7g7",
+          "h3h4",
+          "g7h7",
+          "g5h5"
+        ]
+      },
+      {
+        "rank": 4,
         "moveUci": "h2h4",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 4
+          "value": 16
         },
         "principalVariationUci": [
           "h2h4",
@@ -3810,107 +7165,44 @@
           "f3g3",
           "f5g6",
           "g3g4",
-          "g6h7",
+          "g6h6",
+          "h4h5",
+          "h6h7",
           "g4g5",
           "h7g7",
-          "h4h5",
-          "g7g8",
-          "g5f6",
-          "g8h8"
-        ]
-      },
-      {
-        "rank": 2,
-        "moveUci": "e3f4",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 3
-        },
-        "principalVariationUci": [
-          "e3f4",
-          "d5e6",
-          "h2h4",
-          "e6f6",
-          "h4h5",
-          "f6g7",
-          "f4f5",
-          "g7h6",
-          "f5g4",
-          "h6g7",
-          "g4f4"
-        ]
-      },
-      {
-        "rank": 3,
-        "moveUci": "e3f2",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 3
-        },
-        "principalVariationUci": [
-          "e3f2",
-          "d5e6",
-          "f2f3",
-          "e6f6",
-          "h2h4",
-          "f6g7",
-          "h4h5",
-          "g7h7",
-          "f3g3"
-        ]
-      },
-      {
-        "rank": 4,
-        "moveUci": "h2h3",
-        "evaluation": {
-          "kind": "centipawns",
-          "perspective": "white",
-          "value": 3
-        },
-        "principalVariationUci": [
-          "h2h3",
-          "d5e6",
-          "e3f4",
-          "e6f6",
-          "h3h4",
-          "f6g6",
-          "f4g4",
-          "g6g7",
-          "g4g5",
-          "g7f7",
-          "g5f5",
-          "f7g7"
+          "h5h6",
+          "g7h8"
         ]
       },
       {
         "rank": 5,
-        "moveUci": "e3f3",
+        "moveUci": "h2h3",
         "evaluation": {
           "kind": "centipawns",
           "perspective": "white",
-          "value": 3
+          "value": 15
         },
         "principalVariationUci": [
+          "h2h3",
+          "d5e5",
+          "h3h4",
+          "e5f5",
           "e3f3",
-          "d5e6",
-          "h2h4",
-          "e6f5",
-          "f3g3",
           "f5g6",
-          "g3g4",
-          "g6g7",
+          "f3g4",
+          "g6h6",
+          "h4h5",
+          "h6h7",
           "g4g5",
-          "g7f7",
-          "g5f5",
-          "f7g7"
+          "h7g7",
+          "h5h6",
+          "g7g8"
         ]
       }
     ],
     "policyEvidence": {
       "candidateCount": 5,
-      "candidateOutcomeSeparation": 0.0006097449133986022,
+      "candidateOutcomeSeparation": 0.0018265694956041134,
       "bestLineMaterial": {
         "initialBalance": 1,
         "minimumBalance": 1,
@@ -3919,16 +7211,22 @@
         "sustainedLoss": 0,
         "firstMove": {
           "capture": false,
+          "capturedPiece": null,
+          "capturedValue": 0,
+          "materialGain": 0,
+          "capturedPieceDefended": false,
           "check": false,
           "promotion": false
         }
       },
       "playedRank": null,
       "legalMoveCount": 8,
-      "beforeOutcomeExpectation": 0.5024390050446069,
-      "bestOutcomeExpectation": 0.5024390050446069,
-      "outcomeDrop": 0.003048760839889586,
-      "terminalResult": null
+      "beforeOutcomeExpectation": 0.5201110952714483,
+      "bestOutcomeExpectation": 0.5201110952714483,
+      "outcomeDrop": 0.012184930042159814,
+      "terminalResult": null,
+      "routineMaterialCapture": false,
+      "greatConfirmation": "not-required"
     }
   }
 ]

@@ -42,12 +42,13 @@ the final terminal move to guard against off-by-one mapping.
 
 ## Progress
 
-The optional callback receives `{ phase: "analysis", completedPositions,
-totalPositions }`. It is called first with zero and then once after every
-reconstructed position is completed. Terminal positions count as completed even
-though they do not invoke the engine. Successful review therefore ends at
-`completedPositions === totalPositions`. The callback is synchronous and should
-remain lightweight.
+The optional callback reports factual work steps and a phase of `analysis`,
+`enrichment`, or `confirmation`. During the first pass one reserved step keeps
+the meter below completion; after candidate discovery the denominator becomes
+the exact position-plus-extra-search count. Terminal positions count as steps
+without invoking the engine. Successful review reaches equality only after all
+MultiPV enrichment and any depth-16 confirmation completes. The callback is
+synchronous and should remain lightweight.
 
 ## Cancellation and ownership
 
@@ -116,7 +117,7 @@ cache or database.
 
 The result retains unique engine names/versions, requested analysis limits, the
 minimum and maximum achieved depth, analyzed/terminal/unavailable position
-counts, and the methodology identifier `chessed-review-v2`. The identifier
+counts, and the methodology identifier `chessed-review-v3`. The identifier
 describes Chessed's review methodology rather than a deployment or package
 version.
 

@@ -8,6 +8,7 @@ import type {
 } from "@/lib/review/interfaces";
 import {
   classifySpecialMove,
+  evaluateSpecialMove,
   SPECIAL_CLASSIFICATION_POLICY,
 } from "@/lib/review/special-classification";
 
@@ -214,5 +215,45 @@ describe("special classification policy", () => {
     };
     expect(classify(input)).toEqual(classify(input));
     expect(classify(input)?.classification).toBe("great");
+  });
+
+  it.each([
+    ["queen", "k7/8/8/8/8/8/4q3/4R1K1 w - - 0 1", "e1e2", 900],
+    ["rook", "k7/8/8/8/8/8/4r3/4Q1K1 w - - 0 1", "e1e2", 500],
+    ["minor piece", "k7/8/8/8/8/8/4n3/4R1K1 w - - 0 1", "e1e2", 300],
+  ])(
+    "keeps a routine hanging %s capture Best",
+    (_piece, fen, played, score) => {
+      const candidates = [
+        candidate(1, played, cp(score)),
+        candidate(2, "g1h1", cp(0)),
+      ];
+      expect(classify({ fen, played, candidates })).toBeNull();
+      expect(
+        evaluateSpecialMove({
+          fenBefore: fen,
+          playedMoveUci: played,
+          player: "white",
+          ordinary: ordinary("best"),
+          analysisBefore: analysis(fen, candidates),
+          analysisAfter: null,
+          terminalResult: null,
+        }).reasons,
+      ).toContain("routine-material-capture");
+    },
+  );
+
+  it("does not suppress a critical checking capture as routine", () => {
+    const fen = "4k3/4q3/8/8/8/8/4R3/4K3 w - - 0 1";
+    expect(
+      classify({
+        fen,
+        played: "e2e7",
+        candidates: [
+          candidate(1, "e2e7", cp(0)),
+          candidate(2, "e1d1", cp(-500)),
+        ],
+      })?.classification,
+    ).toBe("great");
   });
 });

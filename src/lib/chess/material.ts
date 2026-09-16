@@ -18,6 +18,10 @@ export interface MaterialProjection {
   sustainedLoss: number;
   firstMove: {
     capture: boolean;
+    capturedPiece: MaterialPiece | null;
+    capturedValue: number;
+    materialGain: number;
+    capturedPieceDefended: boolean;
     check: boolean;
     promotion: boolean;
   };
@@ -66,8 +70,18 @@ export function projectMaterial(
     }
     if (!move) return null;
     if (!firstMove) {
+      const capturedPiece =
+        (move.captured as MaterialPiece | undefined) ?? null;
+      const opponent = color === "w" ? "b" : "w";
+      const afterBalance = materialBalance(chess.fen(), color);
       firstMove = {
-        capture: Boolean(move.captured),
+        capture: capturedPiece !== null,
+        capturedPiece,
+        capturedValue: capturedPiece ? MATERIAL_VALUES[capturedPiece] : 0,
+        materialGain: afterBalance - initialBalance,
+        capturedPieceDefended: capturedPiece
+          ? chess.isAttacked(move.to, opponent)
+          : false,
         check: chess.inCheck(),
         promotion: Boolean(move.promotion),
       };

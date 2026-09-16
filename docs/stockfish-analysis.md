@@ -21,6 +21,12 @@ and exposes normalized candidates (rank, root move, White-relative evaluation,
 and PV). Raw protocol tokens do not cross the analysis boundary. See the
 [special-classification methodology](special-move-classification.md).
 
+A potential Great result with rank-1/rank-2 separation from 0.03 through 0.05
+receives one additional depth-16/MultiPV-3 search. Confirmed evidence is
+authoritative, while the depth-12 snapshot remains attached as provenance.
+Failure conservatively disables Great for that move; abort still stops and
+resets the same worker. Searches remain serial and use no additional worker.
+
 ## Limits, lifecycle, and failure
 
 The default is depth 12, overridable from 1 through 99. Fixed depth is more reproducible than fixed wall time, but scores may still change with engine version, build, platform, or search implementation; results retain engine identity and achieved depth.

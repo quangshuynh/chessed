@@ -25,7 +25,7 @@ test("runs the real worker/WASM review path and cleans up", async ({
     Object.assign(window, { __chessedProgress: progress });
     new MutationObserver(() => {
       const match = document.body.textContent?.match(
-        /Analyzing \d+ \/ 5 positions/,
+        /Analyzing \d+ \/ \d+ steps/,
       );
       if (match) progress.push(match[0]);
     }).observe(document.body, {

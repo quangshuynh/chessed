@@ -472,10 +472,10 @@ export function ReviewPage({
               >
                 <p>
                   Analyzing {analysis.progress.completedPositions} /{" "}
-                  {analysis.progress.totalPositions} positions
+                  {analysis.progress.totalPositions} steps
                 </p>
                 <progress
-                  aria-label={`Analyzing ${analysis.progress.completedPositions} of ${analysis.progress.totalPositions} positions`}
+                  aria-label={`Analyzing ${analysis.progress.completedPositions} of ${analysis.progress.totalPositions} steps`}
                   value={analysis.progress.completedPositions}
                   max={Math.max(analysis.progress.totalPositions, 1)}
                 />

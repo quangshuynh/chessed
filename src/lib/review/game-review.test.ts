@@ -135,6 +135,241 @@ describe("whole-game review orchestration", () => {
     expect(review.moves[0].specialClassification?.classification).toBe("great");
   });
 
+  it("confirms only a near-boundary Great candidate at depth 16", async () => {
+    const game = parsePgnToReviewGame("1. e4");
+    const analyzePosition = vi.fn(async (request: PositionAnalysisRequest) => {
+      const root = request.fen === game.positions[0];
+      const confirmation = request.limit?.value === 16;
+      const candidates = root
+        ? request.candidateCount === 3
+          ? [
+              {
+                rank: 1,
+                moveUci: "e2e4",
+                evaluation: cp(confirmation ? 100 : 66),
+                principalVariationUci: ["e2e4"],
+              },
+              {
+                rank: 2,
+                moveUci: "d2d4",
+                evaluation: cp(0),
+                principalVariationUci: ["d2d4"],
+              },
+            ]
+          : [
+              {
+                rank: 1,
+                moveUci: "e2e4",
+                evaluation: cp(66),
+                principalVariationUci: ["e2e4"],
+              },
+            ]
+        : [];
+      return {
+        ...positionAnalysis({
+          request,
+          evaluation: cp(root ? (confirmation ? 100 : 66) : 66),
+          bestMoveUci: root ? "e2e4" : null,
+        }),
+        candidates,
+      };
+    });
+    const progress = vi.fn();
+    const review = await reviewGame({
+      game,
+      analyzer: { analyzePosition, dispose: vi.fn() },
+      onProgress: progress,
+    });
+    expect(analyzePosition).toHaveBeenCalledTimes(4);
+    expect(analyzePosition.mock.calls.at(-1)?.[0]).toMatchObject({
+      limit: { kind: "depth", value: 16 },
+      candidateCount: 3,
+    });
+    expect(review.moves[0].specialClassification).toMatchObject({
+      classification: "great",
+      evidence: { greatConfirmation: "confirmed" },
+    });
+    expect(review.moves[0].analysisBefore?.greatConfirmation).toMatchObject({
+      status: "confirmed",
+      original: { limit: { achievedDepth: 12 } },
+    });
+    expect(progress.mock.calls.at(-1)?.[0]).toMatchObject({
+      phase: "confirmation",
+      completedPositions: 4,
+      totalPositions: 4,
+    });
+  });
+
+  it("does not award Great when required confirmation fails", async () => {
+    const game = parsePgnToReviewGame("1. e4");
+    const analyzePosition = vi.fn(async (request: PositionAnalysisRequest) => {
+      if (request.limit?.value === 16) throw new Error("confirmation failed");
+      const root = request.fen === game.positions[0];
+      const candidates = root
+        ? request.candidateCount === 3
+          ? [
+              {
+                rank: 1,
+                moveUci: "e2e4",
+                evaluation: cp(66),
+                principalVariationUci: ["e2e4"],
+              },
+              {
+                rank: 2,
+                moveUci: "d2d4",
+                evaluation: cp(0),
+                principalVariationUci: ["d2d4"],
+              },
+            ]
+          : [
+              {
+                rank: 1,
+                moveUci: "e2e4",
+                evaluation: cp(66),
+                principalVariationUci: ["e2e4"],
+              },
+            ]
+        : [];
+      return {
+        ...positionAnalysis({
+          request,
+          evaluation: cp(66),
+          bestMoveUci: root ? "e2e4" : null,
+        }),
+        candidates,
+      };
+    });
+    const review = await reviewGame({
+      game,
+      analyzer: { analyzePosition, dispose: vi.fn() },
+    });
+    expect(review.moves[0].specialClassification).toBeNull();
+    expect(review.moves[0].analysisBefore?.greatConfirmation).toMatchObject({
+      status: "unavailable",
+      reason: "Error",
+    });
+  });
+
+  it("uses changed confirmation ordering instead of stale depth-12 evidence", async () => {
+    const game = parsePgnToReviewGame("1. e4");
+    const analyzePosition = vi.fn(async (request: PositionAnalysisRequest) => {
+      const root = request.fen === game.positions[0];
+      const confirmed = request.limit?.value === 16;
+      const candidates = root
+        ? request.candidateCount === 3
+          ? confirmed
+            ? [
+                {
+                  rank: 1,
+                  moveUci: "d2d4",
+                  evaluation: cp(70),
+                  principalVariationUci: ["d2d4"],
+                },
+                {
+                  rank: 2,
+                  moveUci: "e2e4",
+                  evaluation: cp(66),
+                  principalVariationUci: ["e2e4"],
+                },
+              ]
+            : [
+                {
+                  rank: 1,
+                  moveUci: "e2e4",
+                  evaluation: cp(66),
+                  principalVariationUci: ["e2e4"],
+                },
+                {
+                  rank: 2,
+                  moveUci: "d2d4",
+                  evaluation: cp(0),
+                  principalVariationUci: ["d2d4"],
+                },
+              ]
+          : [
+              {
+                rank: 1,
+                moveUci: "e2e4",
+                evaluation: cp(66),
+                principalVariationUci: ["e2e4"],
+              },
+            ]
+        : [];
+      return {
+        ...positionAnalysis({
+          request,
+          evaluation: cp(confirmed ? 70 : 66),
+          bestMoveUci: root ? (confirmed ? "d2d4" : "e2e4") : null,
+        }),
+        candidates,
+      };
+    });
+    const review = await reviewGame({
+      game,
+      analyzer: { analyzePosition, dispose: vi.fn() },
+    });
+    expect(review.moves[0].bestMoveUci).toBe("d2d4");
+    expect(review.moves[0].specialClassification).toBeNull();
+  });
+
+  it("propagates cancellation during Great confirmation", async () => {
+    const game = parsePgnToReviewGame("1. e4");
+    const controller = new AbortController();
+    const analyzePosition = vi.fn(async (request: PositionAnalysisRequest) => {
+      if (request.limit?.value === 16) {
+        return new Promise<PositionAnalysis>((_resolve, reject) => {
+          request.signal?.addEventListener(
+            "abort",
+            () => reject(request.signal?.reason),
+            { once: true },
+          );
+        });
+      }
+      const root = request.fen === game.positions[0];
+      const candidates = root
+        ? request.candidateCount === 3
+          ? [
+              {
+                rank: 1,
+                moveUci: "e2e4",
+                evaluation: cp(66),
+                principalVariationUci: ["e2e4"],
+              },
+              {
+                rank: 2,
+                moveUci: "d2d4",
+                evaluation: cp(0),
+                principalVariationUci: ["d2d4"],
+              },
+            ]
+          : [
+              {
+                rank: 1,
+                moveUci: "e2e4",
+                evaluation: cp(66),
+                principalVariationUci: ["e2e4"],
+              },
+            ]
+        : [];
+      return {
+        ...positionAnalysis({
+          request,
+          evaluation: cp(66),
+          bestMoveUci: root ? "e2e4" : null,
+        }),
+        candidates,
+      };
+    });
+    const review = reviewGame({
+      game,
+      analyzer: { analyzePosition, dispose: vi.fn() },
+      signal: controller.signal,
+    });
+    await vi.waitFor(() => expect(analyzePosition).toHaveBeenCalledTimes(4));
+    controller.abort(new DOMException("Cancelled", "AbortError"));
+    await expect(review).rejects.toMatchObject({ name: "AbortError" });
+  });
+
   it("composes Brilliant over a preserved ordinary Best result", () => {
     const game = parsePgnToReviewGame(`[SetUp "1"]
 [FEN "4k3/8/6p1/8/8/8/8/3QK3 w - - 0 1"]
@@ -378,11 +613,17 @@ describe("whole-game review orchestration", () => {
     });
     const progress = vi.fn();
     await reviewGame({ game, analyzer, onProgress: progress });
-    expect(progress.mock.calls.map(([value]) => value)).toEqual(
+    const reports = progress.mock.calls.map(([value]) => value);
+    expect(reports.at(-1)).toEqual({
+      phase: "analysis",
+      completedPositions: 5,
+      totalPositions: 5,
+    });
+    expect(reports.slice(0, -1)).toEqual(
       [0, 1, 2, 3, 4, 5].map((completedPositions) => ({
         phase: "analysis",
         completedPositions,
-        totalPositions: 5,
+        totalPositions: 6,
       })),
     );
   });

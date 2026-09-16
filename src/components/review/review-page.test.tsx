@@ -96,7 +96,7 @@ function fakeReview(): WholeGameReview {
     },
     specialCounts: { great: 0, brilliant: 0, miss: 0 },
     provenance: {
-      methodologyVersion: "chessed-review-v2",
+      methodologyVersion: "chessed-review-v3",
       engines: [],
       requestedLimits: [],
       achievedDepthRange: null,
@@ -171,7 +171,7 @@ describe("review-page analysis workflow", () => {
     renderPage({ reviewRunner: runner, analyzerFactory: factory });
     await loaded();
     fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
-    expect(await screen.findByText("Analyzing 2 / 6 positions")).toBeTruthy();
+    expect(await screen.findByText("Analyzing 2 / 6 steps")).toBeTruthy();
     expect(screen.queryByRole("button", { name: "Analyze Game" })).toBeNull();
     expect(runner).toHaveBeenCalledTimes(1);
     expect(factory).toHaveBeenCalledTimes(1);

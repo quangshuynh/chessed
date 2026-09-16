@@ -1,125 +1,64 @@
 # Special-classification calibration
 
-This calibration interval attempts to falsify Chessed's Great, Brilliant, and
-Miss policy. It does not treat a human annotation or another site's label as
-ground truth. The repository corpus records a FEN, legal move, provenance, and
-the chess property under examination; it deliberately contains no expected
-special label.
+This interval falsifies Chessed's Great policy with objective engine, legal
+board, and material evidence. Human or commercial labels are not goldens.
 
 ## Corpus and harness
 
-`calibration/special-position-corpus.ts` contains 14 positions. Two are
-reconstructed from public historical game scores (the Opera Game queen offer
-and a Légal-trap teaching line); the other 12 are purpose-built controls. They
-cover queen and piece offers, a losing offer, immediate recovery,
-pseudo-sacrifice, routine recapture and development, a forced move, promotion
-and underpromotion, mate in one and retained mate, a quiet ending, multiple
-reasonable moves, material gain, and an already-winning position.
+The corpus now contains 21 positions: two public historical game/teaching
+positions and 19 constructed controls. Seven additions cover hanging queen,
+rook, and minor-piece captures, multiple material choices, a checking capture,
+a defensive capture, and a quiet defensive move. Every case records FEN, legal
+move, provenance, and properties but no expected special label.
 
-`calibration/special-calibration.ts` converts normalized engine observations
-into machine-readable rows. Each row retains evaluations, candidate order and
-PVs, outcome loss, material projection, separation, terminal evidence, the
-ordinary/special results, and deterministic acceptance or rejection reasons.
-The optional real-browser command is:
+`npm run test:calibration` runs Stockfish 18 lite in Chromium and writes 60 raw
+rows to `calibration/results/stockfish-18-lite.json`. The expanded study uses
+depths 10, 12, 14, and 16 for ten positions and retains rank, ordering, scores,
+PVs, material projection, ordinary/special output, and rejection reasons.
 
-```text
-npm run build
-npm run test:calibration
-```
+## Findings
 
-It runs the checked-in Stockfish 18 lite Web Worker, writes
-`calibration/results/stockfish-18-lite.json`, and attaches the same JSON to the
-Playwright result. This developer harness is separate from the product UI and
-normal CI. The committed result is a reproducible observation, not a golden
-label file.
+The original routine queen capture and recovery became Great because they were
+rank 1, ordinarily Best, and far above rank 2. Great did not consult forcing or
+material-gain evidence. New undefended queen, rook, and minor-piece controls
+reproduced the issue. The accepted guard identifies an immediate capture of at
+least three points whose bounded PV retains at least three net points and whose
+result is at least 0.60 expectation or favorable mate. It does not use a human
+difficulty guess. Narrow-result defensive captures remain eligible.
 
-## September 2026 findings
+The real separations nearest the requested probes were 0.019, 0.034, 0.036,
+0.038, and 0.047. The corpus did not naturally produce a 0.06 case; synthetic
+tests cover the exact 0.03/0.04/0.05 edges without tuning a board position to a
+desired engine number. This is a limitation, not statistical evidence.
 
-The depth-12/MultiPV-3 baseline produced three Great results (the Opera Game
-queen offer and two immediate hanging-queen captures), one Miss (an
-underpromotion that immediately draws instead of preserving a large material
-win), no Brilliant results, and no special label for the remaining ten cases.
+The Légal line measured 0.036/0.038/0.047/0.034 at depths 10/12/14/16. Thus
+depth 12 disagreed with depth 14 once around the boundary and agreed with depth
+16; rank 1 remained stable. Across the ten four-depth probes, several unrelated
+endgame/material controls changed candidate order, reinforcing that shallow
+rank and mate discovery can vary. Raw counts are reported rather than a
+confidence claim.
 
-### Brilliant
+## Decision
 
-The losing queen offer, promotion, pseudo-sacrifice, and immediately recovered
-material controls did not become Brilliant. The Opera Game queen offer became
-Great rather than Brilliant because both the before and best evaluations were
-mate values; the Brilliant compensation gates intentionally require numeric
-outcome expectation. The bounded PV showed the full nine-point queen exposure
-as sustained. This is a conservative false-negative tradeoff, not evidence for
-turning mate into fake centipawns or removing compensation gates.
+Great now requires authoritative depth-16/MultiPV-3 confirmation when the
+normal separation lies in the inclusive 0.03-0.05 uncertainty band. Depth-12
+evidence is retained. A changed ordering is honored. Failed confirmation yields
+ordinary Best with unavailable confirmation; cancellation aborts the review.
+No global depth increase or parallel worker was added.
 
-The Légal line did not show a three-point sustained loss at depth 12: the PV's
-minimum balance was only two points down and ended one point ahead. That is a
-useful material-horizon warning—human sacrifice vocabulary and bounded-PV
-material evidence are not equivalent—but not evidence for weakening the
-three-point exposure rule.
+Great now means a uniquely important rank-1 ordinary Best whose alternatives
+materially worsen the objective result, excluding routine immediate stable
+material pickups unless the move preserves a narrow result. Brilliant and Miss
+rules and precedence are unchanged. This semantic change increments the
+methodology from `chessed-review-v2` to `chessed-review-v3`.
 
-### Great
+## Performance and limitations
 
-The opening controls and quiet ending stayed below the 0.04 separation gate.
-The Opera move was stable as Great at every tested depth and MultiPV count.
-However, two constructed hanging-queen captures were also Great because the
-alternatives lose decisive material. This repeatedly demonstrates that the
-current definition measures objective contextual importance, not human
-difficulty or surprise. Excluding all large root captures would also suppress
-legitimate unique tactics, so the corpus does not yet support a safe semantic
-change.
-
-The Légal case exposes a real threshold/depth cliff: candidate separation was
-approximately 0.035 at depth 10, 0.038 at depth 12, 0.047 at depth 14, and
-0.059 at depth 16. Its label changes from none to Great above depth 12. The
-0.04 gate is coherent for the stable controls, but depth-12 evidence near the
-boundary is not stable enough to support strong claims. A future policy may
-need an uncertainty band or deeper confirmation near the boundary; one case is
-not enough to choose that band.
-
-### Miss
-
-The underpromotion-to-knight control immediately produced insufficient
-material and was correctly recognized as a missed material win. A deliberately
-unplayed mate-in-one retained another mate-in-one, so it was correctly not a
-Miss. The losing queen offer was an ordinary Blunder but had no concrete missed
-mate, five-point best-line gain, or qualifying forcing resource, so it was not
-renamed Miss. These cases support Miss as opportunity evidence rather than a
-generic inferior-move label.
-
-The small corpus does not yet cover a credible deep defensive resource. That is
-the largest Miss false-negative gap remaining.
-
-## Depth, MultiPV, and threshold sensitivity
-
-Four cases were compared at depths 10, 12, 14, and 16. The Opera move and label
-were stable. The Légal move stayed rank one but crossed the Great threshold.
-The mate control changed ordering among equivalent mates without changing its
-label. The quiet ending changed rank-one moves repeatedly while all candidates
-remained essentially equal and no special label appeared.
-
-Three cases were compared at MultiPV 2, 3, 4, and 5. Labels were stable. The
-quiet ending's ordering changed and the initial position's separation varied
-from roughly 0.010 to 0.013, safely below the Great boundary. No evidence in
-this bounded sample supports increasing production MultiPV beyond three.
-
-Synthetic boundary tests retain exact below/at/above behavior for the policy
-constants. Real-engine evidence shows that the larger risk is search variance
-around 0.04, not numerical comparison correctness. The thresholds also remain
-conceptually separate: 0.025 gates Brilliant/material Miss evidence, 0.04
-gates Great, and 0.075 jointly gates narrow forcing Miss evidence.
-
-## Decision and limitations
-
-No classification constant or semantic rule changed. The methodology remains
-`chessed-review-v2`. The evidence supports keeping the conservative Brilliant
-and concrete-opportunity Miss controls. It supports Great's objective
-separation concept, but falsifies any stronger interpretation that every Great
-move is difficult or surprising and shows that depth-12 boundary cases can be
-unstable.
-
-The corpus is intentionally small, contains only two historical positions,
-and does not model human difficulty. Stockfish results can vary with build and
-browser. Bounded PVs are horizon-limited, MultiPV does not prove uniqueness,
-and a three-candidate view cannot describe every legal alternative. The next
-calibration interval should add several independently sourced defensive
-resources and routine unique captures, then test a documented uncertainty band
-or deeper confirmation rule without changing production depth globally.
+No-confirmation 5/17/31-position fixtures measured 1.55/3.65/5.22 seconds;
+interaction was 69-78 ms and cancellation 76 ms. These are one-machine browser
+observations. One confirmation adds one serial deeper search; several add one
+each. The 21-position corpus remains small, defensive examples are mostly
+constructed, bounded PV material can miss tactics, and Stockfish/browser builds
+can vary. A future interval should add independently sourced defensive studies
+and longer real-device confirmation workloads without weakening conservative
+failure semantics.
