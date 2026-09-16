@@ -19,8 +19,13 @@ import {
   type PlayerColor,
   type PlayerRelativeEvaluation,
 } from "@/lib/review/move-quality";
+import {
+  classifySpecialMove,
+  type SpecialClassificationResult,
+  type SpecialMoveClassification,
+} from "@/lib/review/special-classification";
 
-export const REVIEW_METHODOLOGY_VERSION = "chessed-ordinary-v1";
+export const REVIEW_METHODOLOGY_VERSION = "chessed-review-v2";
 
 export interface ReviewPlayerMetadata {
   color: PlayerColor;
@@ -61,6 +66,7 @@ export interface ReviewMove {
   terminalOutcome: Extract<MoveOutcome, { kind: "terminal" }> | null;
   playedBestMove: boolean | null;
   classification: MoveClassification;
+  specialClassification: SpecialClassificationResult | null;
   observation: MoveQualityObservation;
   analysisBefore: PositionAnalysis | null;
   analysisAfter: PositionAnalysis | null;
@@ -85,6 +91,7 @@ export interface WholeGameReview {
   metadata: ReviewGameMetadata;
   moves: readonly ReviewMove[];
   counts: ClassificationCounts;
+  specialCounts: Record<SpecialMoveClassification, number>;
   provenance: ReviewAnalysisProvenance;
 }
 
@@ -203,6 +210,11 @@ export function buildWholeGameReview(input: {
     ),
   );
   const counts = emptyCounts();
+  const specialCounts: Record<SpecialMoveClassification, number> = {
+    great: 0,
+    brilliant: 0,
+    miss: 0,
+  };
   const moves = input.game.moves.map((move, index): ReviewMove => {
     const observation = observations[index];
     if (!observation || observation.ply !== move.ply) {
@@ -215,6 +227,20 @@ export function buildWholeGameReview(input: {
     const analysisAfter =
       afterPosition?.status === "analyzed" ? afterPosition.analysis : null;
     const classification = classifyMove(observation);
+    const terminalResult =
+      observation.after?.kind === "terminal" ? observation.after.result : null;
+    const specialClassification = classifySpecialMove({
+      fenBefore: input.game.positions[index],
+      playedMoveUci: move.uci,
+      player: observation.player,
+      ordinary: classification,
+      analysisBefore,
+      analysisAfter,
+      terminalResult,
+    });
+    if (specialClassification) {
+      specialCounts[specialClassification.classification] += 1;
+    }
     counts[
       classification.status === "classified"
         ? classification.classification
@@ -244,6 +270,7 @@ export function buildWholeGameReview(input: {
         observation.after?.kind === "terminal" ? observation.after : null,
       playedBestMove: observation.playedBestMove,
       classification,
+      specialClassification,
       observation,
       analysisBefore,
       analysisAfter,
@@ -253,6 +280,7 @@ export function buildWholeGameReview(input: {
     metadata: metadata(input.game),
     moves,
     counts,
+    specialCounts,
     provenance: buildProvenance(input.game, input.positions),
   };
 }

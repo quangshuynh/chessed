@@ -116,7 +116,7 @@ cache or database.
 
 The result retains unique engine names/versions, requested analysis limits, the
 minimum and maximum achieved depth, analyzed/terminal/unavailable position
-counts, and the methodology identifier `chessed-ordinary-v1`. The identifier
+counts, and the methodology identifier `chessed-review-v2`. The identifier
 describes Chessed's review methodology rather than a deployment or package
 version.
 

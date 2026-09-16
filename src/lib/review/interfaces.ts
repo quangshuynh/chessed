@@ -18,6 +18,8 @@ export type AnalysisLimit = DepthAnalysisLimit;
 export interface PositionAnalysisRequest {
   fen: string;
   limit?: AnalysisLimit;
+  /** Bounded ranked engine candidates. The adapter clamps this to its policy. */
+  candidateCount?: number;
   signal?: AbortSignal;
 }
 
@@ -26,11 +28,20 @@ export interface EngineIdentity {
   version?: string;
 }
 
+export interface EngineCandidate {
+  rank: number;
+  moveUci: string;
+  evaluation: EngineEvaluation;
+  principalVariationUci: string[];
+}
+
 export interface PositionAnalysis {
   fen: string;
   evaluation: EngineEvaluation;
   bestMoveUci: string | null;
   principalVariationUci: string[];
+  /** Ranked alternatives; omitted by legacy or incomplete analysis evidence. */
+  candidates?: EngineCandidate[];
   limit: { requested: AnalysisLimit; achievedDepth: number };
   engine: EngineIdentity;
 }

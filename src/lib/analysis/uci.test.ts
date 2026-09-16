@@ -12,9 +12,17 @@ describe("UCI normalization", () => {
       parseUciInfo("info depth 12 score cp 134 pv e2e4 e7e5", "w"),
     ).toEqual({
       depth: 12,
+      rank: 1,
       evaluation: { kind: "centipawns", perspective: "white", value: 134 },
       principalVariationUci: ["e2e4", "e7e5"],
     });
+  });
+
+  it("retains a MultiPV candidate rank", () => {
+    expect(
+      parseUciInfo("info depth 12 multipv 2 score cp 40 pv d2d4 d7d5", "w")
+        ?.rank,
+    ).toBe(2);
   });
 
   it("inverts a side-to-move score when Black is to move", () => {

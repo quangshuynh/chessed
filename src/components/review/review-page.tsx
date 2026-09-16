@@ -20,6 +20,7 @@ import {
 import {
   formatClassification,
   formatEvaluation,
+  formatSpecialClassification,
   formatTerminalReason,
 } from "./review-format";
 import styles from "./review-page.module.css";
@@ -107,12 +108,14 @@ function MoveReview({
       </p>
     );
   }
-  const classificationKey =
-    move.classification.status === "classified"
+  const classificationKey = move.specialClassification
+    ? move.specialClassification.classification
+    : move.classification.status === "classified"
       ? move.classification.classification
       : "unavailable";
-  const classification =
-    move.classification.status === "classified"
+  const classification = move.specialClassification
+    ? formatSpecialClassification(move.specialClassification.classification)
+    : move.classification.status === "classified"
       ? formatClassification(move.classification.classification)
       : "Unavailable";
   const bestMoveSan = move.bestMoveUci
@@ -508,8 +511,11 @@ export function ReviewPage({
             <ol className={styles.moveList}>
               {game!.moves.map((move) => {
                 const reviewedMove = completedReview?.moves[move.ply - 1];
-                const label =
-                  reviewedMove?.classification.status === "classified"
+                const label = reviewedMove?.specialClassification
+                  ? formatSpecialClassification(
+                      reviewedMove.specialClassification.classification,
+                    )
+                  : reviewedMove?.classification.status === "classified"
                     ? formatClassification(
                         reviewedMove.classification.classification,
                       )

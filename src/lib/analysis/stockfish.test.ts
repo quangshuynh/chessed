@@ -19,7 +19,9 @@ class FakeWorker implements UciWorker {
     if (message === "isready") queueMicrotask(() => this.emit("readyok"));
     if (message.startsWith("go depth")) {
       queueMicrotask(() => {
-        this.emit("info depth 7 score cp 31 nodes 100 pv e2e4 e7e5");
+        this.emit("info depth 7 multipv 1 score cp 31 nodes 100 pv e2e4 e7e5");
+        this.emit("info depth 7 multipv 2 score cp 22 nodes 100 pv d2d4 d7d5");
+        this.emit("info depth 7 multipv 3 score cp 10 nodes 100 pv g1f3 g8f6");
         this.emit("bestmove e2e4 ponder e7e5");
       });
     }
@@ -50,6 +52,7 @@ describe("StockfishAnalyzer", () => {
     const result = await analyzer.analyzePosition({
       fen: "4k3/8/8/8/8/8/4P3/4K3 w - - 0 1",
       limit: { kind: "depth", value: 7 },
+      candidateCount: 3,
     });
     expect(result.evaluation).toEqual({
       kind: "centipawns",
@@ -58,6 +61,13 @@ describe("StockfishAnalyzer", () => {
     });
     expect(result.bestMoveUci).toBe("e2e4");
     expect(result.principalVariationUci).toEqual(["e2e4", "e7e5"]);
+    expect(result.candidates).toHaveLength(3);
+    expect(result.candidates?.[1]).toMatchObject({
+      rank: 2,
+      moveUci: "d2d4",
+      evaluation: { kind: "centipawns", value: 22 },
+    });
+    expect(worker.commands).toContain("setoption name MultiPV value 3");
     expect(result.limit).toEqual({
       requested: { kind: "depth", value: 7 },
       achievedDepth: 7,

@@ -2,6 +2,7 @@ import type { EngineEvaluation } from "@/lib/review/interfaces";
 
 export interface ParsedUciInfo {
   depth: number;
+  rank: number;
   evaluation: EngineEvaluation;
   principalVariationUci: string[];
 }
@@ -12,6 +13,7 @@ export function parseUciInfo(
 ): ParsedUciInfo | null {
   const depth = /(?:^|\s)depth (\d+)(?:\s|$)/.exec(line);
   const score = /(?:^|\s)score (cp|mate) (-?\d+)(?:\s|$)/.exec(line);
+  const multiPv = /(?:^|\s)multipv (\d+)(?:\s|$)/.exec(line);
   const pv = /(?:^|\s)pv ((?:[a-h][1-8][a-h][1-8][qrbn]?\s*)+)$/.exec(line);
   if (!line.startsWith("info ") || !depth || !score || !pv) return null;
 
@@ -19,6 +21,7 @@ export function parseUciInfo(
   const whiteValue = sideToMove === "w" ? rawValue : -rawValue;
   return {
     depth: Number(depth[1]),
+    rank: multiPv ? Number(multiPv[1]) : 1,
     evaluation:
       score[1] === "cp"
         ? { kind: "centipawns", perspective: "white", value: whiteValue }

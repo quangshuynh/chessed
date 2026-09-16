@@ -198,6 +198,18 @@
   color: #bcecc0;
   border-color: #477f50;
 }
+.classification_great {
+  color: #9edcff;
+  border-color: #377c9f;
+}
+.classification_brilliant {
+  color: #d0b5ff;
+  border-color: #7957a8;
+}
+.classification_miss {
+  color: #ffb4c8;
+  border-color: #9a4862;
+}
 .classification_good {
   color: #d7d7d3;
 }

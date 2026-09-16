@@ -19,6 +19,8 @@ import type {
 } from "@/lib/review/interfaces";
 
 export const DEFAULT_ANALYSIS_DEPTH = 12;
+export const DEFAULT_CANDIDATE_COUNT = 1;
+export const MAX_CANDIDATE_COUNT = 3;
 const DEFAULT_TIMEOUT_MS = 30_000;
 const WORKER_URL = "/stockfish/stockfish-18-lite-single.js";
 
@@ -135,6 +137,16 @@ export class StockfishAnalyzer implements EngineAnalyzer {
       kind: "depth" as const,
       value: DEFAULT_ANALYSIS_DEPTH,
     };
+    const candidateCount = request.candidateCount ?? DEFAULT_CANDIDATE_COUNT;
+    if (
+      !Number.isInteger(candidateCount) ||
+      candidateCount < 1 ||
+      candidateCount > MAX_CANDIDATE_COUNT
+    ) {
+      throw new RangeError(
+        `Candidate count must be an integer from 1 through ${MAX_CANDIDATE_COUNT}.`,
+      );
+    }
     if (
       !Number.isInteger(requested.value) ||
       requested.value < 1 ||
@@ -150,7 +162,10 @@ export class StockfishAnalyzer implements EngineAnalyzer {
     if (!worker) throw new EngineInitializationError();
 
     return new Promise((resolve, reject) => {
-      let latest: ReturnType<typeof parseUciInfo> = null;
+      const latestByRank = new Map<
+        number,
+        NonNullable<ReturnType<typeof parseUciInfo>>
+      >();
       let settled = false;
       const finish = (error?: Error, bestMove?: string | null) => {
         if (settled) return;
@@ -160,6 +175,7 @@ export class StockfishAnalyzer implements EngineAnalyzer {
         request.signal?.removeEventListener("abort", abort);
         worker.removeEventListener("message", onMessage);
         worker.removeEventListener("error", onError);
+        const latest = latestByRank.get(1);
         if (error) {
           this.resetWorker();
           reject(error);
@@ -171,11 +187,21 @@ export class StockfishAnalyzer implements EngineAnalyzer {
             ),
           );
         } else {
+          const candidates = [...latestByRank.values()]
+            .filter((candidate) => candidate.depth === latest.depth)
+            .sort((left, right) => left.rank - right.rank)
+            .map((candidate) => ({
+              rank: candidate.rank,
+              moveUci: candidate.principalVariationUci[0],
+              evaluation: candidate.evaluation,
+              principalVariationUci: candidate.principalVariationUci,
+            }));
           resolve({
             fen: chess.fen(),
             evaluation: latest.evaluation,
             bestMoveUci: bestMove,
             principalVariationUci: latest.principalVariationUci,
+            candidates,
             limit: { requested, achievedDepth: latest.depth },
             engine: identity,
           });
@@ -202,12 +228,16 @@ export class StockfishAnalyzer implements EngineAnalyzer {
         if (settled) return;
         const line = String(event.data).trim();
         const info = parseUciInfo(line, chess.turn());
-        if (info && (!latest || info.depth >= latest.depth)) latest = info;
+        const previous = info ? latestByRank.get(info.rank) : undefined;
+        if (info && (!previous || info.depth >= previous.depth)) {
+          latestByRank.set(info.rank, info);
+        }
         const bestMove = parseBestMove(line);
         if (bestMove !== undefined) finish(undefined, bestMove);
       };
       worker.addEventListener("error", onError);
       worker.addEventListener("message", onMessage);
+      worker.postMessage(`setoption name MultiPV value ${candidateCount}`);
       worker.postMessage(`position fen ${chess.fen()}`);
       worker.postMessage(`go depth ${requested.value}`);
     });
