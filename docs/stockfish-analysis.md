@@ -20,7 +20,7 @@ The default is depth 12, overridable from 1 through 99. Fixed depth is more repr
 
 One analyzer owns at most one worker and runs one search at a time. `dispose()` terminates it. Cancellation sends `stop`, rejects with the abort reason, and terminates the worker so later queued work starts cleanly. Initialization and searches have a 30-second safety timeout. Invalid FEN and limits fail before search. Initialization, timeout, malformed output, worker errors, and termination never fabricate a score.
 
-Known limitations: the lite build is weaker than full Stockfish; browser performance varies; there is no progress callback or cache; cancelling resets the shared worker; a full game can consume substantial client CPU and should be initiated deliberately by future UI.
+Known limitations: the lite build is weaker than full Stockfish; browser performance varies; there is no persistent cache; cancelling resets the shared worker; a full game can consume substantial client CPU and should be initiated deliberately by future UI. Whole-game orchestration provides engine-independent position progress above this adapter.
 
 ## Licensing and distribution
 

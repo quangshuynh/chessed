@@ -18,7 +18,7 @@ This repository contains the initial MVP foundation:
 - PGN parsing and move/position reconstruction (including custom FEN starts)
 - Initial review screen with interactive board, move navigation, move list, game metadata, and placeholders for future analysis features
 
-The Stockfish analysis boundary, engine-independent move-quality observations, and Chessed's ordinary move-classification policy are implemented. Accuracy scoring and performance-rating logic remain intentionally deferred.
+The Stockfish analysis boundary, engine-independent move-quality observations, Chessed's ordinary move-classification policy, and whole-game review orchestration are implemented. Accuracy scoring and performance-rating logic remain intentionally deferred.
 
 ## MVP workflow
 
@@ -62,6 +62,7 @@ npm run build
 - `src/lib/review/interfaces.ts`: engine-independent normalized analysis contract
 - `src/lib/review/move-quality.ts`: pure player-relative move-quality observations
 - `src/lib/review/classification.ts`: pure ordinary move-classification policy
+- `src/lib/review/game-review.ts`: pure whole-game review contract and composition
 - `src/lib/analysis/*`: Stockfish worker adapter, UCI normalization, and serial game-position analysis
 - `src/components/*`: UI presentation components
 - `src/app/api/chesscom/[username]/games`: API boundary for Chess.com integration
@@ -81,6 +82,8 @@ Stockfish runs client-side in a single-threaded WebAssembly Web Worker. The defa
 Move-quality observations convert those scores centrally to the mover's perspective, preserve mate transitions without fake centipawn arithmetic, and represent terminal or missing analysis explicitly. See [the move-quality model](docs/move-quality.md).
 
 Chessed classifies complete observations as Best, Good, Inaccuracy, Mistake, or Blunder with a documented outcome-expectation policy. See [the ordinary classification methodology](docs/move-classification.md).
+
+An injected analyzer can now produce one ordered, provenance-bearing result for a complete game. See [whole-game review orchestration](docs/whole-game-review.md).
 
 ## Third-party libraries and attribution
 
