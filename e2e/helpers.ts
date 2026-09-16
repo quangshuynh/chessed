@@ -67,17 +67,33 @@ export async function openReview(page: Page, pgn: string): Promise<void> {
 export async function openImportedReview(
   page: Page,
   requestedUsername: string,
+  options: {
+    pgn?: string;
+    white?: string;
+    black?: string;
+  } = {},
 ): Promise<void> {
+  await page.route("**/api/chesscom/*/profile", async (route) => {
+    const username = decodeURIComponent(
+      new URL(route.request().url()).pathname.split("/").at(-2) ?? "Player",
+    );
+    await route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({ username, avatarUrl: null, profileUrl: null }),
+    });
+  });
   const sessionId = `imported-${requestedUsername.toLowerCase()}`;
+  const white = options.white ?? "Alice";
+  const black = options.black ?? "Bob";
   const payload: ReviewSessionPayload = {
     source: "chesscom",
-    pgn: SHORT_PGN,
+    pgn: options.pgn ?? SHORT_PGN,
     createdAt: "2026-09-16T00:00:00.000Z",
     summary: {
       id: sessionId,
       requestedUsername,
-      white: "Alice",
-      black: "Bob",
+      white,
+      black,
       whiteRating: 1800,
       blackRating: 1750,
     },

@@ -2,11 +2,131 @@ import { expect, test } from "@playwright/test";
 
 import {
   MEDIUM_PGN,
+  LONG_PGN,
   openImportedReview,
   openReview,
   SHORT_PGN,
   stockfishWorkerCount,
 } from "./helpers";
+
+const layoutViewports = [
+  { name: "large desktop", width: 1440, height: 900, desktop: true },
+  { name: "short desktop", width: 1280, height: 650, desktop: true },
+  { name: "very short desktop", width: 1200, height: 600, desktop: true },
+  { name: "common short desktop", width: 1366, height: 600, desktop: true },
+  { name: "short tablet width", width: 1024, height: 600, desktop: true },
+  { name: "tablet", width: 1024, height: 768, desktop: true },
+  { name: "mobile portrait", width: 390, height: 844, desktop: false },
+  { name: "mobile landscape", width: 844, height: 390, desktop: false },
+  {
+    name: "effective 200 percent desktop zoom",
+    width: 720,
+    height: 450,
+    desktop: false,
+  },
+] as const;
+
+for (const viewport of layoutViewports) {
+  test(`keeps the board stack cohesive at ${viewport.name}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await openImportedReview(page, "Bob", {
+      pgn: LONG_PGN,
+      white: "AnOpponentWithAnExtremelyLongUsername",
+      black: "Bob",
+    });
+
+    const geometry = await page.evaluate(() => {
+      const top = document.querySelector('[aria-label="Top player"]')!;
+      const board = document.querySelector<HTMLElement>(
+        "[data-board-orientation]",
+      )!;
+      const bottom = document.querySelector('[aria-label="Bottom player"]')!;
+      const stack = document.querySelector<HTMLElement>("[data-board-stack]")!;
+      const review = document.querySelector<HTMLElement>(
+        "[data-review-panel]",
+      )!;
+      const rect = (element: Element) => {
+        const box = element.getBoundingClientRect();
+        return {
+          top: box.top,
+          right: box.right,
+          bottom: box.bottom,
+          left: box.left,
+          width: box.width,
+          height: box.height,
+        };
+      };
+      return {
+        top: rect(top),
+        board: rect(board),
+        bottom: rect(bottom),
+        stack: rect(stack),
+        review: rect(review),
+        viewport: { width: innerWidth, height: innerHeight },
+        horizontalOverflow:
+          document.documentElement.scrollWidth -
+          document.documentElement.clientWidth,
+        reviewOverflow: getComputedStyle(review).overflowY,
+        reviewScrollable: review.scrollHeight > review.clientHeight,
+      };
+    });
+
+    expect(geometry.top.bottom).toBeLessThanOrEqual(geometry.board.top + 1);
+    expect(geometry.board.bottom).toBeLessThanOrEqual(geometry.bottom.top + 1);
+    expect(geometry.stack.width).toBeLessThanOrEqual(
+      geometry.viewport.width + 1,
+    );
+    expect(geometry.horizontalOverflow).toBeLessThanOrEqual(1);
+
+    if (viewport.desktop) {
+      expect(geometry.stack.top).toBeGreaterThanOrEqual(-1);
+      expect(geometry.stack.bottom).toBeLessThanOrEqual(
+        geometry.viewport.height + 1,
+      );
+      expect(geometry.review.bottom).toBeLessThanOrEqual(
+        geometry.viewport.height + 1,
+      );
+      expect(geometry.reviewOverflow).toBe("auto");
+      if (viewport.height <= 768) expect(geometry.reviewScrollable).toBe(true);
+    } else {
+      expect(geometry.stack.height).toBeLessThanOrEqual(
+        geometry.viewport.height + 1,
+      );
+    }
+  });
+}
+
+test("resizes live without changing orientation, selected ply, or sound state", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 650 });
+  await openImportedReview(page, "Bob", { pgn: LONG_PGN });
+  await page.getByRole("button", { name: "Black move e5" }).click();
+  await page.getByRole("button", { name: "Mute move sounds" }).click();
+  const board = page.locator("[data-board-orientation]");
+  await expect(board).toHaveAttribute("data-board-orientation", "black");
+
+  for (const viewport of [
+    { width: 1200, height: 600 },
+    { width: 844, height: 390 },
+    { width: 390, height: 844 },
+    { width: 1440, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await expect(board).toHaveAttribute("data-board-orientation", "black");
+    await expect(page.getByText("Ply 2 / 30")).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Unmute move sounds" }),
+    ).toBeVisible();
+  }
+
+  await page.getByRole("button", { name: /Flip board/ }).click();
+  await expect(board).toHaveAttribute("data-board-orientation", "white");
+  await expect(page.getByLabel("Bottom player")).toContainText("Alice");
+  await expect(page.getByText("Ply 2 / 30")).toBeVisible();
+});
 
 for (const scenario of [
   { requested: "ALICE", orientation: "white", top: "Bob", bottom: "Alice" },

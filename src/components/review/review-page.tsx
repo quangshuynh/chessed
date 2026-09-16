@@ -647,43 +647,47 @@ export function ReviewPage({
           className={styles.boardPanel}
           aria-label="Game board and navigation"
         >
-          <div className={styles.boardPlayer} aria-label="Top player">
-            <PlayerIdentity
-              {...identities[topColor]}
-              boardSide="top"
-              playerRole={reviewedColor === topColor ? "reviewed" : "opponent"}
-            />
-          </div>
-          <div
-            className={styles.boardFrame}
-            data-board-orientation={boardPerspective}
-          >
-            <Chessboard
-              options={{
-                id: "chessed-review-board",
-                position: currentFen,
-                boardOrientation: boardPerspective,
-                allowDragging: false,
-                boardStyle: {
-                  borderRadius: "0.75rem",
-                  boxShadow: "0 12px 32px rgba(0, 0, 0, 0.35)",
-                  width: "100%",
-                },
-                lightSquareStyle: { backgroundColor: "#d4c3ae" },
-                darkSquareStyle: { backgroundColor: "#66584d" },
-                lightSquareNotationStyle: { color: "#66584d" },
-                darkSquareNotationStyle: { color: "#d4c3ae" },
-              }}
-            />
-          </div>
-          <div className={styles.boardPlayer} aria-label="Bottom player">
-            <PlayerIdentity
-              {...identities[bottomColor]}
-              boardSide="bottom"
-              playerRole={
-                reviewedColor === bottomColor ? "reviewed" : "opponent"
-              }
-            />
+          <div className={styles.boardStack} data-board-stack>
+            <div className={styles.boardPlayer} aria-label="Top player">
+              <PlayerIdentity
+                {...identities[topColor]}
+                boardSide="top"
+                playerRole={
+                  reviewedColor === topColor ? "reviewed" : "opponent"
+                }
+              />
+            </div>
+            <div
+              className={styles.boardFrame}
+              data-board-orientation={boardPerspective}
+            >
+              <Chessboard
+                options={{
+                  id: "chessed-review-board",
+                  position: currentFen,
+                  boardOrientation: boardPerspective,
+                  allowDragging: false,
+                  boardStyle: {
+                    borderRadius: "0.75rem",
+                    boxShadow: "0 12px 32px rgba(0, 0, 0, 0.35)",
+                    width: "100%",
+                  },
+                  lightSquareStyle: { backgroundColor: "#d4c3ae" },
+                  darkSquareStyle: { backgroundColor: "#66584d" },
+                  lightSquareNotationStyle: { color: "#66584d" },
+                  darkSquareNotationStyle: { color: "#d4c3ae" },
+                }}
+              />
+            </div>
+            <div className={styles.boardPlayer} aria-label="Bottom player">
+              <PlayerIdentity
+                {...identities[bottomColor]}
+                boardSide="bottom"
+                playerRole={
+                  reviewedColor === bottomColor ? "reviewed" : "opponent"
+                }
+              />
+            </div>
           </div>
           <div className={styles.navigation}>
             <button
@@ -718,7 +722,7 @@ export function ReviewPage({
             </button>
           </div>
         </section>
-        <aside className={styles.sidebar}>
+        <aside className={styles.sidebar} data-review-panel>
           <section
             className={`${styles.infoCard} ${styles.analysisCard}`}
             aria-labelledby="analysis-heading"
