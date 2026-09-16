@@ -8,6 +8,7 @@ import type { GameAnalysisProgress } from "@/lib/analysis/game";
 import { reviewGame } from "@/lib/analysis/review-game";
 import { StockfishAnalyzer } from "@/lib/analysis/stockfish";
 import { parsePgnToReviewGame } from "@/lib/chess/pgn";
+import { formatPrincipalVariation, uciMoveToSan } from "@/lib/chess/notation";
 import type { ParsedReviewGame } from "@/lib/chess/types";
 import type { WholeGameReview } from "@/lib/review/game-review";
 import type { EngineAnalyzer } from "@/lib/review/interfaces";
@@ -114,6 +115,13 @@ function MoveReview({
     move.classification.status === "classified"
       ? formatClassification(move.classification.classification)
       : "Unavailable";
+  const bestMoveSan = move.bestMoveUci
+    ? uciMoveToSan(move.fenBefore, move.bestMoveUci)
+    : null;
+  const principalVariation = formatPrincipalVariation(
+    move.fenBefore,
+    move.principalVariationUci,
+  );
 
   return (
     <div className={styles.moveReview}>
@@ -152,14 +160,13 @@ function MoveReview({
           <dd>{move.centipawnLoss ?? "Not applicable"}</dd>
         </div>
         <div>
-          <dt>Best engine move</dt>
-          <dd>{move.bestMoveUci ?? "Unavailable"}</dd>
+          <dt>Best</dt>
+          <dd>{bestMoveSan ?? "Unavailable"}</dd>
         </div>
       </dl>
-      {move.principalVariationUci.length > 0 && (
+      {principalVariation && principalVariation.sanMoves.length > 0 && (
         <p className={styles.line}>
-          <span>Principal variation</span>{" "}
-          {move.principalVariationUci.join(" ")}
+          <span>Principal variation</span> {principalVariation.text}
         </p>
       )}
       {move.terminalOutcome && (

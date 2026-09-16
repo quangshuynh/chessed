@@ -276,6 +276,9 @@ describe("review-page analysis workflow", () => {
     fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
     await screen.findByText("Engine evaluation:");
     fireEvent.click(screen.getByRole("button", { name: /1\. e4/ }));
+    expect(screen.getByText("e4")).toBeTruthy();
+    expect(screen.getByText("1. e4 e5")).toBeTruthy();
+    expect(screen.queryByText("e2e4")).toBeNull();
     expect(screen.getByText(/required to classify/)).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: /4\. Nc6/ }));
     expect(screen.getByText(/Checkmate \(win\)/)).toBeTruthy();
