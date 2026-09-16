@@ -62,6 +62,32 @@ responds to an in-flight abort by sending `stop` and resetting/terminating its
 worker, so cancellation does not leave that search running. Aborting a signal
 after a review has already resolved does not retroactively alter the result.
 
+## Review-page lifecycle
+
+The client review page does not analyze on render. Its explicit **Analyze Game**
+action lazily creates one `StockfishAnalyzer` for the whole run and passes it to
+`reviewGame`. The same instance analyzes every reconstructed position. The page
+owns that analyzer and disposes it after success, failure, cancellation, or
+unmount; rerenders and move navigation never create workers.
+
+The page renders the orchestration callback's exact completed/total position
+counts in a native accessible progress element. Cancellation aborts the run and
+discards all partial state. A monotonically increasing run identity prevents a
+cancelled, replaced, or unmounted run from publishing late progress or results.
+Failure and cancellation both permit a fresh explicit retry.
+
+The session is loaded from browser session storage after mount, avoiding server
+render access to browser-only storage and the Stockfish Web Worker. Loading a
+different session resets the selected ply and completed review.
+
+Selected position index `0` is presented as the starting position and has no
+classification. For indexes greater than zero, the selected review record is
+`moves[currentPly - 1]`, with an explicit ply identity check. Evaluations are
+shown in pawn units from the canonical White perspective (`+0.35`, `-1.42`) and
+mates remain distinct (`M3`, `-M2`). The UI does not flip Black-move scores.
+Terminal moves retain their ordinary classification and terminal outcome while
+the absent post-terminal engine evaluation is labeled as a terminal position.
+
 ## Failures and unavailable evidence
 
 Initialization, timeout, worker, invalid-analysis, and other analyzer errors are
@@ -94,11 +120,12 @@ counts, and the methodology identifier `chessed-ordinary-v1`. The identifier
 describes Chessed's review methodology rather than a deployment or package
 version.
 
-## Deferred
+## Current UI limitations and deferred work
 
-This orchestration does not add UI integration, Great, Brilliant, Miss,
-accuracy, Elo/performance estimates, coaching, openings, persistence, or
-server-side Stockfish.
+Review results are memory-only and disappear on reload. Best moves and principal
+variations are displayed in UCI notation. There is no evaluation graph, time
+estimate, persistent cache, Great, Brilliant, Miss, accuracy, Elo/performance
+estimate, coaching, opening analysis, or server-side Stockfish.
 
 ## Falsification coverage
 
