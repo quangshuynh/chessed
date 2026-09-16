@@ -2,6 +2,7 @@ export type ReviewSource = "chesscom" | "manual-pgn";
 
 export interface ReviewSessionSummary {
   id: string;
+  requestedUsername?: string;
   white: string;
   black: string;
   whiteRating?: number;

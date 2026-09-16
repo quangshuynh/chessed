@@ -29,6 +29,11 @@ import {
 } from "./review-format";
 import { groupMovesIntoFullMoves } from "./full-move-rows";
 import styles from "./review-page.module.css";
+import {
+  type BoardPerspective,
+  getInitialBoardPerspective,
+  getReviewedPlayerColor,
+} from "./board-perspective";
 
 type LoadedGame = {
   sessionId: string;
@@ -68,11 +73,15 @@ function PlayerIdentity({
   name,
   rating,
   profile,
+  boardSide,
+  playerRole,
 }: {
   color: "White" | "Black";
   name: string;
   rating?: number;
   profile?: ChessComPlayerProfile | null;
+  boardSide: "top" | "bottom";
+  playerRole?: "reviewed" | "opponent";
 }) {
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
   const initial = name.trim().charAt(0).toUpperCase() || "?";
@@ -84,6 +93,8 @@ function PlayerIdentity({
     <div
       className={styles.playerIdentity}
       data-player-color={color.toLowerCase()}
+      data-board-side={boardSide}
+      data-player-role={playerRole}
     >
       <span className={styles.avatar} aria-hidden="true">
         {avatarUrl && !imageFailed ? (
@@ -283,6 +294,8 @@ export function ReviewPage({
     black?: ChessComPlayerProfile | null;
   }>({});
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [boardPerspective, setBoardPerspective] =
+    useState<BoardPerspective>("white");
   const mountedRef = useRef(false);
   const runNumberRef = useRef(0);
   const activeRunRef = useRef<
@@ -331,6 +344,7 @@ export function ReviewPage({
     runNumberRef.current += 1;
     const loadTimer = window.setTimeout(() => {
       setCurrentPly(0);
+      setBoardPerspective("white");
       setProfiles({});
       setAnalysis({ status: "idle" });
       const session = sessionReader(sessionId);
@@ -339,6 +353,7 @@ export function ReviewPage({
         return;
       }
       try {
+        setBoardPerspective(getInitialBoardPerspective(session));
         setLoaded({
           sessionId,
           session,
@@ -542,6 +557,23 @@ export function ReviewPage({
   const currentFen = game!.positions[currentPly];
   const white = session.summary?.white ?? game!.headers.White ?? "White";
   const black = session.summary?.black ?? game!.headers.Black ?? "Black";
+  const reviewedColor = getReviewedPlayerColor(session);
+  const topColor = boardPerspective === "white" ? "black" : "white";
+  const bottomColor = boardPerspective;
+  const identities = {
+    white: {
+      color: "White" as const,
+      name: white,
+      rating: session.summary?.whiteRating,
+      profile: profiles.white,
+    },
+    black: {
+      color: "Black" as const,
+      name: black,
+      rating: session.summary?.blackRating,
+      profile: profiles.black,
+    },
+  };
   const completedReview =
     analysis.status === "complete" ? analysis.review : null;
   const fullMoveRows = groupMovesIntoFullMoves(game!.moves, game!.startingFen);
@@ -615,39 +647,61 @@ export function ReviewPage({
           className={styles.boardPanel}
           aria-label="Game board and navigation"
         >
-          <div className={styles.boardPlayers} aria-label="Players">
-            <PlayerIdentity
-              color="Black"
-              name={black}
-              rating={session.summary?.blackRating}
-              profile={profiles.black}
-            />
-            <PlayerIdentity
-              color="White"
-              name={white}
-              rating={session.summary?.whiteRating}
-              profile={profiles.white}
-            />
-          </div>
-          <div className={styles.boardFrame}>
-            <Chessboard
-              options={{
-                id: "chessed-review-board",
-                position: currentFen,
-                allowDragging: false,
-                boardStyle: {
-                  borderRadius: "0.75rem",
-                  boxShadow: "0 12px 32px rgba(0, 0, 0, 0.35)",
-                  width: "100%",
-                },
-                lightSquareStyle: { backgroundColor: "#d4c3ae" },
-                darkSquareStyle: { backgroundColor: "#66584d" },
-                lightSquareNotationStyle: { color: "#66584d" },
-                darkSquareNotationStyle: { color: "#d4c3ae" },
-              }}
-            />
+          <div className={styles.boardStack} data-board-stack>
+            <div className={styles.boardPlayer} aria-label="Top player">
+              <PlayerIdentity
+                {...identities[topColor]}
+                boardSide="top"
+                playerRole={
+                  reviewedColor === topColor ? "reviewed" : "opponent"
+                }
+              />
+            </div>
+            <div
+              className={styles.boardFrame}
+              data-board-orientation={boardPerspective}
+            >
+              <Chessboard
+                options={{
+                  id: "chessed-review-board",
+                  position: currentFen,
+                  boardOrientation: boardPerspective,
+                  allowDragging: false,
+                  boardStyle: {
+                    borderRadius: "0.75rem",
+                    boxShadow: "0 12px 32px rgba(0, 0, 0, 0.35)",
+                    width: "100%",
+                  },
+                  lightSquareStyle: { backgroundColor: "#d4c3ae" },
+                  darkSquareStyle: { backgroundColor: "#66584d" },
+                  lightSquareNotationStyle: { color: "#66584d" },
+                  darkSquareNotationStyle: { color: "#d4c3ae" },
+                }}
+              />
+            </div>
+            <div className={styles.boardPlayer} aria-label="Bottom player">
+              <PlayerIdentity
+                {...identities[bottomColor]}
+                boardSide="bottom"
+                playerRole={
+                  reviewedColor === bottomColor ? "reviewed" : "opponent"
+                }
+              />
+            </div>
           </div>
           <div className={styles.navigation}>
+            <button
+              type="button"
+              aria-label={`Flip board. Current orientation: ${boardPerspective}`}
+              aria-pressed={boardPerspective === "black"}
+              onClick={() =>
+                setBoardPerspective((current) =>
+                  current === "white" ? "black" : "white",
+                )
+              }
+            >
+              Flip Board
+            </button>
             <button
               type="button"
               onClick={() => navigateTo(currentPly - 1)}
@@ -668,7 +722,7 @@ export function ReviewPage({
             </button>
           </div>
         </section>
-        <aside className={styles.sidebar}>
+        <aside className={styles.sidebar} data-review-panel>
           <section
             className={`${styles.infoCard} ${styles.analysisCard}`}
             aria-labelledby="analysis-heading"

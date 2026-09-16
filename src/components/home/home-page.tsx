@@ -36,9 +36,13 @@ function formatResult(result?: string): string {
   return result.replace(/_/g, " ");
 }
 
-function toSummary(game: ChessComRecentGame): ReviewSessionSummary {
+function toSummary(
+  game: ChessComRecentGame,
+  requestedUsername: string,
+): ReviewSessionSummary {
   return {
     id: game.id,
+    requestedUsername,
     white: game.white.username,
     black: game.black.username,
     whiteRating: game.white.rating,
@@ -138,7 +142,10 @@ export function HomePage() {
     }
 
     try {
-      openReview("chesscom", game.pgn, toSummary(game));
+      if (!searchedUsername) {
+        throw new Error("The requested Chess.com username is unavailable.");
+      }
+      openReview("chesscom", game.pgn, toSummary(game, searchedUsername));
     } catch {
       setSelectionError(
         "This game PGN is malformed and could not be opened for review.",
