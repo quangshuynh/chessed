@@ -44,6 +44,49 @@ export interface SpecialClassificationResult {
   evidence: SpecialClassificationEvidence;
 }
 
+export type SpecialClassificationReason =
+  | "ordinary-classification-unavailable"
+  | "before-analysis-unavailable"
+  | "incomplete-candidate-evidence"
+  | "illegal-best-line"
+  | "played-move-is-not-rank-one"
+  | "ordinary-result-is-not-best"
+  | "forced-only-legal-move"
+  | "terminal-move"
+  | "promotion-excluded-from-brilliant"
+  | "prior-expectation-unavailable"
+  | "already-overwhelmingly-winning"
+  | "best-expectation-unavailable"
+  | "compensation-insufficient"
+  | "brilliant-separation-insufficient"
+  | "great-separation-insufficient"
+  | "material-exposure-insufficient"
+  | "material-not-sustained"
+  | "played-move-retains-mate"
+  | "material-opportunity-insufficient"
+  | "outcome-loss-insufficient"
+  | "forcing-evidence-insufficient"
+  | "no-concrete-missed-opportunity";
+
+/** Pure policy trace used by calibration and future deterministic explanations. */
+export interface SpecialClassificationAudit {
+  result: SpecialClassificationResult | null;
+  reasons: readonly SpecialClassificationReason[];
+  evidence: SpecialPolicyEvidence | null;
+}
+
+export interface SpecialPolicyEvidence {
+  candidateCount: number;
+  candidateOutcomeSeparation: number;
+  bestLineMaterial: MaterialProjection;
+  playedRank: number | null;
+  legalMoveCount: number;
+  beforeOutcomeExpectation: number | null;
+  bestOutcomeExpectation: number | null;
+  outcomeDrop: number | null;
+  terminalResult: "win" | "loss" | "draw" | null;
+}
+
 function playerEvaluation(
   evaluation: EngineEvaluation,
   player: PlayerColor,
@@ -109,7 +152,7 @@ function rankedCandidates(
   return candidates;
 }
 
-export function classifySpecialMove(input: {
+export function evaluateSpecialMove(input: {
   fenBefore: string;
   playedMoveUci: string;
   player: PlayerColor;
@@ -117,12 +160,34 @@ export function classifySpecialMove(input: {
   analysisBefore: PositionAnalysis | null;
   analysisAfter: PositionAnalysis | null;
   terminalResult: "win" | "loss" | "draw" | null;
-}): SpecialClassificationResult | null {
-  if (input.ordinary.status !== "classified" || !input.analysisBefore) {
-    return null;
+}): SpecialClassificationAudit {
+  if (input.ordinary.status !== "classified") {
+    return {
+      result: null,
+      reasons: ["ordinary-classification-unavailable"],
+      evidence: null,
+    };
   }
+  if (!input.analysisBefore) {
+    return {
+      result: null,
+      reasons: ["before-analysis-unavailable"],
+      evidence: null,
+    };
+  }
+  const chess = new Chess(input.fenBefore);
+  const legalMoveCount = chess.moves().length;
   const candidates = rankedCandidates(input.analysisBefore);
-  if (!candidates) return null;
+  if (!candidates) {
+    return {
+      result: null,
+      reasons: [
+        "incomplete-candidate-evidence",
+        ...(legalMoveCount <= 1 ? (["forced-only-legal-move"] as const) : []),
+      ],
+      evidence: null,
+    };
+  }
   const [best, second] = candidates;
   const separation = candidateSeparation(best, second, input.player);
   const color = input.player === "white" ? "w" : "b";
@@ -131,20 +196,33 @@ export function classifySpecialMove(input: {
     best.principalVariationUci,
     color,
   );
-  if (!bestLineMaterial || separation === null) return null;
+  if (!bestLineMaterial || separation === null) {
+    return { result: null, reasons: ["illegal-best-line"], evidence: null };
+  }
   const commonEvidence = {
     candidateCount: candidates.length,
     candidateOutcomeSeparation: separation,
     bestLineMaterial,
   };
   const playedBest = input.playedMoveUci === best.moveUci;
-  const chess = new Chess(input.fenBefore);
-  const legalMoveCount = chess.moves().length;
   const beforeExpectation = expectation(
     input.analysisBefore.evaluation,
     input.player,
   );
   const bestExpectation = expectation(best.evaluation, input.player);
+  const policyEvidence: SpecialPolicyEvidence = {
+    candidateCount: candidates.length,
+    candidateOutcomeSeparation: separation,
+    bestLineMaterial,
+    playedRank:
+      candidates.find((candidate) => candidate.moveUci === input.playedMoveUci)
+        ?.rank ?? null,
+    legalMoveCount,
+    beforeOutcomeExpectation: beforeExpectation,
+    bestOutcomeExpectation: bestExpectation,
+    outcomeDrop: input.ordinary.evidence.outcomeDrop,
+    terminalResult: input.terminalResult,
+  };
 
   if (
     playedBest &&
@@ -166,8 +244,12 @@ export function classifySpecialMove(input: {
       SPECIAL_CLASSIFICATION_POLICY.brilliantMinimumSustainedMaterialLoss
   ) {
     return {
-      classification: "brilliant",
-      evidence: { ...commonEvidence, rule: "exceptional-sacrifice" },
+      result: {
+        classification: "brilliant",
+        evidence: { ...commonEvidence, rule: "exceptional-sacrifice" },
+      },
+      reasons: [],
+      evidence: policyEvidence,
     };
   }
 
@@ -185,8 +267,12 @@ export function classifySpecialMove(input: {
     separation >= SPECIAL_CLASSIFICATION_POLICY.greatMinimumOutcomeSeparation
   ) {
     return {
-      classification: "great",
-      evidence: { ...commonEvidence, rule: "narrow-critical-move" },
+      result: {
+        classification: "great",
+        evidence: { ...commonEvidence, rule: "narrow-critical-move" },
+      },
+      reasons: [],
+      evidence: policyEvidence,
     };
   }
 
@@ -201,8 +287,12 @@ export function classifySpecialMove(input: {
       input.terminalResult !== "win"
     ) {
       return {
-        classification: "miss",
-        evidence: { ...commonEvidence, rule: "missed-forced-mate" },
+        result: {
+          classification: "miss",
+          evidence: { ...commonEvidence, rule: "missed-forced-mate" },
+        },
+        reasons: [],
+        evidence: policyEvidence,
       };
     }
     const materialGain =
@@ -212,8 +302,12 @@ export function classifySpecialMove(input: {
       materialGain >= SPECIAL_CLASSIFICATION_POLICY.missMinimumMaterialGain
     ) {
       return {
-        classification: "miss",
-        evidence: { ...commonEvidence, rule: "missed-material-win" },
+        result: {
+          classification: "miss",
+          evidence: { ...commonEvidence, rule: "missed-material-win" },
+        },
+        reasons: [],
+        evidence: policyEvidence,
       };
     }
     if (
@@ -226,10 +320,83 @@ export function classifySpecialMove(input: {
         bestLineMaterial.firstMove.promotion)
     ) {
       return {
-        classification: "miss",
-        evidence: { ...commonEvidence, rule: "missed-forcing-resource" },
+        result: {
+          classification: "miss",
+          evidence: { ...commonEvidence, rule: "missed-forcing-resource" },
+        },
+        reasons: [],
+        evidence: policyEvidence,
       };
     }
   }
-  return null;
+  const reasons = new Set<SpecialClassificationReason>();
+  if (playedBest) {
+    if (input.ordinary.classification !== "best")
+      reasons.add("ordinary-result-is-not-best");
+    if (legalMoveCount <= 1) reasons.add("forced-only-legal-move");
+    if (input.terminalResult !== null) reasons.add("terminal-move");
+    if (bestLineMaterial.firstMove.promotion)
+      reasons.add("promotion-excluded-from-brilliant");
+    if (beforeExpectation === null)
+      reasons.add("prior-expectation-unavailable");
+    else if (
+      beforeExpectation >
+      SPECIAL_CLASSIFICATION_POLICY.brilliantMaximumPriorOutcomeExpectation
+    )
+      reasons.add("already-overwhelmingly-winning");
+    if (bestExpectation === null) reasons.add("best-expectation-unavailable");
+    else if (
+      bestExpectation <
+      SPECIAL_CLASSIFICATION_POLICY.brilliantMinimumOutcomeExpectation
+    )
+      reasons.add("compensation-insufficient");
+    if (
+      separation <
+      SPECIAL_CLASSIFICATION_POLICY.brilliantMinimumOutcomeSeparation
+    )
+      reasons.add("brilliant-separation-insufficient");
+    if (
+      separation < SPECIAL_CLASSIFICATION_POLICY.greatMinimumOutcomeSeparation
+    )
+      reasons.add("great-separation-insufficient");
+    if (
+      bestLineMaterial.exposure <
+      SPECIAL_CLASSIFICATION_POLICY.brilliantMinimumMaterialExposure
+    )
+      reasons.add("material-exposure-insufficient");
+    if (
+      bestLineMaterial.sustainedLoss <
+      SPECIAL_CLASSIFICATION_POLICY.brilliantMinimumSustainedMaterialLoss
+    )
+      reasons.add("material-not-sustained");
+  } else {
+    reasons.add("played-move-is-not-rank-one");
+    const outcomeDrop = input.ordinary.evidence.outcomeDrop ?? 0;
+    if (
+      input.analysisAfter !== null &&
+      favorableMate(input.analysisAfter.evaluation, input.player)
+    )
+      reasons.add("played-move-retains-mate");
+    if (
+      bestLineMaterial.finalBalance - bestLineMaterial.initialBalance <
+      SPECIAL_CLASSIFICATION_POLICY.missMinimumMaterialGain
+    )
+      reasons.add("material-opportunity-insufficient");
+    if (outcomeDrop < SPECIAL_CLASSIFICATION_POLICY.missMinimumOutcomeDrop)
+      reasons.add("outcome-loss-insufficient");
+    if (
+      !bestLineMaterial.firstMove.capture &&
+      !bestLineMaterial.firstMove.check &&
+      !bestLineMaterial.firstMove.promotion
+    )
+      reasons.add("forcing-evidence-insufficient");
+    reasons.add("no-concrete-missed-opportunity");
+  }
+  return { result: null, reasons: [...reasons], evidence: policyEvidence };
+}
+
+export function classifySpecialMove(
+  input: Parameters<typeof evaluateSpecialMove>[0],
+): SpecialClassificationResult | null {
+  return evaluateSpecialMove(input).result;
 }

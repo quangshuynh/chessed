@@ -1,0 +1,3934 @@
+[
+  {
+    "id": "opera-game-queen-offer",
+    "provenance": "Paul Morphy–Duke Karl/Count Isouard, Paris 1858 (public historical game score), position before 16.Qb8+.",
+    "expectedProperties": ["historical-sacrifice", "queen-sacrifice"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": "great",
+    "specialRule": "narrow-critical-move",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 2
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "b3b8",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 2
+        },
+        "principalVariationUci": ["b3b8", "d7b8", "d1d8"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "b3b7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 160
+        },
+        "principalVariationUci": [
+          "b3b7",
+          "f7f6",
+          "g5e3",
+          "f8e7",
+          "e3a7",
+          "d7f8",
+          "b7b5",
+          "f8d7"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "b3c3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 124
+        },
+        "principalVariationUci": [
+          "b3c3",
+          "f8c5",
+          "d1d7",
+          "e8d7",
+          "c3c5",
+          "h8c8",
+          "c5a7",
+          "d7e8",
+          "a7a4",
+          "e8f8",
+          "a4b3"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 1,
+      "bestLineMaterial": {
+        "initialBalance": -1,
+        "minimumBalance": -10,
+        "finalBalance": -10,
+        "exposure": 9,
+        "sustainedLoss": 9,
+        "firstMove": {
+          "capture": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 46,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "legal-trap-piece-offer",
+    "provenance": "Légal trap teaching line reconstructed from its public historical move sequence; position before 5.Nxe5.",
+    "expectedProperties": ["historical-sacrifice", "piece-sacrifice"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "great-separation-insufficient",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 164
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 163
+    },
+    "outcomeLoss": 0.000586142613780205,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f3e5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 164
+        },
+        "principalVariationUci": [
+          "f3e5",
+          "d6e5",
+          "d1g4",
+          "g8f6",
+          "g4f3",
+          "f8g7",
+          "c3d5",
+          "e8g8",
+          "d5f6",
+          "g7f6",
+          "c2c3"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "d2d4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 100
+        },
+        "principalVariationUci": [
+          "d2d4",
+          "b8c6",
+          "d4e5",
+          "g4f3",
+          "d1f3",
+          "c6e5",
+          "f3e2",
+          "c7c6",
+          "c4b3",
+          "f8g7",
+          "c1e3",
+          "g8f6",
+          "f2f4",
+          "e5g4",
+          "e3d4",
+          "e8g8"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "h2h3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 67
+        },
+        "principalVariationUci": [
+          "h2h3",
+          "g4f3",
+          "d1f3",
+          "g8f6",
+          "h3h4",
+          "b8c6",
+          "c3d5",
+          "f8g7",
+          "c2c3",
+          "f6d5",
+          "c4d5",
+          "d8f6",
+          "f3f6",
+          "g7f6",
+          "h4h5"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.038012541364022434,
+      "bestLineMaterial": {
+        "initialBalance": 0,
+        "minimumBalance": -2,
+        "finalBalance": 1,
+        "exposure": 2,
+        "sustainedLoss": -1,
+        "firstMove": {
+          "capture": true,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 35,
+      "beforeOutcomeExpectation": 0.598687660112452,
+      "bestOutcomeExpectation": 0.598687660112452,
+      "outcomeDrop": 0.000586142613780205,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "forced-king-move",
+    "provenance": "Constructed: Black has exactly one legal move.",
+    "expectedProperties": ["forced-move"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "incomplete-candidate-evidence",
+      "forced-only-legal-move"
+    ],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "h8h7",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["h8h7", "g5h5"]
+      }
+    ],
+    "policyEvidence": null
+  },
+  {
+    "id": "promotion-to-queen",
+    "provenance": "Constructed promotion boundary case.",
+    "expectedProperties": ["promotion"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 881
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 880
+    },
+    "outcomeLoss": 0.00022835783175800817,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 881
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "e8e7",
+          "a7a8q",
+          "e7f6",
+          "a8c6",
+          "f6e5",
+          "e2d3",
+          "e5f5",
+          "c6d5",
+          "f5f6",
+          "d3d4"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 838
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "e8e7",
+          "a7a8q",
+          "e7d6",
+          "a8a5",
+          "d6c6",
+          "f1e2"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "a7a8q",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 834
+        },
+        "principalVariationUci": [
+          "a7a8q",
+          "e8d7",
+          "e1e2",
+          "d7c7",
+          "a8a5",
+          "c7c6"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.010224720416775468,
+      "bestLineMaterial": {
+        "initialBalance": 1,
+        "minimumBalance": 1,
+        "finalBalance": 9,
+        "exposure": 0,
+        "sustainedLoss": -8,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 3,
+      "legalMoveCount": 9,
+      "beforeOutcomeExpectation": 0.8955547630771975,
+      "bestOutcomeExpectation": 0.8955547630771975,
+      "outcomeDrop": 0.00022835783175800817,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "underpromotion-to-knight",
+    "provenance": "Constructed underpromotion boundary case.",
+    "expectedProperties": ["promotion", "underpromotion"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "blunder",
+    "specialClassification": "miss",
+    "specialRule": "missed-material-win",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 1022
+    },
+    "playedMoveEvaluation": "terminal",
+    "outcomeLoss": 0.4236272713613177,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 1022
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "e8d7",
+          "a7a8q",
+          "d7d6",
+          "a8a5",
+          "d6c6",
+          "e2d3",
+          "c6d6",
+          "d3d4",
+          "d6d7"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 1021
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "e8d7",
+          "a7a8q",
+          "d7c7",
+          "f1e2",
+          "c7b6",
+          "a8d5",
+          "b6c7",
+          "d5c5",
+          "c7b7",
+          "e2d3",
+          "b7a6",
+          "d3d4",
+          "a6b7"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "a7a8q",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 959
+        },
+        "principalVariationUci": [
+          "a7a8q",
+          "e8d7",
+          "a8d5",
+          "d7c7",
+          "e1e2",
+          "c7b6",
+          "e2d3",
+          "b6c7",
+          "d5c5",
+          "c7b7",
+          "d3e4",
+          "b7a8"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.00017222648729386947,
+      "bestLineMaterial": {
+        "initialBalance": 1,
+        "minimumBalance": 1,
+        "finalBalance": 9,
+        "exposure": 0,
+        "sustainedLoss": -8,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 9,
+      "beforeOutcomeExpectation": 0.9236272713613177,
+      "bestOutcomeExpectation": 0.9236272713613177,
+      "outcomeDrop": 0.4236272713613177,
+      "terminalResult": "draw"
+    }
+  },
+  {
+    "id": "obvious-mate-in-one",
+    "provenance": "Constructed exposed-king mate-in-one.",
+    "expectedProperties": ["mate-in-one", "already-winning"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "playedMoveEvaluation": "terminal",
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f7g7",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7g7"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "f7f8",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7f8"]
+      },
+      {
+        "rank": 3,
+        "moveUci": "f7h7",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7h7"]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0,
+      "bestLineMaterial": {
+        "initialBalance": 9,
+        "minimumBalance": 9,
+        "finalBalance": 9,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": 2,
+      "legalMoveCount": 26,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": "win"
+    }
+  },
+  {
+    "id": "mate-in-one-not-played",
+    "provenance": "Constructed from the mate-in-one position to test a missed mate.",
+    "expectedProperties": ["missed-mate", "already-winning"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "played-move-retains-mate",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f7g7",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7g7"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "f7f8",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7f8"]
+      },
+      {
+        "rank": 3,
+        "moveUci": "f7h7",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7h7"]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0,
+      "bestLineMaterial": {
+        "initialBalance": 9,
+        "minimumBalance": 9,
+        "finalBalance": 9,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 26,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "routine-queen-recapture",
+    "provenance": "Constructed hanging-queen recapture.",
+    "expectedProperties": ["routine-recapture", "material-win"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": "great",
+    "specialRule": "narrow-critical-move",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 481
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 456
+    },
+    "outcomeLoss": 0.011179538621920893,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e1e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 481
+        },
+        "principalVariationUci": [
+          "e1e2",
+          "e8d7",
+          "g1f2",
+          "d7c6",
+          "e2e1",
+          "c6d5"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1f1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -218
+        },
+        "principalVariationUci": [
+          "e1f1",
+          "e8d7",
+          "f1f6",
+          "e2e1",
+          "f6f1",
+          "e1d2",
+          "f1f2",
+          "d2d1",
+          "f2f1"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1a1",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -233
+        },
+        "principalVariationUci": ["e1a1", "e2e3", "g1f1", "e3d3", "f1g2"]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.39359889057436714,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -4,
+        "finalBalance": 5,
+        "exposure": 0,
+        "sustainedLoss": -9,
+        "firstMove": {
+          "capture": true,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 7,
+      "beforeOutcomeExpectation": 0.7637176621133208,
+      "bestOutcomeExpectation": 0.7637176621133208,
+      "outcomeDrop": 0.011179538621920893,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "unsupported-queen-offer",
+    "provenance": "Constructed queen offer with no tactical compensation.",
+    "expectedProperties": ["losing-sacrifice", "queen-sacrifice"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "blunder",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 980
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 16
+    },
+    "outcomeLoss": 0.40632546091695143,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "d1d4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 980
+        },
+        "principalVariationUci": [
+          "d1d4",
+          "e8e7",
+          "d4e5",
+          "e7d7",
+          "e5f6",
+          "d7c7",
+          "f6g6",
+          "c7d7",
+          "e1e2",
+          "d7c7",
+          "e2d3",
+          "c7b7",
+          "d3e4",
+          "b7c7",
+          "e4e3"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "d1d6",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 964
+        },
+        "principalVariationUci": [
+          "d1d6",
+          "g6g5",
+          "d6g6",
+          "e8d7",
+          "g6g5",
+          "d7d6",
+          "e1e2",
+          "d6c6",
+          "g5a5",
+          "c6b7",
+          "a5c5",
+          "b7a6",
+          "e2e3"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "d1d5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 903
+        },
+        "principalVariationUci": [
+          "d1d5",
+          "e8e7",
+          "d5e5",
+          "e7d7",
+          "e5f6",
+          "d7c7",
+          "e1f2",
+          "c7d7",
+          "f2e3",
+          "g6g5",
+          "f6g7",
+          "d7c6",
+          "g7g5"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.0030492084535319597,
+      "bestLineMaterial": {
+        "initialBalance": 8,
+        "minimumBalance": 8,
+        "finalBalance": 9,
+        "exposure": 0,
+        "sustainedLoss": -1,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 21,
+      "beforeOutcomeExpectation": 0.9160803205339056,
+      "bestOutcomeExpectation": 0.9160803205339056,
+      "outcomeDrop": 0.40632546091695143,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "immediate-queen-recovery",
+    "provenance": "Constructed immediate queen capture; material is recovered at once.",
+    "expectedProperties": ["immediate-recovery", "routine-recapture"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": "great",
+    "specialRule": "narrow-critical-move",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": -6
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": -5
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "h2h5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -6
+        },
+        "principalVariationUci": [
+          "h2h5",
+          "g6h5",
+          "e1f2",
+          "e8d7",
+          "f2e3",
+          "d7d6",
+          "e3f4",
+          "d6d5",
+          "f4g5",
+          "d5c4",
+          "g5h5",
+          "c4c5"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "h2g2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -290
+        },
+        "principalVariationUci": [
+          "h2g2",
+          "e8e7",
+          "e1f1",
+          "h5d1",
+          "f1f2",
+          "d1d2",
+          "f2g1"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "h2e2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": -327
+        },
+        "principalVariationUci": [
+          "h2e2",
+          "e8f8",
+          "e1f1",
+          "h5h1",
+          "f1f2",
+          "h1c6"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.16614958896624704,
+      "bestLineMaterial": {
+        "initialBalance": -5,
+        "minimumBalance": -5,
+        "finalBalance": 0,
+        "exposure": 0,
+        "sustainedLoss": -5,
+        "firstMove": {
+          "capture": true,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 14,
+      "beforeOutcomeExpectation": 0.49634152870538195,
+      "bestOutcomeExpectation": 0.49634152870538195,
+      "outcomeDrop": 0,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "starting-position-e4",
+    "provenance": "Standard initial position; routine development control.",
+    "expectedProperties": ["routine-development", "many-legal-alternatives"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "brilliant-separation-insufficient",
+      "great-separation-insufficient",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 39
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 35
+    },
+    "outcomeLoss": 0.0024340604951184064,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e2e4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 39
+        },
+        "principalVariationUci": [
+          "e2e4",
+          "e7e5",
+          "b1c3",
+          "b8c6",
+          "g1f3",
+          "g8f6",
+          "d2d4",
+          "e5d4",
+          "f3d4",
+          "f8c5",
+          "d4f5"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "g1f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 19
+        },
+        "principalVariationUci": [
+          "g1f3",
+          "g8f6",
+          "d2d4",
+          "d7d5",
+          "e2e3",
+          "e7e6",
+          "c2c4",
+          "f8e7",
+          "b1c3"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "d2d4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 19
+        },
+        "principalVariationUci": [
+          "d2d4",
+          "d7d5",
+          "e2e3",
+          "g8f6",
+          "c2c4",
+          "e7e6",
+          "b1c3",
+          "f8e7",
+          "g1f3",
+          "e8g8",
+          "f1e2",
+          "d5c4",
+          "e2c4",
+          "c7c5",
+          "e1g1",
+          "b8c6",
+          "h2h3",
+          "c5d4",
+          "e3d4",
+          "f6d5",
+          "c4d5",
+          "e6d5",
+          "c1f4",
+          "c8f5"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.012179280187691655,
+      "bestLineMaterial": {
+        "initialBalance": 0,
+        "minimumBalance": -1,
+        "finalBalance": 0,
+        "exposure": 1,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 20,
+      "beforeOutcomeExpectation": 0.5237625731585906,
+      "bestOutcomeExpectation": 0.5237625731585906,
+      "outcomeDrop": 0.0024340604951184064,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "starting-position-nf3",
+    "provenance": "Standard initial position; equivalent-candidate control.",
+    "expectedProperties": ["routine-development", "many-legal-alternatives"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 32
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 18
+    },
+    "outcomeLoss": 0.008528448883759254,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e2e4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 32
+        },
+        "principalVariationUci": [
+          "e2e4",
+          "e7e6",
+          "b1c3",
+          "d7d5",
+          "d2d4",
+          "g8f6",
+          "c1g5",
+          "d5e4",
+          "c3e4",
+          "f8e7",
+          "g5h4"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "d2d4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 19
+        },
+        "principalVariationUci": [
+          "d2d4",
+          "d7d5",
+          "e2e3",
+          "e7e6",
+          "g1f3",
+          "g8f6",
+          "f1e2",
+          "c7c5",
+          "c2c4",
+          "c5d4",
+          "e3d4",
+          "d5c4",
+          "e2c4"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "g1f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 19
+        },
+        "principalVariationUci": [
+          "g1f3",
+          "d7d5",
+          "d2d4",
+          "e7e6",
+          "e2e3",
+          "g8f6",
+          "f1e2",
+          "c7c5",
+          "c2c4",
+          "d5c4",
+          "e2c4",
+          "c5d4",
+          "e3d4"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.007919003120730683,
+      "bestLineMaterial": {
+        "initialBalance": 0,
+        "minimumBalance": -1,
+        "finalBalance": 0,
+        "exposure": 1,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 3,
+      "legalMoveCount": 20,
+      "beforeOutcomeExpectation": 0.5195022960916297,
+      "bestOutcomeExpectation": 0.5195022960916297,
+      "outcomeDrop": 0.008528448883759254,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "quiet-king-centralization",
+    "provenance": "Constructed pawn ending for quiet-move and depth-stability testing.",
+    "expectedProperties": ["quiet-move", "many-legal-alternatives"],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 22
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 19
+    },
+    "outcomeLoss": 0.0018281234409228686,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e3f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 22
+        },
+        "principalVariationUci": [
+          "e3f3",
+          "d5e5",
+          "f3g4",
+          "e5f6",
+          "h2h3",
+          "f6g6",
+          "h3h4",
+          "g6h6",
+          "h4h5",
+          "h6h7",
+          "g4h3"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e3f4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 21
+        },
+        "principalVariationUci": [
+          "e3f4",
+          "d5e6",
+          "f4g5",
+          "e6f7",
+          "h2h4",
+          "f7g7",
+          "h4h5",
+          "g7h7",
+          "h5h6",
+          "h7h8",
+          "g5f5"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "h2h4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 20
+        },
+        "principalVariationUci": [
+          "h2h4",
+          "d5e5",
+          "e3f3",
+          "e5f6",
+          "f3g4",
+          "f6g6",
+          "h4h5",
+          "g6h7",
+          "g4h3",
+          "h7g8",
+          "h3h4",
+          "g8h8",
+          "h4g5",
+          "h8g7",
+          "g5f5",
+          "g7h7"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.0006093370295938705,
+      "bestLineMaterial": {
+        "initialBalance": 1,
+        "minimumBalance": 1,
+        "finalBalance": 1,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 8,
+      "beforeOutcomeExpectation": 0.5134114164118219,
+      "bestOutcomeExpectation": 0.5134114164118219,
+      "outcomeDrop": 0.0018281234409228686,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "pseudo-sacrifice-check",
+    "provenance": "Constructed checking queen capture: tactical appearance without sustained cost.",
+    "expectedProperties": [
+      "pseudo-sacrifice",
+      "immediate-recovery",
+      "material-win"
+    ],
+    "depth": 12,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "brilliant-separation-insufficient",
+      "great-separation-insufficient",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 4
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 0
+    },
+    "outcomeLoss": 0.0024390050446069234,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e2e7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 4
+        },
+        "principalVariationUci": [
+          "e2e7",
+          "e8e7",
+          "e1e2",
+          "e7f6",
+          "e2d3",
+          "f6f5",
+          "d3d4",
+          "f5f6",
+          "d4d5",
+          "f6f5",
+          "d5d6",
+          "f5g4"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e1f2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 3
+        },
+        "principalVariationUci": [
+          "e1f2",
+          "e8f7",
+          "e2e7",
+          "f7e7",
+          "f2e3",
+          "e7f6",
+          "e3f4",
+          "f6g6",
+          "f4e5",
+          "g6g5",
+          "e5e6",
+          "g5g6",
+          "e6d7",
+          "g6h5"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e1d2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 2
+        },
+        "principalVariationUci": [
+          "e1d2",
+          "e8f8",
+          "e2e7",
+          "f8e7",
+          "d2e3",
+          "e7f6",
+          "e3f4",
+          "f6g6",
+          "f4e4",
+          "g6f6",
+          "e4d5"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.0006097449133986022,
+      "bestLineMaterial": {
+        "initialBalance": -4,
+        "minimumBalance": -4,
+        "finalBalance": 0,
+        "exposure": 0,
+        "sustainedLoss": -4,
+        "firstMove": {
+          "capture": true,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 9,
+      "beforeOutcomeExpectation": 0.5024390050446069,
+      "bestOutcomeExpectation": 0.5024390050446069,
+      "outcomeDrop": 0.0024390050446069234,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "opera-game-queen-offer",
+    "provenance": "Paul Morphy–Duke Karl/Count Isouard, Paris 1858 (public historical game score), position before 16.Qb8+.",
+    "expectedProperties": ["historical-sacrifice", "queen-sacrifice"],
+    "depth": 10,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": "great",
+    "specialRule": "narrow-critical-move",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 2
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "b3b8",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 2
+        },
+        "principalVariationUci": ["b3b8", "d7b8", "d1d8"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "b3b7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 246
+        },
+        "principalVariationUci": [
+          "b3b7",
+          "f7f6",
+          "b7c8",
+          "e8e7",
+          "g5e3",
+          "h7h6",
+          "e3a7",
+          "h6h5",
+          "a2a4"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "b3c3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 130
+        },
+        "principalVariationUci": [
+          "b3c3",
+          "f8c5",
+          "d1d7",
+          "e8d7",
+          "c3c5",
+          "h8c8",
+          "c5a7",
+          "d7e8",
+          "a7a4",
+          "e8f8",
+          "a4b3",
+          "e6b3",
+          "a2b3"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 1,
+      "bestLineMaterial": {
+        "initialBalance": -1,
+        "minimumBalance": -10,
+        "finalBalance": -10,
+        "exposure": 9,
+        "sustainedLoss": 9,
+        "firstMove": {
+          "capture": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 46,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "opera-game-queen-offer",
+    "provenance": "Paul Morphy–Duke Karl/Count Isouard, Paris 1858 (public historical game score), position before 16.Qb8+.",
+    "expectedProperties": ["historical-sacrifice", "queen-sacrifice"],
+    "depth": 14,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": "great",
+    "specialRule": "narrow-critical-move",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 2
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "b3b8",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 2
+        },
+        "principalVariationUci": ["b3b8", "d7b8", "d1d8"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "b3c3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 181
+        },
+        "principalVariationUci": [
+          "b3c3",
+          "f7f6",
+          "c3c8",
+          "e8e7",
+          "g5e3",
+          "a7a6",
+          "a2a4",
+          "h7h5",
+          "c8c7",
+          "e7e8",
+          "a4a5",
+          "f8e7"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "b3b7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 164
+        },
+        "principalVariationUci": [
+          "b3b7",
+          "f7f6",
+          "b7c8",
+          "e8e7",
+          "g5e3",
+          "a7a5",
+          "b2b3",
+          "h7h5",
+          "a2a4",
+          "g7g5",
+          "c1b2",
+          "f8g7",
+          "e3c5",
+          "d7c5",
+          "c8c5",
+          "e7f7",
+          "c5a5"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 1,
+      "bestLineMaterial": {
+        "initialBalance": -1,
+        "minimumBalance": -10,
+        "finalBalance": -10,
+        "exposure": 9,
+        "sustainedLoss": 9,
+        "firstMove": {
+          "capture": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 46,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "opera-game-queen-offer",
+    "provenance": "Paul Morphy–Duke Karl/Count Isouard, Paris 1858 (public historical game score), position before 16.Qb8+.",
+    "expectedProperties": ["historical-sacrifice", "queen-sacrifice"],
+    "depth": 16,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": "great",
+    "specialRule": "narrow-critical-move",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 2
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "b3b8",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 2
+        },
+        "principalVariationUci": ["b3b8", "d7b8", "d1d8"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "b3c3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 294
+        },
+        "principalVariationUci": [
+          "b3c3",
+          "f7f6",
+          "c3c8",
+          "e8e7",
+          "g5e3",
+          "g7g6",
+          "c8c7",
+          "e7e8",
+          "e3a7",
+          "f8e7",
+          "c7c8",
+          "e8f7",
+          "c8d7",
+          "e6a2",
+          "d7c6"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "b3b7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 278
+        },
+        "principalVariationUci": [
+          "b3b7",
+          "f7f6",
+          "b7c8",
+          "e8e7",
+          "g5e3",
+          "a7a6",
+          "c8c7",
+          "e7e8",
+          "a2a4",
+          "h7h5",
+          "a4a5",
+          "f8e7",
+          "c7c8",
+          "e7d8",
+          "e3c5",
+          "f6f5",
+          "d1d6",
+          "e6f7",
+          "c5b6",
+          "f7e7",
+          "d6e6",
+          "e7e6",
+          "c8d8",
+          "e8f7",
+          "d8h8",
+          "f7g6"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 1,
+      "bestLineMaterial": {
+        "initialBalance": -1,
+        "minimumBalance": -10,
+        "finalBalance": -10,
+        "exposure": 9,
+        "sustainedLoss": 9,
+        "firstMove": {
+          "capture": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 46,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "legal-trap-piece-offer",
+    "provenance": "Légal trap teaching line reconstructed from its public historical move sequence; position before 5.Nxe5.",
+    "expectedProperties": ["historical-sacrifice", "piece-sacrifice"],
+    "depth": 10,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "great-separation-insufficient",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 168
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 168
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f3e5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 168
+        },
+        "principalVariationUci": [
+          "f3e5",
+          "d6e5",
+          "d1g4",
+          "f8g7",
+          "g4f3",
+          "g8f6",
+          "c3d5",
+          "e8g8",
+          "d5f6",
+          "g7f6",
+          "c2c3",
+          "f6g5",
+          "a2a4",
+          "g5h6",
+          "a4a5",
+          "a7a6",
+          "e1g1"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "d2d4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 109
+        },
+        "principalVariationUci": [
+          "d2d4",
+          "b8c6",
+          "d4e5",
+          "g4f3",
+          "d1f3",
+          "c6e5",
+          "f3e2",
+          "e5c4"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "h2h3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 76
+        },
+        "principalVariationUci": [
+          "h2h3",
+          "g4f3",
+          "d1f3",
+          "d8d7",
+          "b2b4",
+          "b8c6",
+          "c3d5",
+          "c6d4",
+          "f3d3",
+          "c7c6",
+          "d5e3"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.034954691791225456,
+      "bestLineMaterial": {
+        "initialBalance": 0,
+        "minimumBalance": -2,
+        "finalBalance": 1,
+        "exposure": 2,
+        "sustainedLoss": -1,
+        "firstMove": {
+          "capture": true,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 35,
+      "beforeOutcomeExpectation": 0.601029394177235,
+      "bestOutcomeExpectation": 0.601029394177235,
+      "outcomeDrop": 0,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "legal-trap-piece-offer",
+    "provenance": "Légal trap teaching line reconstructed from its public historical move sequence; position before 5.Nxe5.",
+    "expectedProperties": ["historical-sacrifice", "piece-sacrifice"],
+    "depth": 14,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": "great",
+    "specialRule": "narrow-critical-move",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 173
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 165
+    },
+    "outcomeLoss": 0.004676544526329263,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f3e5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 173
+        },
+        "principalVariationUci": [
+          "f3e5",
+          "d6e5",
+          "d1g4",
+          "b8c6",
+          "d2d3",
+          "f8g7",
+          "a2a4",
+          "g8f6",
+          "g4d1",
+          "e8g8",
+          "c3e2"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "d2d4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 93
+        },
+        "principalVariationUci": [
+          "d2d4",
+          "b8c6",
+          "d4e5",
+          "g4f3",
+          "d1f3",
+          "c6e5",
+          "f3e2",
+          "e5c4",
+          "e2c4",
+          "f8g7",
+          "c4b5",
+          "c7c6",
+          "b5b7",
+          "g8e7",
+          "c1g5"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "h2h3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 72
+        },
+        "principalVariationUci": [
+          "h2h3",
+          "g4f3",
+          "d1f3",
+          "g8f6",
+          "g2g4",
+          "h7h6",
+          "d2d3",
+          "b8c6",
+          "c1e3",
+          "c6d4",
+          "e3d4",
+          "e5d4",
+          "c3e2",
+          "f8g7",
+          "e1c1",
+          "e8g8",
+          "h3h4",
+          "h6h5",
+          "g4g5"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.04748464335526237,
+      "bestLineMaterial": {
+        "initialBalance": 0,
+        "minimumBalance": -2,
+        "finalBalance": 1,
+        "exposure": 2,
+        "sustainedLoss": -1,
+        "firstMove": {
+          "capture": true,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 35,
+      "beforeOutcomeExpectation": 0.6039500651496623,
+      "bestOutcomeExpectation": 0.6039500651496623,
+      "outcomeDrop": 0.004676544526329263,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "legal-trap-piece-offer",
+    "provenance": "Légal trap teaching line reconstructed from its public historical move sequence; position before 5.Nxe5.",
+    "expectedProperties": ["historical-sacrifice", "piece-sacrifice"],
+    "depth": 16,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": "great",
+    "specialRule": "narrow-critical-move",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 178
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 170
+    },
+    "outcomeLoss": 0.004664802689452685,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f3e5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 178
+        },
+        "principalVariationUci": [
+          "f3e5",
+          "d6e5",
+          "d1g4",
+          "b8c6",
+          "d2d3",
+          "c6d4",
+          "g4d1",
+          "f8h6",
+          "c1h6",
+          "g8h6",
+          "c3e2",
+          "e8g8",
+          "c2c3",
+          "d4e2",
+          "d1e2",
+          "g8g7",
+          "g2g3",
+          "d8d6",
+          "e1c1"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "d2d4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 78
+        },
+        "principalVariationUci": [
+          "d2d4",
+          "b8c6",
+          "d4e5",
+          "d6e5",
+          "e1g1",
+          "d8d1",
+          "f1d1",
+          "a7a6",
+          "c1e3"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "h2h3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 63
+        },
+        "principalVariationUci": [
+          "h2h3",
+          "g4f3",
+          "d1f3",
+          "g8f6",
+          "d2d3",
+          "f8g7",
+          "g2g4",
+          "b8c6",
+          "c3e2",
+          "e8g8",
+          "h3h4"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.05944529457098091,
+      "bestLineMaterial": {
+        "initialBalance": 0,
+        "minimumBalance": -2,
+        "finalBalance": 1,
+        "exposure": 2,
+        "sustainedLoss": -1,
+        "firstMove": {
+          "capture": true,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 35,
+      "beforeOutcomeExpectation": 0.6068633406148151,
+      "bestOutcomeExpectation": 0.6068633406148151,
+      "outcomeDrop": 0.004664802689452685,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "mate-in-one-not-played",
+    "provenance": "Constructed from the mate-in-one position to test a missed mate.",
+    "expectedProperties": ["missed-mate", "already-winning"],
+    "depth": 10,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "played-move-retains-mate",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f7f8",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7f8"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "f7g7",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7g7"]
+      },
+      {
+        "rank": 3,
+        "moveUci": "f7h7",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7h7"]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0,
+      "bestLineMaterial": {
+        "initialBalance": 9,
+        "minimumBalance": 9,
+        "finalBalance": 9,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 26,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "mate-in-one-not-played",
+    "provenance": "Constructed from the mate-in-one position to test a missed mate.",
+    "expectedProperties": ["missed-mate", "already-winning"],
+    "depth": 14,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "played-move-retains-mate",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f7f8",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7f8"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "f7g7",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7g7"]
+      },
+      {
+        "rank": 3,
+        "moveUci": "f7h7",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7h7"]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0,
+      "bestLineMaterial": {
+        "initialBalance": 9,
+        "minimumBalance": 9,
+        "finalBalance": 9,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 26,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "mate-in-one-not-played",
+    "provenance": "Constructed from the mate-in-one position to test a missed mate.",
+    "expectedProperties": ["missed-mate", "already-winning"],
+    "depth": 16,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "played-move-retains-mate",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "f7f8",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7f8"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "f7g7",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7g7"]
+      },
+      {
+        "rank": 3,
+        "moveUci": "f7h7",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 1
+        },
+        "principalVariationUci": ["f7h7"]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0,
+      "bestLineMaterial": {
+        "initialBalance": 9,
+        "minimumBalance": 9,
+        "finalBalance": 9,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 26,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "quiet-king-centralization",
+    "provenance": "Constructed pawn ending for quiet-move and depth-stability testing.",
+    "expectedProperties": ["quiet-move", "many-legal-alternatives"],
+    "depth": 10,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 26
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 17
+    },
+    "outcomeLoss": 0.005483979006356887,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e3f4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 26
+        },
+        "principalVariationUci": [
+          "e3f4",
+          "d5e6",
+          "f4g5",
+          "e6f7",
+          "g5h6",
+          "f7f6",
+          "h2h4",
+          "f6f5",
+          "h6h7",
+          "f5g4"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "h2h4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 18
+        },
+        "principalVariationUci": [
+          "h2h4",
+          "d5e5",
+          "e3f3",
+          "e5f6",
+          "f3f4",
+          "f6g7",
+          "f4g5"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e3f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 17
+        },
+        "principalVariationUci": [
+          "e3f3",
+          "d5e6",
+          "f3g4",
+          "e6f6",
+          "g4h5",
+          "f6g7",
+          "h2h4",
+          "g7h7",
+          "h5g5"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.004874500618253341,
+      "bestLineMaterial": {
+        "initialBalance": 1,
+        "minimumBalance": 1,
+        "finalBalance": 1,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 8,
+      "beforeOutcomeExpectation": 0.5158483478261238,
+      "bestOutcomeExpectation": 0.5158483478261238,
+      "outcomeDrop": 0.005483979006356887,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "quiet-king-centralization",
+    "provenance": "Constructed pawn ending for quiet-move and depth-stability testing.",
+    "expectedProperties": ["quiet-move", "many-legal-alternatives"],
+    "depth": 14,
+    "multiPv": 3,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 4
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 0
+    },
+    "outcomeLoss": 0.0024390050446069234,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e3f4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 4
+        },
+        "principalVariationUci": [
+          "e3f4",
+          "d5e6",
+          "f4g5",
+          "e6f7",
+          "g5f5",
+          "f7g7",
+          "f5e4",
+          "g7f6",
+          "e4d3",
+          "f6f5"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e3f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 2
+        },
+        "principalVariationUci": [
+          "e3f3",
+          "d5e5",
+          "f3g4",
+          "e5f6",
+          "g4f4",
+          "f6g6",
+          "f4e4",
+          "g6h5",
+          "e4d3",
+          "h5g6"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "h2h3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 1
+        },
+        "principalVariationUci": [
+          "h2h3",
+          "d5e5",
+          "e3d3",
+          "e5f4",
+          "d3e2",
+          "f4e4",
+          "h3h4",
+          "e4f5",
+          "e2f3"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0.001219495267706816,
+      "bestLineMaterial": {
+        "initialBalance": 1,
+        "minimumBalance": 1,
+        "finalBalance": 1,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 8,
+      "beforeOutcomeExpectation": 0.5024390050446069,
+      "bestOutcomeExpectation": 0.5024390050446069,
+      "outcomeDrop": 0.0024390050446069234,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "quiet-king-centralization",
+    "provenance": "Constructed pawn ending for quiet-move and depth-stability testing.",
+    "expectedProperties": ["quiet-move", "many-legal-alternatives"],
+    "depth": 16,
+    "multiPv": 3,
+    "ordinaryClassification": "good",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 0
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 1
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e3f4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "e3f4",
+          "d5e6",
+          "h2h4",
+          "e6f7",
+          "h4h5",
+          "f7g7",
+          "f4g3",
+          "g7h6",
+          "g3h4",
+          "h6g7",
+          "h4g5",
+          "g7h7",
+          "g5f5",
+          "h7h6",
+          "f5f6"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "h2h4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "h2h4",
+          "d5e5",
+          "e3f3",
+          "e5f6",
+          "f3g4",
+          "f6g6",
+          "h4h5",
+          "g6g7",
+          "g4g5",
+          "g7h7",
+          "g5f5",
+          "h7h6",
+          "f5g4"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e3f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "e3f3",
+          "d5e5",
+          "f3g4",
+          "e5f6",
+          "h2h4",
+          "f6g6",
+          "h4h5",
+          "g6g7",
+          "g4g5",
+          "g7h7",
+          "h5h6",
+          "h7g8",
+          "g5f4",
+          "g8h7"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 3,
+      "candidateOutcomeSeparation": 0,
+      "bestLineMaterial": {
+        "initialBalance": 1,
+        "minimumBalance": 1,
+        "finalBalance": 1,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 8,
+      "beforeOutcomeExpectation": 0.5,
+      "bestOutcomeExpectation": 0.5,
+      "outcomeDrop": 0,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "opera-game-queen-offer",
+    "provenance": "Paul Morphy–Duke Karl/Count Isouard, Paris 1858 (public historical game score), position before 16.Qb8+.",
+    "expectedProperties": ["historical-sacrifice", "queen-sacrifice"],
+    "depth": 12,
+    "multiPv": 2,
+    "ordinaryClassification": "best",
+    "specialClassification": "great",
+    "specialRule": "narrow-critical-move",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 2
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "b3b8",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 2
+        },
+        "principalVariationUci": ["b3b8", "d7b8", "d1d8"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "b3b7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 294
+        },
+        "principalVariationUci": [
+          "b3b7",
+          "f7f6",
+          "b7c8",
+          "e8e7",
+          "g5e3",
+          "h7h5",
+          "e3a7",
+          "g7g6",
+          "c1b1",
+          "f8g7",
+          "a7c5",
+          "d7c5"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 2,
+      "candidateOutcomeSeparation": 1,
+      "bestLineMaterial": {
+        "initialBalance": -1,
+        "minimumBalance": -10,
+        "finalBalance": -10,
+        "exposure": 9,
+        "sustainedLoss": 9,
+        "firstMove": {
+          "capture": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 46,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "opera-game-queen-offer",
+    "provenance": "Paul Morphy–Duke Karl/Count Isouard, Paris 1858 (public historical game score), position before 16.Qb8+.",
+    "expectedProperties": ["historical-sacrifice", "queen-sacrifice"],
+    "depth": 12,
+    "multiPv": 4,
+    "ordinaryClassification": "best",
+    "specialClassification": "great",
+    "specialRule": "narrow-critical-move",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 2
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "b3b8",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 2
+        },
+        "principalVariationUci": ["b3b8", "d7b8", "d1d8"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "b3c3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 293
+        },
+        "principalVariationUci": [
+          "b3c3",
+          "f7f6",
+          "c3c8",
+          "e8e7",
+          "g5e3",
+          "h7h5",
+          "e3a7",
+          "g7g6",
+          "c1b1",
+          "f6f5",
+          "c8c7",
+          "e7e8",
+          "a7b6",
+          "f8e7",
+          "c7c8",
+          "e8f7",
+          "c8h8",
+          "d7b6",
+          "h8h7",
+          "f7f6"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "b3b7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 288
+        },
+        "principalVariationUci": [
+          "b3b7",
+          "f7f6",
+          "b7c8",
+          "e8e7",
+          "g5e3",
+          "h7h5",
+          "e3a7",
+          "g7g6",
+          "c1b1",
+          "h8h7",
+          "a7e3",
+          "f8h6"
+        ]
+      },
+      {
+        "rank": 4,
+        "moveUci": "b3b5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 142
+        },
+        "principalVariationUci": [
+          "b3b5",
+          "f8e7",
+          "g5e7",
+          "e6e7",
+          "b5b7",
+          "e7g5",
+          "c1b1",
+          "g5d8",
+          "b7a7"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 4,
+      "candidateOutcomeSeparation": 1,
+      "bestLineMaterial": {
+        "initialBalance": -1,
+        "minimumBalance": -10,
+        "finalBalance": -10,
+        "exposure": 9,
+        "sustainedLoss": 9,
+        "firstMove": {
+          "capture": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 46,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "opera-game-queen-offer",
+    "provenance": "Paul Morphy–Duke Karl/Count Isouard, Paris 1858 (public historical game score), position before 16.Qb8+.",
+    "expectedProperties": ["historical-sacrifice", "queen-sacrifice"],
+    "depth": 12,
+    "multiPv": 5,
+    "ordinaryClassification": "best",
+    "specialClassification": "great",
+    "specialRule": "narrow-critical-move",
+    "rejectionReasons": [],
+    "beforeEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 2
+    },
+    "playedMoveEvaluation": {
+      "kind": "mate",
+      "perspective": "white",
+      "moves": 1
+    },
+    "outcomeLoss": null,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "b3b8",
+        "evaluation": {
+          "kind": "mate",
+          "perspective": "white",
+          "moves": 2
+        },
+        "principalVariationUci": ["b3b8", "d7b8", "d1d8"]
+      },
+      {
+        "rank": 2,
+        "moveUci": "b3b7",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 295
+        },
+        "principalVariationUci": [
+          "b3b7",
+          "f7f6",
+          "b7c8",
+          "e8e7",
+          "g5e3",
+          "g7g6",
+          "c8c7",
+          "e7e8",
+          "e3a7",
+          "f8e7",
+          "c7c8",
+          "e8f7",
+          "c8h8",
+          "d7f8",
+          "d1d5",
+          "e6g4",
+          "a7c5",
+          "g4g5",
+          "c5e3",
+          "g5g2",
+          "c1b1",
+          "g2h1",
+          "e3c1",
+          "h1e4"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "b3c3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 291
+        },
+        "principalVariationUci": [
+          "b3c3",
+          "f7f6",
+          "c3c8",
+          "e8e7",
+          "g5e3",
+          "g7g6",
+          "c8c7",
+          "e7e8",
+          "e3a7",
+          "f8e7",
+          "c7c8",
+          "e8f7",
+          "c8h8",
+          "d7f8",
+          "c1b1",
+          "e6g4",
+          "d1c1",
+          "g4g2"
+        ]
+      },
+      {
+        "rank": 4,
+        "moveUci": "b3b5",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 110
+        },
+        "principalVariationUci": [
+          "b3b5",
+          "f7f6",
+          "g5e3",
+          "f8d6",
+          "e3a7",
+          "e8e7",
+          "b5c6",
+          "h8d8",
+          "a7e3",
+          "d8b8",
+          "a2a4",
+          "d6b4"
+        ]
+      },
+      {
+        "rank": 5,
+        "moveUci": "b3a4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 50
+        },
+        "principalVariationUci": [
+          "b3a4",
+          "f8c5",
+          "g5e3",
+          "c5e3",
+          "f2e3",
+          "h8f8"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 5,
+      "candidateOutcomeSeparation": 1,
+      "bestLineMaterial": {
+        "initialBalance": -1,
+        "minimumBalance": -10,
+        "finalBalance": -10,
+        "exposure": 9,
+        "sustainedLoss": 9,
+        "firstMove": {
+          "capture": false,
+          "check": true,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 46,
+      "beforeOutcomeExpectation": null,
+      "bestOutcomeExpectation": null,
+      "outcomeDrop": null,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "starting-position-e4",
+    "provenance": "Standard initial position; routine development control.",
+    "expectedProperties": ["routine-development", "many-legal-alternatives"],
+    "depth": 12,
+    "multiPv": 2,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "brilliant-separation-insufficient",
+      "great-separation-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 37
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 37
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e2e4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 37
+        },
+        "principalVariationUci": [
+          "e2e4",
+          "e7e6",
+          "b1c3",
+          "d7d5",
+          "d2d4",
+          "g8f6",
+          "e4e5",
+          "f6d7",
+          "f2f4",
+          "c7c5",
+          "g1f3",
+          "c5d4",
+          "f3d4",
+          "f8c5",
+          "c1e3",
+          "b8c6",
+          "d1d2",
+          "c6d4",
+          "e3d4",
+          "e8g8"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "d2d4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 19
+        },
+        "principalVariationUci": [
+          "d2d4",
+          "d7d5",
+          "g1f3",
+          "g8f6",
+          "c1f4",
+          "c8f5",
+          "e2e3",
+          "e7e6"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 2,
+      "candidateOutcomeSeparation": 0.01096238378752834,
+      "bestLineMaterial": {
+        "initialBalance": 0,
+        "minimumBalance": -3,
+        "finalBalance": 0,
+        "exposure": 3,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 20,
+      "beforeOutcomeExpectation": 0.5225456767584273,
+      "bestOutcomeExpectation": 0.5225456767584273,
+      "outcomeDrop": 0,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "starting-position-e4",
+    "provenance": "Standard initial position; routine development control.",
+    "expectedProperties": ["routine-development", "many-legal-alternatives"],
+    "depth": 12,
+    "multiPv": 4,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "brilliant-separation-insufficient",
+      "great-separation-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 37
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 37
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e2e4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 37
+        },
+        "principalVariationUci": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "d7d5",
+          "f3e5",
+          "f8d6",
+          "d2d4",
+          "d5e4",
+          "f1c4",
+          "d6e5",
+          "d4e5",
+          "d8d1",
+          "e1d1"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "g1f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 16
+        },
+        "principalVariationUci": [
+          "g1f3",
+          "d7d5",
+          "d2d4",
+          "g8f6",
+          "c1f4",
+          "e7e6",
+          "e2e3",
+          "c7c5",
+          "c2c3",
+          "b8c6",
+          "b1d2",
+          "f8e7",
+          "f1d3",
+          "c5c4"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "d2d4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 13
+        },
+        "principalVariationUci": [
+          "d2d4",
+          "g8f6",
+          "c2c4",
+          "e7e6",
+          "b1c3",
+          "d7d5",
+          "c1f4",
+          "d5c4",
+          "e2e3",
+          "b7b5"
+        ]
+      },
+      {
+        "rank": 4,
+        "moveUci": "e2e3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 9
+        },
+        "principalVariationUci": [
+          "e2e3",
+          "g8f6",
+          "d2d4",
+          "e7e6",
+          "g1f3",
+          "f8e7",
+          "c2c4",
+          "d7d5",
+          "b1c3",
+          "e8g8",
+          "f1e2",
+          "d5c4",
+          "e2c4"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 4,
+      "candidateOutcomeSeparation": 0.012790817141473121,
+      "bestLineMaterial": {
+        "initialBalance": 0,
+        "minimumBalance": -9,
+        "finalBalance": 0,
+        "exposure": 9,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 20,
+      "beforeOutcomeExpectation": 0.5225456767584273,
+      "bestOutcomeExpectation": 0.5225456767584273,
+      "outcomeDrop": 0,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "starting-position-e4",
+    "provenance": "Standard initial position; routine development control.",
+    "expectedProperties": ["routine-development", "many-legal-alternatives"],
+    "depth": 12,
+    "multiPv": 5,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "brilliant-separation-insufficient",
+      "great-separation-insufficient",
+      "material-exposure-insufficient",
+      "material-not-sustained"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 34
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 36
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e2e4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 34
+        },
+        "principalVariationUci": [
+          "e2e4",
+          "e7e6",
+          "d2d4",
+          "d7d5",
+          "b1c3",
+          "g8f6",
+          "e4e5",
+          "f6d7",
+          "f2f4",
+          "c7c5",
+          "g1f3",
+          "b8c6",
+          "c1e3",
+          "f8e7",
+          "d1d2",
+          "a7a6",
+          "f1d3",
+          "e8g8"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "d2d4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 17
+        },
+        "principalVariationUci": [
+          "d2d4",
+          "d7d5",
+          "c1f4",
+          "e7e6",
+          "e2e3",
+          "f8e7",
+          "g1f3",
+          "c7c5",
+          "d4c5",
+          "e7c5"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e2e3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 15
+        },
+        "principalVariationUci": [
+          "e2e3",
+          "g8f6",
+          "d2d4",
+          "e7e6",
+          "c2c4",
+          "d7d5",
+          "b1c3",
+          "f8e7",
+          "c4d5",
+          "e6d5",
+          "f1d3",
+          "b8c6"
+        ]
+      },
+      {
+        "rank": 4,
+        "moveUci": "g1f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 15
+        },
+        "principalVariationUci": [
+          "g1f3",
+          "d7d5",
+          "d2d4",
+          "e7e6",
+          "e2e3",
+          "g8f6",
+          "c2c4",
+          "c7c5",
+          "b1c3",
+          "c5d4",
+          "e3d4",
+          "f8e7",
+          "f1d3",
+          "d5c4",
+          "d3c4",
+          "e8g8",
+          "e1g1"
+        ]
+      },
+      {
+        "rank": 5,
+        "moveUci": "c2c4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 15
+        },
+        "principalVariationUci": [
+          "c2c4",
+          "e7e5",
+          "b1c3",
+          "g8f6",
+          "g1f3",
+          "b8c6",
+          "e2e3",
+          "d7d5",
+          "d2d4",
+          "e5d4",
+          "f3d4"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 5,
+      "candidateOutcomeSeparation": 0.010355465909491768,
+      "bestLineMaterial": {
+        "initialBalance": 0,
+        "minimumBalance": 0,
+        "finalBalance": 0,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": 1,
+      "legalMoveCount": 20,
+      "beforeOutcomeExpectation": 0.5207198347292586,
+      "bestOutcomeExpectation": 0.5207198347292586,
+      "outcomeDrop": 0,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "quiet-king-centralization",
+    "provenance": "Constructed pawn ending for quiet-move and depth-stability testing.",
+    "expectedProperties": ["quiet-move", "many-legal-alternatives"],
+    "depth": 12,
+    "multiPv": 2,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 0
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 0
+    },
+    "outcomeLoss": 0,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e3f4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "e3f4",
+          "d5e6",
+          "f4g4",
+          "e6f6",
+          "h2h4",
+          "f6g7",
+          "h4h5",
+          "g7h6",
+          "g4h4",
+          "h6g7",
+          "h4g4"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "h2h3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "h2h3",
+          "d5e5",
+          "e3f3",
+          "e5f5",
+          "h3h4",
+          "f5g6",
+          "f3g4",
+          "g6h7",
+          "g4g5",
+          "h7g7",
+          "h4h5",
+          "g7h7",
+          "h5h6",
+          "h7h8"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 2,
+      "candidateOutcomeSeparation": 0,
+      "bestLineMaterial": {
+        "initialBalance": 1,
+        "minimumBalance": 1,
+        "finalBalance": 1,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 8,
+      "beforeOutcomeExpectation": 0.5,
+      "bestOutcomeExpectation": 0.5,
+      "outcomeDrop": 0,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "quiet-king-centralization",
+    "provenance": "Constructed pawn ending for quiet-move and depth-stability testing.",
+    "expectedProperties": ["quiet-move", "many-legal-alternatives"],
+    "depth": 12,
+    "multiPv": 4,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 1
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 0
+    },
+    "outcomeLoss": 0.0006097557952827737,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "e3f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 1
+        },
+        "principalVariationUci": [
+          "e3f3",
+          "d5e6",
+          "f3f4",
+          "e6f6",
+          "h2h3",
+          "f6g6",
+          "f4g4",
+          "g6h6",
+          "g4f5",
+          "h6h5"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e3f4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 1
+        },
+        "principalVariationUci": [
+          "e3f4",
+          "d5e6",
+          "f4g4",
+          "e6f6",
+          "h2h4",
+          "f6g7",
+          "g4g5",
+          "g7h7",
+          "h4h5",
+          "h7g7",
+          "h5h6",
+          "g7h8"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e3f2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 1
+        },
+        "principalVariationUci": [
+          "e3f2",
+          "d5e6",
+          "h2h4",
+          "e6f5",
+          "f2g3",
+          "f5g6",
+          "g3g4",
+          "g6g7",
+          "g4g5"
+        ]
+      },
+      {
+        "rank": 4,
+        "moveUci": "h2h3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 0
+        },
+        "principalVariationUci": [
+          "h2h3",
+          "d5e5",
+          "e3f3",
+          "e5f5",
+          "h3h4",
+          "f5g6",
+          "f3g4",
+          "g6g7",
+          "g4g5",
+          "g7h7",
+          "h4h5"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 4,
+      "candidateOutcomeSeparation": 0,
+      "bestLineMaterial": {
+        "initialBalance": 1,
+        "minimumBalance": 1,
+        "finalBalance": 1,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 8,
+      "beforeOutcomeExpectation": 0.5006097557952828,
+      "bestOutcomeExpectation": 0.5006097557952828,
+      "outcomeDrop": 0.0006097557952827737,
+      "terminalResult": null
+    }
+  },
+  {
+    "id": "quiet-king-centralization",
+    "provenance": "Constructed pawn ending for quiet-move and depth-stability testing.",
+    "expectedProperties": ["quiet-move", "many-legal-alternatives"],
+    "depth": 12,
+    "multiPv": 5,
+    "ordinaryClassification": "best",
+    "specialClassification": null,
+    "specialRule": null,
+    "rejectionReasons": [
+      "played-move-is-not-rank-one",
+      "material-opportunity-insufficient",
+      "outcome-loss-insufficient",
+      "forcing-evidence-insufficient",
+      "no-concrete-missed-opportunity"
+    ],
+    "beforeEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": 4
+    },
+    "playedMoveEvaluation": {
+      "kind": "centipawns",
+      "perspective": "white",
+      "value": -1
+    },
+    "outcomeLoss": 0.003048760839889586,
+    "candidates": [
+      {
+        "rank": 1,
+        "moveUci": "h2h4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 4
+        },
+        "principalVariationUci": [
+          "h2h4",
+          "d5e5",
+          "e3f3",
+          "e5f5",
+          "f3g3",
+          "f5g6",
+          "g3g4",
+          "g6h7",
+          "g4g5",
+          "h7g7",
+          "h4h5",
+          "g7g8",
+          "g5f6",
+          "g8h8"
+        ]
+      },
+      {
+        "rank": 2,
+        "moveUci": "e3f4",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 3
+        },
+        "principalVariationUci": [
+          "e3f4",
+          "d5e6",
+          "h2h4",
+          "e6f6",
+          "h4h5",
+          "f6g7",
+          "f4f5",
+          "g7h6",
+          "f5g4",
+          "h6g7",
+          "g4f4"
+        ]
+      },
+      {
+        "rank": 3,
+        "moveUci": "e3f2",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 3
+        },
+        "principalVariationUci": [
+          "e3f2",
+          "d5e6",
+          "f2f3",
+          "e6f6",
+          "h2h4",
+          "f6g7",
+          "h4h5",
+          "g7h7",
+          "f3g3"
+        ]
+      },
+      {
+        "rank": 4,
+        "moveUci": "h2h3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 3
+        },
+        "principalVariationUci": [
+          "h2h3",
+          "d5e6",
+          "e3f4",
+          "e6f6",
+          "h3h4",
+          "f6g6",
+          "f4g4",
+          "g6g7",
+          "g4g5",
+          "g7f7",
+          "g5f5",
+          "f7g7"
+        ]
+      },
+      {
+        "rank": 5,
+        "moveUci": "e3f3",
+        "evaluation": {
+          "kind": "centipawns",
+          "perspective": "white",
+          "value": 3
+        },
+        "principalVariationUci": [
+          "e3f3",
+          "d5e6",
+          "h2h4",
+          "e6f5",
+          "f3g3",
+          "f5g6",
+          "g3g4",
+          "g6g7",
+          "g4g5",
+          "g7f7",
+          "g5f5",
+          "f7g7"
+        ]
+      }
+    ],
+    "policyEvidence": {
+      "candidateCount": 5,
+      "candidateOutcomeSeparation": 0.0006097449133986022,
+      "bestLineMaterial": {
+        "initialBalance": 1,
+        "minimumBalance": 1,
+        "finalBalance": 1,
+        "exposure": 0,
+        "sustainedLoss": 0,
+        "firstMove": {
+          "capture": false,
+          "check": false,
+          "promotion": false
+        }
+      },
+      "playedRank": null,
+      "legalMoveCount": 8,
+      "beforeOutcomeExpectation": 0.5024390050446069,
+      "bestOutcomeExpectation": 0.5024390050446069,
+      "outcomeDrop": 0.003048760839889586,
+      "terminalResult": null
+    }
+  }
+]
