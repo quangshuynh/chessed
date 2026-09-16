@@ -132,6 +132,9 @@ function renderPage(
 
 async function loaded() {
   await screen.findByRole("button", { name: "Analyze Game" });
+  await act(async () => {
+    await new Promise((resolve) => window.setTimeout(resolve, 0));
+  });
 }
 
 describe("review-page analysis workflow", () => {
