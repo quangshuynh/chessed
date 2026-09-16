@@ -210,6 +210,34 @@ describe("review-page analysis workflow", () => {
     expect(runner).toHaveBeenCalledTimes(2);
   });
 
+  it("resets progress on a repeated run and ignores stale completion", async () => {
+    const first = Promise.withResolvers<WholeGameReview>();
+    const second = Promise.withResolvers<WholeGameReview>();
+    const runner = vi
+      .fn()
+      .mockImplementationOnce(async ({ onProgress }) => {
+        onProgress?.({
+          phase: "confirmation",
+          completedPositions: 8,
+          totalPositions: 9,
+        });
+        return first.promise;
+      })
+      .mockImplementationOnce(() => second.promise);
+    renderPage({ reviewRunner: runner });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    expect(await screen.findByText("Analyzing 8 / 9 steps")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Cancel analysis" }));
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Again" }));
+    expect(await screen.findByText("Analyzing 0 / 6 steps")).toBeTruthy();
+
+    await act(async () => first.resolve(fakeReview()));
+    expect(screen.getByText("Analyzing 0 / 6 steps")).toBeTruthy();
+    await act(async () => second.resolve(fakeReview()));
+    expect(await screen.findByText("Engine evaluation:")).toBeTruthy();
+  });
+
   it("shows a safe failure and retries", async () => {
     const runner = vi
       .fn()

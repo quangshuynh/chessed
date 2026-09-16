@@ -16,6 +16,7 @@
     "test:e2e": "playwright test",
     "test:calibration": "cross-env CHESSED_CALIBRATION=1 playwright test e2e/special-calibration.spec.ts",
     "test:e2e:perf": "cross-env CHESSED_PERF=1 playwright test e2e/performance.spec.ts",
+    "test:e2e:soak": "cross-env CHESSED_SOAK=1 playwright test e2e/confirmation-soak.spec.ts",
     "format": "prettier --check .",
     "format:write": "prettier --write ."
   },

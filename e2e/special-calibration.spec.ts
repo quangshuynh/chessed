@@ -50,6 +50,14 @@ function scenarios(): ProbeScenario[] {
     "critical-checking-queen-capture",
     "defensive-rook-capture",
     "quiet-back-rank-defense",
+    "reti-1921-drawing-king-move",
+    "yates-marshall-1929-kb2",
+    "lasker-tarrasch-1914-h4",
+    "hamppe-meitner-1872-perpetual",
+    "leko-kramnik-2008-perpetual",
+    "fischer-tal-1960-perpetual",
+    "matulovic-minev-1956-stalemate",
+    "rhine-2006-stalemate-study",
   ]);
   for (const position of SPECIAL_POSITION_CORPUS.filter(({ id }) =>
     depthIds.has(id),
@@ -61,12 +69,31 @@ function scenarios(): ProbeScenario[] {
     "opera-game-queen-offer",
     "starting-position-e4",
     "quiet-king-centralization",
+    "reti-1921-drawing-king-move",
+    "hamppe-meitner-1872-perpetual",
+    "matulovic-minev-1956-stalemate",
+    "rhine-2006-stalemate-study",
   ]);
   for (const position of SPECIAL_POSITION_CORPUS.filter(({ id }) =>
     multiPvIds.has(id),
   )) {
     for (const multiPv of [2, 4, 5])
       result.push({ position, depth: 12, multiPv });
+  }
+  const defensiveDepthIds = new Set([
+    "reti-1921-drawing-king-move",
+    "yates-marshall-1929-kb2",
+    "lasker-tarrasch-1914-h4",
+    "hamppe-meitner-1872-perpetual",
+    "leko-kramnik-2008-perpetual",
+    "fischer-tal-1960-perpetual",
+    "matulovic-minev-1956-stalemate",
+    "rhine-2006-stalemate-study",
+  ]);
+  for (const position of SPECIAL_POSITION_CORPUS.filter(({ id }) =>
+    defensiveDepthIds.has(id),
+  )) {
+    result.push({ position, depth: 18, multiPv: 3 });
   }
   return result.map(({ position, depth, multiPv }) => {
     const chess = new Chess(position.fen);
