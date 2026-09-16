@@ -16,7 +16,7 @@ This repository contains the initial MVP foundation:
 - Chess.com public API integration for recent public games
 - Manual PGN paste flow
 - PGN parsing and move/position reconstruction (including custom FEN starts)
-- Initial review screen with interactive board, move navigation, move list, game metadata, and placeholders for future analysis features
+- Interactive review screen with explicit client-side analysis, progress, cancellation, ordinary move classifications, and selected-move engine evidence
 
 The Stockfish analysis boundary, engine-independent move-quality observations, Chessed's ordinary move-classification policy, and whole-game review orchestration are implemented. Accuracy scoring and performance-rating logic remain intentionally deferred.
 
@@ -25,7 +25,7 @@ The Stockfish analysis boundary, engine-independent move-quality observations, C
 1. Enter a Chess.com username.
 2. Load recent public games.
 3. Select a game (or paste a PGN manually).
-4. Open the review interface and navigate move-by-move.
+4. Open the review interface, optionally start analysis, and navigate move-by-move.
 
 ## Technology stack
 
@@ -69,13 +69,14 @@ npm run build
 
 Conceptual pipeline:
 
-Chess.com/PGN → PGN parsing → chess positions → Stockfish analysis → (future) Chessed review/scoring → interactive UI
+Chess.com/PGN → PGN parsing → chess positions → Stockfish analysis → Chessed review/classification → interactive UI
 
 ## Current limitations
 
 - Review sessions are stored in browser session storage (no backend persistence)
 - Chess.com games without PGN data cannot be opened
-- Engine analysis and ordinary classifications are not wired into the UI yet; accuracy and performance estimates remain placeholders
+- Analysis is rerun after a page reload; there is no persistent analysis cache
+- Accuracy and performance estimates are intentionally unavailable
 
 Stockfish runs client-side in a single-threaded WebAssembly Web Worker. The default limit is depth 12, and normalized evaluations are always from White's perspective. See [the analysis architecture](docs/stockfish-analysis.md).
 
@@ -83,7 +84,7 @@ Move-quality observations convert those scores centrally to the mover's perspect
 
 Chessed classifies complete observations as Best, Good, Inaccuracy, Mistake, or Blunder with a documented outcome-expectation policy. See [the ordinary classification methodology](docs/move-classification.md).
 
-An injected analyzer can now produce one ordered, provenance-bearing result for a complete game. See [whole-game review orchestration](docs/whole-game-review.md).
+An injected analyzer produces one ordered, provenance-bearing result for a complete game, which the review page consumes without recreating chess or classification logic. See [whole-game review orchestration](docs/whole-game-review.md).
 
 ## Third-party libraries and attribution
 
