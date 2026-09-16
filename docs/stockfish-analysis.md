@@ -22,6 +22,32 @@ One analyzer owns at most one worker and runs one search at a time. `dispose()` 
 
 Known limitations: the lite build is weaker than full Stockfish; browser performance varies; there is no persistent cache; cancelling resets the shared worker; a full game can consume substantial client CPU and should be initiated deliberately by future UI. Whole-game orchestration provides engine-independent position progress above this adapter.
 
+## Browser execution path
+
+The review route reads a browser session and reconstructs its positions without starting the engine. An explicit **Analyze Game** action creates one `StockfishAnalyzer`; its first position lazily creates `/stockfish/stockfish-18-lite-single.js`, which loads the matching WASM. The serial whole-game helper analyzes each non-terminal position and reports factual position progress. `reviewGame` then composes the normalized observations into one completed review, React presents the selected move, and the page disposes the analyzer in `finally`. Cancellation aborts the run, sends `stop`, terminates the worker, and discards partial output. A retry owns a new analyzer and worker.
+
+## Browser validation and measurements
+
+Playwright runs bounded tests against a production Next.js server on port 3100. The tests open a manual PGN through the real homepage, verify analysis is opt-in, observe the dedicated worker and JS/WASM responses, capture advancing progress, await a completed review, navigate the board, cancel a live worker, rerun after cancellation, and use Chromium targets to verify worker termination. A 390 px viewport check guards against a SAN PV widening its analysis card. Unit/component tests remain mocked and fast.
+
+The explicit `npm run test:e2e:perf` suite measured the depth-12 single-worker path on 2026-09-15 using headless Playwright Chromium 140 on Windows 11 Home 64-bit (build 26200), Node 24.18.0, an Intel Core i7-9700 (8 cores/8 logical processors), and approximately 16 GB RAM:
+
+| Fixture | Positions | Approx. duration | Board navigation response |
+| ------- | --------: | ---------------: | ------------------------: |
+| Short   |         5 |           2.08 s |                     95 ms |
+| Medium  |        17 |           2.03 s |                     68 ms |
+| Longer  |        31 |           2.02 s |                     57 ms |
+
+Cancellation after a real worker appeared took approximately 80 ms, including UI confirmation and observed worker removal. Progress remained responsive, board navigation completed during analysis, and no Stockfish worker target remained after completion or cancellation. The flat timings reflect this single warm local run and fixture positions, not a universal scaling claim; browser scheduling, CPU, thermal state, and positions materially affect search cost. No mobile device was measured—the 390 px run validates layout only, not mobile performance. No heap profiler or long soak test was run, so the lifecycle checks rule out obvious surviving workers rather than every possible memory leak.
+
+These results show the current depth-12 serial design is practically usable for the measured fixtures, so no performance optimization or architecture change was justified.
+
+## SAN presentation
+
+Engine evidence retains canonical UCI. `src/lib/chess/notation.ts` creates a chess.js position from the relevant pre-move FEN and legally replays UCI to obtain SAN; SAN rules are not reimplemented. PV conversion advances the same position after every move, preserving captures, disambiguation, castling, promotion, check, checkmate, custom-FEN state, and truncated legal lines. Numbering comes from the FEN fullmove number and side to move, so a Black-starting line begins, for example, `18... Kxh7 19. Ng5+ Kg8`.
+
+Malformed FEN/UCI or any illegal/inconsistent PV makes that presentation unavailable. Chessed does not invent SAN or expose a misleading partial line, while raw UCI remains in the review result for evidence and diagnostics.
+
 ## Licensing and distribution
 
 Chessed distributes unmodified `stockfish-18-lite-single.js` and `.wasm` from Stockfish.js 18.0.8 in `public/stockfish`, plus its GPLv3 license. Stockfish.js is Copyright 2026 Chess.com, LLC and credits the Stockfish developers and contributors. It is GPLv3 software, separate from Chessed's MIT-licensed application code and communicating through UCI messages.

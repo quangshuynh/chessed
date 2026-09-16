@@ -190,7 +190,7 @@ export function HomePage() {
                 spellCheck={false}
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
-                placeholder="for example: hikaru"
+                placeholder="sillyburger22"
               />
               <button type="submit" disabled={isLoading}>
                 {isLoading ? "Finding..." : "Find Games"}

@@ -1,5 +1,10 @@
 import { ReviewPage } from "@/components/review/review-page";
 
-export default function Page({ params }: { params: { sessionId: string } }) {
-  return <ReviewPage sessionId={params.sessionId} />;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ sessionId: string }>;
+}) {
+  const { sessionId } = await params;
+  return <ReviewPage sessionId={sessionId} />;
 }
