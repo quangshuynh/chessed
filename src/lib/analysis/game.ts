@@ -6,6 +6,12 @@ import type {
 } from "@/lib/review/interfaces";
 import { Chess } from "chess.js";
 
+export interface GameAnalysisProgress {
+  phase: "analysis";
+  completedPositions: number;
+  totalPositions: number;
+}
+
 function terminalPosition(
   fen: string,
   positionIndex: number,
@@ -58,8 +64,16 @@ export async function analyzeGamePositions(input: {
   analyzer: EngineAnalyzer;
   limit?: AnalysisLimit;
   signal?: AbortSignal;
+  onProgress?: (progress: GameAnalysisProgress) => void;
 }): Promise<GamePositionAnalysis[]> {
   const results: GamePositionAnalysis[] = [];
+  const reportProgress = () =>
+    input.onProgress?.({
+      phase: "analysis",
+      completedPositions: results.length,
+      totalPositions: input.game.positions.length,
+    });
+  reportProgress();
   for (
     let positionIndex = 0;
     positionIndex < input.game.positions.length;
@@ -73,18 +87,22 @@ export async function analyzeGamePositions(input: {
     );
     if (terminal) {
       results.push(terminal);
+      reportProgress();
       continue;
     }
+    const analysis = await input.analyzer.analyzePosition({
+      fen: input.game.positions[positionIndex],
+      limit: input.limit,
+      signal: input.signal,
+    });
+    input.signal?.throwIfAborted();
     results.push({
       status: "analyzed",
       positionIndex,
       followingMovePly: input.game.moves[positionIndex]?.ply ?? null,
-      analysis: await input.analyzer.analyzePosition({
-        fen: input.game.positions[positionIndex],
-        limit: input.limit,
-        signal: input.signal,
-      }),
+      analysis,
     });
+    reportProgress();
   }
   return results;
 }
