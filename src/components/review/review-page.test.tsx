@@ -6,6 +6,7 @@ import {
   fireEvent,
   render,
   screen,
+  waitFor,
 } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -22,13 +23,30 @@ vi.mock("next/link", () => ({
     <a href={href}>{children}</a>
   ),
 }));
+vi.mock("next/image", () => ({
+  default: ({
+    src,
+    alt,
+    onError,
+  }: {
+    src: string;
+    alt: string;
+    onError?: () => void;
+  }) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt} onError={onError} />
+  ),
+}));
 vi.mock("react-chessboard", () => ({
   Chessboard: ({ options }: { options: { position: string } }) => (
     <div data-testid="board" data-position={options.position} />
   ),
 }));
 
-afterEach(() => cleanup());
+afterEach(() => {
+  cleanup();
+  window.localStorage.clear();
+});
 
 const pgn = "1. e4 e5 2. Nf3 Nc6 3. Bb5";
 const game = parsePgnToReviewGame(pgn);
@@ -118,14 +136,21 @@ function renderPage(
   options: {
     reviewRunner?: typeof import("@/lib/analysis/review-game").reviewGame;
     analyzerFactory?: () => EngineAnalyzer;
+    profileLoader?: (
+      username: string,
+    ) => Promise<import("@/lib/sources/chesscom/types").ChessComPlayerProfile>;
+    soundPlayer?: (sound: import("@/lib/chess/move-sound").MoveSound) => void;
+    session?: ReviewSessionPayload;
   } = {},
 ) {
   return render(
     <ReviewPage
       sessionId="session"
-      sessionReader={() => session}
+      sessionReader={() => options.session ?? session}
       analyzerFactory={options.analyzerFactory ?? analyzer}
       reviewRunner={options.reviewRunner}
+      profileLoader={options.profileLoader}
+      soundPlayer={options.soundPlayer ?? vi.fn()}
     />,
   );
 }
@@ -138,6 +163,112 @@ async function loaded() {
 }
 
 describe("review-page analysis workflow", () => {
+  it("loads correctly associated profiles only for trustworthy Chess.com sessions", async () => {
+    const chessComSession: ReviewSessionPayload = {
+      ...session,
+      source: "chesscom",
+      summary: {
+        id: "game",
+        white: "WhiteUser",
+        black: "BlackUser",
+        whiteRating: 1800,
+        blackRating: 1700,
+      },
+    };
+    const loader = vi.fn(async (username: string) => ({
+      username,
+      avatarUrl: `https://images.chesscomfiles.com/uploads/v1/user/${username}.png`,
+      profileUrl: `https://www.chess.com/member/${username}`,
+    }));
+    renderPage({ session: chessComSession, profileLoader: loader });
+    await loaded();
+    await waitFor(() =>
+      expect(document.querySelectorAll("img")).toHaveLength(2),
+    );
+    expect(loader.mock.calls.map(([name]) => name)).toEqual([
+      "WhiteUser",
+      "BlackUser",
+    ]);
+    const white = document.querySelector('[data-player-color="white"]')!;
+    const black = document.querySelector('[data-player-color="black"]')!;
+    expect(white.textContent).toContain("WhiteUser");
+    expect(white.querySelector("img")?.getAttribute("src")).toContain(
+      "WhiteUser",
+    );
+    expect(black.textContent).toContain("BlackUser");
+    expect(black.querySelector("img")?.getAttribute("src")).toContain(
+      "BlackUser",
+    );
+    fireEvent.error(white.querySelector("img")!);
+    expect(white.querySelector("img")).toBeNull();
+    expect(white.textContent).toContain("W");
+  });
+
+  it("never queries manual PGN names and renders neutral avatar fallbacks", async () => {
+    const loader = vi.fn();
+    renderPage({ profileLoader: loader });
+    await loaded();
+    expect(loader).not.toHaveBeenCalled();
+    expect(
+      document.querySelector('[data-player-color="white"]')?.textContent,
+    ).toContain("Alice");
+    expect(document.querySelectorAll("[data-player-color] img")).toHaveLength(
+      0,
+    );
+  });
+
+  it("keeps fallbacks usable when profile lookup fails or has no avatar", async () => {
+    const chessComSession: ReviewSessionPayload = {
+      ...session,
+      source: "chesscom",
+    };
+    const loader = vi.fn(async (username: string) => {
+      if (username === "Alice") throw new Error("offline");
+      return { username, avatarUrl: null, profileUrl: null };
+    });
+    renderPage({ session: chessComSession, profileLoader: loader });
+    await loaded();
+    await act(async () => Promise.resolve());
+    expect(document.querySelectorAll("[data-player-color] img")).toHaveLength(
+      0,
+    );
+    expect(screen.getAllByText("A")).toHaveLength(1);
+    expect(screen.getAllByText("B")).toHaveLength(1);
+  });
+
+  it("plays at most one destination sound per deliberate navigation and none at start", async () => {
+    const player = vi.fn();
+    renderPage({ soundPlayer: player });
+    await loaded();
+    expect(player).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button", { name: "White move Bb5" }));
+    expect(player).toHaveBeenCalledTimes(1);
+    expect(player).toHaveBeenLastCalledWith("move");
+    fireEvent.keyDown(window, { key: "ArrowLeft" });
+    expect(player).toHaveBeenCalledTimes(2);
+    fireEvent.click(screen.getByRole("button", { name: "Previous" }));
+    fireEvent.click(screen.getByRole("button", { name: "Previous" }));
+    fireEvent.click(screen.getByRole("button", { name: "Previous" }));
+    fireEvent.click(screen.getByRole("button", { name: "Previous" }));
+    expect(screen.getByText(/Starting position/)).toBeTruthy();
+    expect(player).toHaveBeenCalledTimes(5);
+  });
+
+  it("mutes immediately, persists the preference, and does not replay on rerender", async () => {
+    const player = vi.fn();
+    renderPage({ soundPlayer: player });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Mute move sounds" }));
+    fireEvent.click(screen.getByRole("button", { name: "White move e4" }));
+    expect(player).not.toHaveBeenCalled();
+    expect(window.localStorage.getItem("chessed.sound.enabled.v1")).toBe(
+      "false",
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Unmute move sounds" }));
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    expect(player).toHaveBeenCalledTimes(1);
+  });
+
   it("explains a missing browser session", async () => {
     render(<ReviewPage sessionId="missing" sessionReader={() => undefined} />);
     expect(await screen.findByRole("alert")).toBeTruthy();

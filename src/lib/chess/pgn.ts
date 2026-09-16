@@ -19,7 +19,11 @@ function getStartingFen(headers: Record<string, string>): string {
   return DEFAULT_STARTING_FEN;
 }
 
-function toParsedMove(move: Move, ply: number): ParsedMove {
+function toParsedMove(
+  move: Move,
+  ply: number,
+  resultingPosition: Chess,
+): ParsedMove {
   return {
     ply,
     color: move.color,
@@ -27,6 +31,9 @@ function toParsedMove(move: Move, ply: number): ParsedMove {
     from: move.from,
     to: move.to,
     uci: `${move.from}${move.to}${move.promotion ?? ""}`,
+    isCapture: move.isCapture() || move.isEnPassant(),
+    isCheck: resultingPosition.inCheck(),
+    isCheckmate: resultingPosition.isCheckmate(),
   };
 }
 
@@ -58,7 +65,7 @@ export function parsePgnToReviewGame(rawPgn: string): ParsedReviewGame {
   verboseMoves.forEach((move, index) => {
     replay.move(move);
     positions.push(replay.fen());
-    moves.push(toParsedMove(move, index + 1));
+    moves.push(toParsedMove(move, index + 1, replay));
   });
 
   return {

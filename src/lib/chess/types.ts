@@ -7,6 +7,9 @@ export interface ParsedMove {
   from: string;
   to: string;
   uci: string;
+  isCapture: boolean;
+  isCheck: boolean;
+  isCheckmate: boolean;
 }
 
 export interface ParsedReviewGame {

@@ -21,3 +21,10 @@ export interface ChessComGamesResponse {
   username: string;
   games: ChessComRecentGame[];
 }
+
+/** Minimal public identity used by Chessed presentation. */
+export interface ChessComPlayerProfile {
+  username: string;
+  avatarUrl: string | null;
+  profileUrl: string | null;
+}
