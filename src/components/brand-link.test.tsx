@@ -26,8 +26,8 @@ describe("BrandLink", () => {
     const link = screen.getByRole("link", { name: "Chessed home" });
     expect(link.getAttribute("href")).toBe("/");
     expect(link.textContent).toContain("Chessed");
-    expect(link.querySelector("img")?.getAttribute("src")).toContain(
-      "chessed-logo.png",
+    expect(link.querySelector("img")?.getAttribute("src")).toBe(
+      "/brand/chessed-logo.png",
     );
     expect(link.querySelector("img")?.getAttribute("alt")).toBe("");
   });

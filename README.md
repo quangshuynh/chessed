@@ -73,7 +73,7 @@ npm run test:e2e
 - `src/lib/review/game-review.ts`: pure whole-game review contract and composition
 - `src/lib/analysis/*`: Stockfish worker adapter, UCI normalization, and serial game-position analysis
 - `src/components/*`: UI presentation components
-- `docs/images/chessed-logo.png`: transparent Chessed brand source; `src/app/icon.png` is its favicon-specific App Router variant
+- `docs/images/chessed-logo.png`: transparent Chessed brand source; optimized derivatives live at `public/brand/chessed-logo.png` and `src/app/icon.png`
 - `src/app/api/chesscom/[username]/games`: API boundary for Chess.com integration
 
 Conceptual pipeline:

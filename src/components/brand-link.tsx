@@ -1,13 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import chessedLogo from "../../docs/images/chessed-logo.png";
-
 export function BrandLink() {
   return (
     <Link href="/" className="brand-link" aria-label="Chessed home">
       <Image
-        src={chessedLogo}
+        src="/brand/chessed-logo.png"
         alt=""
         width={256}
         height={210}
