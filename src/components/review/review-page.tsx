@@ -9,7 +9,7 @@ import { reviewGame } from "@/lib/analysis/review-game";
 import { StockfishAnalyzer } from "@/lib/analysis/stockfish";
 import { parsePgnToReviewGame } from "@/lib/chess/pgn";
 import { formatPrincipalVariation, uciMoveToSan } from "@/lib/chess/notation";
-import type { ParsedReviewGame } from "@/lib/chess/types";
+import type { ParsedMove, ParsedReviewGame } from "@/lib/chess/types";
 import type { WholeGameReview } from "@/lib/review/game-review";
 import type { EngineAnalyzer } from "@/lib/review/interfaces";
 import {
@@ -23,6 +23,7 @@ import {
   formatSpecialClassification,
   formatTerminalReason,
 } from "./review-format";
+import { groupMovesIntoFullMoves } from "./full-move-rows";
 import styles from "./review-page.module.css";
 
 type LoadedGame = {
@@ -210,6 +211,7 @@ export function ReviewPage({
       }
     | undefined
   >(undefined);
+  const moveListRef = useRef<HTMLDivElement>(null);
 
   const stopActiveRun = useCallback(() => {
     const active = activeRunRef.current;
@@ -270,6 +272,31 @@ export function ReviewPage({
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [game]);
+
+  useEffect(() => {
+    if (currentPly === 0) return;
+    const viewport = moveListRef.current;
+    const selected = viewport?.querySelector<HTMLElement>(
+      `[data-ply="${currentPly}"]`,
+    );
+    if (!viewport || !selected) return;
+
+    const viewportBounds = viewport.getBoundingClientRect();
+    const selectedBounds = selected.getBoundingClientRect();
+    if (
+      selectedBounds.top >= viewportBounds.top &&
+      selectedBounds.bottom <= viewportBounds.bottom
+    )
+      return;
+
+    const reducedMotion = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    selected.scrollIntoView({
+      block: "nearest",
+      behavior: reducedMotion ? "auto" : "smooth",
+    });
+  }, [currentPly]);
 
   async function startAnalysis() {
     if (!game || activeRunRef.current) return;
@@ -373,6 +400,51 @@ export function ReviewPage({
   const black = session.summary?.black ?? game!.headers.Black ?? "Black";
   const completedReview =
     analysis.status === "complete" ? analysis.review : null;
+  const fullMoveRows = groupMovesIntoFullMoves(game!.moves, game!.startingFen);
+
+  function renderMoveCell(move: ParsedMove | undefined) {
+    if (!move) return <span className={styles.emptyMove} aria-hidden="true" />;
+    const reviewedMove = completedReview?.moves[move.ply - 1];
+    const classificationKey = reviewedMove?.specialClassification
+      ? reviewedMove.specialClassification.classification
+      : reviewedMove?.classification.status === "classified"
+        ? reviewedMove.classification.classification
+        : reviewedMove
+          ? "unavailable"
+          : null;
+    const label = reviewedMove?.specialClassification
+      ? formatSpecialClassification(
+          reviewedMove.specialClassification.classification,
+        )
+      : reviewedMove?.classification.status === "classified"
+        ? formatClassification(reviewedMove.classification.classification)
+        : reviewedMove
+          ? "Unavailable"
+          : null;
+    const side = move.color === "w" ? "White" : "Black";
+    const selected = currentPly === move.ply;
+
+    return (
+      <button
+        type="button"
+        className={`${styles.moveCell} ${selected ? styles.activeMove : ""}`}
+        onClick={() => setCurrentPly(move.ply)}
+        aria-current={selected ? "step" : undefined}
+        aria-label={`${side} move ${move.san}${label ? `, ${label}` : ""}`}
+        data-ply={move.ply}
+      >
+        <span className={styles.moveSan}>{move.san}</span>
+        {label && (
+          <span
+            className={`${styles.moveClassification} ${classificationKey ? styles[`moveClassification_${classificationKey}`] : ""}`}
+            title={label}
+          >
+            <span aria-hidden="true">◆</span> {label}
+          </span>
+        )}
+      </button>
+    );
+  }
 
   return (
     <div className={styles.page}>
@@ -508,45 +580,31 @@ export function ReviewPage({
           </section>
           <section className={styles.infoCard}>
             <h2>Moves</h2>
-            <ol className={styles.moveList}>
-              {game!.moves.map((move) => {
-                const reviewedMove = completedReview?.moves[move.ply - 1];
-                const label = reviewedMove?.specialClassification
-                  ? formatSpecialClassification(
-                      reviewedMove.specialClassification.classification,
-                    )
-                  : reviewedMove?.classification.status === "classified"
-                    ? formatClassification(
-                        reviewedMove.classification.classification,
-                      )
-                    : reviewedMove
-                      ? "Unavailable"
-                      : null;
-                return (
-                  <li key={move.ply}>
-                    <button
-                      type="button"
-                      className={
-                        currentPly === move.ply ? styles.activeMove : undefined
-                      }
-                      onClick={() => setCurrentPly(move.ply)}
-                      aria-current={
-                        currentPly === move.ply ? "step" : undefined
-                      }
-                    >
-                      <span>
-                        {move.ply}. {move.san}
-                      </span>
-                      {label && (
-                        <span className={styles.moveClassification}>
-                          {label}
-                        </span>
-                      )}
-                    </button>
-                  </li>
-                );
-              })}
-            </ol>
+            <div
+              className={styles.moveList}
+              ref={moveListRef}
+              role="grid"
+              aria-label="Move history"
+            >
+              <div className={styles.moveListHeading} role="row">
+                <span role="columnheader" aria-label="Move number" />
+                <span role="columnheader">White</span>
+                <span role="columnheader">Black</span>
+              </div>
+              {fullMoveRows.map((row) => (
+                <div className={styles.moveRow} role="row" key={row.moveNumber}>
+                  <span
+                    className={styles.moveNumber}
+                    role="rowheader"
+                    aria-label={`Move ${row.moveNumber}`}
+                  >
+                    {row.moveNumber}.
+                  </span>
+                  <span role="gridcell">{renderMoveCell(row.white)}</span>
+                  <span role="gridcell">{renderMoveCell(row.black)}</span>
+                </div>
+              ))}
+            </div>
           </section>
           <section className={styles.infoCard}>
             <h2>Game details</h2>

@@ -70,6 +70,46 @@ textarea {
   flex: 1;
 }
 
+.site-header {
+  min-height: 4rem;
+  padding: 0.6rem max(1rem, calc((100% - 80rem) / 2));
+  display: flex;
+  align-items: center;
+  background: #202022;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand-link {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--text);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  text-decoration: none;
+}
+
+.brand-link::after {
+  content: ".";
+  margin-left: -0.48rem;
+  color: var(--accent);
+}
+
+.brand-link:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+  border-radius: 0.25rem;
+}
+
+.brand-logo {
+  width: 2.5rem;
+  height: 2.05rem;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
 .site-footer {
   padding: 1.35rem 1rem 1.5rem;
   color: var(--text-muted);

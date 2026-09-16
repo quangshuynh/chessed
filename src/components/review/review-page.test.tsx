@@ -132,6 +132,9 @@ function renderPage(
 
 async function loaded() {
   await screen.findByRole("button", { name: "Analyze Game" });
+  await act(async () => {
+    await new Promise((resolve) => window.setTimeout(resolve, 0));
+  });
 }
 
 describe("review-page analysis workflow", () => {
@@ -152,6 +155,56 @@ describe("review-page analysis workflow", () => {
     expect(screen.getByText(/Ply 1/)).toBeTruthy();
     fireEvent.keyDown(window, { key: "ArrowLeft" });
     expect(screen.getByText(/Starting position/)).toBeTruthy();
+  });
+
+  it("keeps White and Black cells mapped to their own ply during click and keyboard navigation", async () => {
+    renderPage();
+    await loaded();
+    expect(screen.queryByRole("button", { current: "step" })).toBeNull();
+
+    const white = screen.getByRole("button", { name: "White move e4" });
+    const black = screen.getByRole("button", { name: "Black move e5" });
+    expect(white.closest('[role="row"]')).toBe(black.closest('[role="row"]'));
+
+    fireEvent.click(white);
+    expect(white.getAttribute("aria-current")).toBe("step");
+    expect(screen.getByTestId("board").getAttribute("data-position")).toBe(
+      game.positions[1],
+    );
+
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    expect(black.getAttribute("aria-current")).toBe("step");
+    expect(screen.getByTestId("board").getAttribute("data-position")).toBe(
+      game.positions[2],
+    );
+
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    const nextWhite = screen.getByRole("button", { name: "White move Nf3" });
+    expect(nextWhite.getAttribute("aria-current")).toBe("step");
+    expect(nextWhite.closest('[role="row"]')).not.toBe(
+      black.closest('[role="row"]'),
+    );
+  });
+
+  it("scrolls only an out-of-view selected cell and respects reduced motion", async () => {
+    renderPage();
+    await loaded();
+    const grid = screen.getByRole("grid", { name: "Move history" });
+    const target = screen.getByRole("button", { name: "White move Bb5" });
+    grid.getBoundingClientRect = () => ({ top: 0, bottom: 100 }) as DOMRect;
+    target.getBoundingClientRect = () => ({ top: 120, bottom: 160 }) as DOMRect;
+    const scrollIntoView = vi.fn();
+    target.scrollIntoView = scrollIntoView;
+    vi.stubGlobal("matchMedia", () => ({ matches: true }));
+
+    target.focus();
+    fireEvent.click(target);
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      block: "nearest",
+      behavior: "auto",
+    });
+    expect(document.activeElement).toBe(target);
+    vi.unstubAllGlobals();
   });
 
   it("starts exactly once, reports real progress, and prevents a duplicate start", async () => {
@@ -275,10 +328,10 @@ describe("review-page analysis workflow", () => {
     expect(screen.getByText("0.00")).toBeTruthy();
     for (const label of ["Best", "Good", "Inaccuracy", "Mistake", "Blunder"])
       expect(screen.getByText(label)).toBeTruthy();
-    fireEvent.click(screen.getByRole("button", { name: /2\. e5/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Black move e5/ }));
     expect(screen.getByText("1... e5")).toBeTruthy();
     expect(screen.getByText("-1.42")).toBeTruthy();
-    fireEvent.click(screen.getByRole("button", { name: /5\. Bb5/ }));
+    fireEvent.click(screen.getByRole("button", { name: /White move Bb5/ }));
     expect(screen.getByText("3. Bb5")).toBeTruthy();
     expect(screen.getByText("M3")).toBeTruthy();
   });
@@ -324,15 +377,15 @@ describe("review-page analysis workflow", () => {
     await loaded();
     fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
     await screen.findByText("Engine evaluation:");
-    fireEvent.click(screen.getByRole("button", { name: /1\. e4/ }));
-    expect(screen.getByText("e4")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: /White move e4/ }));
+    expect(screen.getAllByText("e4")).toHaveLength(2);
     expect(screen.getByText("1. e4 e5")).toBeTruthy();
     expect(screen.queryByText("e2e4")).toBeNull();
     expect(screen.getByText(/required to classify/)).toBeTruthy();
-    fireEvent.click(screen.getByRole("button", { name: /4\. Nc6/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Black move Nc6/ }));
     expect(screen.getByText(/Checkmate \(win\)/)).toBeTruthy();
     expect(screen.getByText("Terminal position")).toBeTruthy();
-    fireEvent.click(screen.getByRole("button", { name: /5\. Bb5/ }));
+    fireEvent.click(screen.getByRole("button", { name: /White move Bb5/ }));
     expect(screen.getByText(/Stalemate \(draw\)/)).toBeTruthy();
   });
 

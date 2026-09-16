@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/images/chessed-logo.png" alt="Chessed" width="160">
+</p>
+
 # Chessed
 
 [![CI](https://github.com/quangshuynh/chessed/actions/workflows/ci.yml/badge.svg)](https://github.com/quangshuynh/chessed/actions/workflows/ci.yml)
@@ -17,6 +21,7 @@ This repository contains the initial MVP foundation:
 - Manual PGN paste flow
 - PGN parsing and move/position reconstruction (including custom FEN starts)
 - Interactive review screen with explicit client-side analysis, progress, cancellation, ordinary move classifications, and selected-move engine evidence
+- Score-sheet move history grouped by FEN-aware fullmove number while preserving one-based ply identity for every interactive move
 - Human-readable SAN best moves and position-aware, correctly numbered SAN principal variations
 
 The Stockfish analysis boundary, engine-independent move-quality observations, Chessed's ordinary move-classification policy, and whole-game review orchestration are implemented. Accuracy scoring and performance-rating logic remain intentionally deferred.
@@ -68,6 +73,7 @@ npm run test:e2e
 - `src/lib/review/game-review.ts`: pure whole-game review contract and composition
 - `src/lib/analysis/*`: Stockfish worker adapter, UCI normalization, and serial game-position analysis
 - `src/components/*`: UI presentation components
+- `docs/images/chessed-logo.png`: transparent Chessed brand source; optimized derivatives live at `public/brand/chessed-logo.png` and `src/app/icon.png`
 - `src/app/api/chesscom/[username]/games`: API boundary for Chess.com integration
 
 Conceptual pipeline:
