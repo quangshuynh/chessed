@@ -1,6 +1,7 @@
 import type {
   ChessComGamesResponse,
   ChessComRecentGame,
+  ChessComPlayerProfile,
 } from "@/lib/sources/chesscom/types";
 
 const CHESS_COM_BASE_URL = "https://api.chess.com/pub";
@@ -29,6 +30,12 @@ interface ArchiveIndexResponse {
 
 interface ArchiveGamesResponse {
   games?: ChessComApiGame[];
+}
+
+interface ChessComApiProfile {
+  username?: string;
+  avatar?: string;
+  url?: string;
 }
 
 export class ChessComServiceError extends Error {
@@ -160,5 +167,20 @@ export async function fetchRecentChessComGames(
   return {
     username,
     games,
+  };
+}
+
+export async function fetchChessComPlayerProfile(
+  usernameInput: string,
+): Promise<ChessComPlayerProfile> {
+  const username = ensureValidUsername(usernameInput);
+  const profile = await fetchJson<ChessComApiProfile>(
+    `${CHESS_COM_BASE_URL}/player/${username}`,
+  );
+
+  return {
+    username: profile.username ?? username,
+    avatarUrl: profile.avatar ?? null,
+    profileUrl: profile.url ?? null,
   };
 }

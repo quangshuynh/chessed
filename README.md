@@ -23,6 +23,8 @@ This repository contains the initial MVP foundation:
 - Interactive review screen with explicit client-side analysis, progress, cancellation, ordinary move classifications, and selected-move engine evidence
 - Score-sheet move history grouped by FEN-aware fullmove number while preserving one-based ply identity for every interactive move
 - Human-readable SAN best moves and position-aware, correctly numbered SAN principal variations
+- Source-proven Chess.com player avatars with resilient Chessed fallbacks
+- Optional Chessed-owned move, capture, check, and checkmate navigation sounds
 
 The Stockfish analysis boundary, engine-independent move-quality observations, Chessed's ordinary move-classification policy, and whole-game review orchestration are implemented. Accuracy scoring and performance-rating logic remain intentionally deferred.
 
@@ -94,6 +96,10 @@ Move-quality observations convert those scores centrally to the mover's perspect
 Chessed classifies complete observations as Best, Good, Inaccuracy, Mistake, or Blunder with a documented outcome-expectation policy. See [the ordinary classification methodology](docs/move-classification.md).
 
 An injected analyzer produces one ordered, provenance-bearing result for a complete game, which the review page consumes without recreating chess or classification logic. See [whole-game review orchestration](docs/whole-game-review.md).
+
+Chess.com avatar provenance, fallback behavior, sound precedence, navigation
+semantics, and the persisted mute preference are documented in
+[player avatars and sounds](docs/player-avatars-and-sounds.md).
 
 ## Third-party libraries and attribution
 

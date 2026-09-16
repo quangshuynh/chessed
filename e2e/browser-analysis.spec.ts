@@ -81,3 +81,41 @@ test("cancels a real analysis and completes a clean second run", async ({
   );
   await expect.poll(() => stockfishWorkerCount(page)).toBe(0);
 });
+
+test("sounds only deliberate destination navigation and persists mute", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const played: string[] = [];
+    class AudioProbe {
+      volume = 1;
+      constructor(readonly src: string) {}
+      play() {
+        played.push(this.src);
+        return Promise.resolve();
+      }
+    }
+    Object.assign(window, { Audio: AudioProbe, __chessedSounds: played });
+  });
+  await openReview(page, SHORT_PGN);
+  const sounds = () =>
+    page.evaluate(
+      () =>
+        (window as typeof window & { __chessedSounds: string[] })
+          .__chessedSounds,
+    );
+  expect(await sounds()).toEqual([]);
+
+  await page.getByRole("button", { name: "Black move Nc6" }).click();
+  expect(await sounds()).toEqual(["/sounds/move.wav"]);
+  await page.getByRole("button", { name: "Previous" }).click();
+  expect(await sounds()).toHaveLength(2);
+
+  await page.getByRole("button", { name: "Mute move sounds" }).click();
+  await page.getByRole("button", { name: "Previous" }).click();
+  expect(await sounds()).toHaveLength(2);
+  await page.reload();
+  await expect(
+    page.getByRole("button", { name: "Unmute move sounds" }),
+  ).toBeVisible();
+});
