@@ -1,5 +1,7 @@
 import type { Page } from "@playwright/test";
 
+import type { ReviewSessionPayload } from "../src/lib/review/session-store";
+
 export const SHORT_PGN = `
 [Event "Bounded browser fixture"]
 [White "Alice"]
@@ -59,6 +61,38 @@ export async function openReview(page: Page, pgn: string): Promise<void> {
   await page.getByRole("textbox", { name: "PGN" }).fill(pgn);
   await page.getByRole("button", { name: "Open PGN in review" }).click();
   await page.waitForURL(/\/review\//, { timeout: 10_000 });
+  await page.getByRole("button", { name: "Analyze Game" }).waitFor();
+}
+
+export async function openImportedReview(
+  page: Page,
+  requestedUsername: string,
+): Promise<void> {
+  const sessionId = `imported-${requestedUsername.toLowerCase()}`;
+  const payload: ReviewSessionPayload = {
+    source: "chesscom",
+    pgn: SHORT_PGN,
+    createdAt: "2026-09-16T00:00:00.000Z",
+    summary: {
+      id: sessionId,
+      requestedUsername,
+      white: "Alice",
+      black: "Bob",
+      whiteRating: 1800,
+      blackRating: 1750,
+    },
+  };
+  await page.goto("/");
+  await page.evaluate(
+    ({ id, session }) => {
+      window.sessionStorage.setItem(
+        "chessed.review.sessions.v1",
+        JSON.stringify({ [id]: session }),
+      );
+    },
+    { id: sessionId, session: payload },
+  );
+  await page.goto(`/review/${sessionId}`);
   await page.getByRole("button", { name: "Analyze Game" }).waitFor();
 }
 

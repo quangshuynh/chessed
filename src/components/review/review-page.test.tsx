@@ -38,8 +38,16 @@ vi.mock("next/image", () => ({
   ),
 }));
 vi.mock("react-chessboard", () => ({
-  Chessboard: ({ options }: { options: { position: string } }) => (
-    <div data-testid="board" data-position={options.position} />
+  Chessboard: ({
+    options,
+  }: {
+    options: { position: string; boardOrientation: "white" | "black" };
+  }) => (
+    <div
+      data-testid="board"
+      data-position={options.position}
+      data-orientation={options.boardOrientation}
+    />
   ),
 }));
 
@@ -163,6 +171,110 @@ async function loaded() {
 }
 
 describe("review-page analysis workflow", () => {
+  it.each([
+    ["WhiteUser", "white", "WhiteUser", "BlackUser"],
+    ["bLaCkUsEr", "black", "BlackUser", "WhiteUser"],
+  ] as const)(
+    "orients an imported review for %s and places the matching card at the bottom",
+    async (requestedUsername, orientation, bottomName, topName) => {
+      renderPage({
+        session: {
+          ...session,
+          source: "chesscom",
+          summary: {
+            id: "game",
+            requestedUsername,
+            white: "WhiteUser",
+            black: "BlackUser",
+          },
+        },
+      });
+      await loaded();
+      expect(screen.getByTestId("board").dataset.orientation).toBe(orientation);
+      expect(
+        document.querySelector('[data-board-side="bottom"]')?.textContent,
+      ).toContain(bottomName);
+      expect(
+        document.querySelector('[data-board-side="top"]')?.textContent,
+      ).toContain(topName);
+      expect(
+        document
+          .querySelector('[data-player-role="reviewed"]')
+          ?.getAttribute("data-board-side"),
+      ).toBe("bottom");
+    },
+  );
+
+  it("defaults manual PGN to White and flips board and cards without changing ply or move order", async () => {
+    renderPage();
+    await loaded();
+    const board = screen.getByTestId("board");
+    expect(board.dataset.orientation).toBe("white");
+    expect(
+      document.querySelector('[data-board-side="bottom"]')?.textContent,
+    ).toContain("Alice");
+    fireEvent.click(screen.getByRole("button", { name: "White move Nf3" }));
+    fireEvent.click(screen.getByRole("button", { name: /Flip board/ }));
+    expect(board.dataset.orientation).toBe("black");
+    expect(board.dataset.position).toBe(game.positions[3]);
+    expect(
+      document.querySelector('[data-board-side="bottom"]')?.textContent,
+    ).toContain("Bob");
+    expect(
+      screen.getAllByRole("columnheader").map((cell) => cell.textContent),
+    ).toEqual(["", "White", "Black"]);
+  });
+
+  it("resets a manual flip to each newly selected game's reviewed-player perspective", async () => {
+    const sessions: Record<string, ReviewSessionPayload> = {
+      black: {
+        ...session,
+        source: "chesscom",
+        summary: {
+          id: "black-game",
+          requestedUsername: "Bob",
+          white: "Alice",
+          black: "Bob",
+        },
+      },
+      white: {
+        ...session,
+        source: "chesscom",
+        summary: {
+          id: "white-game",
+          requestedUsername: "Alice",
+          white: "Alice",
+          black: "Bob",
+        },
+      },
+    };
+    const view = render(
+      <ReviewPage
+        sessionId="black"
+        sessionReader={(id) => sessions[id]}
+        analyzerFactory={analyzer}
+        soundPlayer={vi.fn()}
+      />,
+    );
+    await loaded();
+    expect(screen.getByTestId("board").dataset.orientation).toBe("black");
+    fireEvent.click(screen.getByRole("button", { name: /Flip board/ }));
+    expect(screen.getByTestId("board").dataset.orientation).toBe("white");
+    view.rerender(
+      <ReviewPage
+        sessionId="white"
+        sessionReader={(id) => sessions[id]}
+        analyzerFactory={analyzer}
+        soundPlayer={vi.fn()}
+      />,
+    );
+    await loaded();
+    expect(screen.getByTestId("board").dataset.orientation).toBe("white");
+    expect(
+      document.querySelector('[data-board-side="bottom"]')?.textContent,
+    ).toContain("Alice");
+  });
+
   it("loads correctly associated profiles only for trustworthy Chess.com sessions", async () => {
     const chessComSession: ReviewSessionPayload = {
       ...session,

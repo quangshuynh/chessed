@@ -2,10 +2,36 @@ import { expect, test } from "@playwright/test";
 
 import {
   MEDIUM_PGN,
+  openImportedReview,
   openReview,
   SHORT_PGN,
   stockfishWorkerCount,
 } from "./helpers";
+
+for (const scenario of [
+  { requested: "ALICE", orientation: "white", top: "Bob", bottom: "Alice" },
+  { requested: "bob", orientation: "black", top: "Alice", bottom: "Bob" },
+]) {
+  test(`orients an imported game to reviewed player ${scenario.requested}`, async ({
+    page,
+  }) => {
+    const { requested, orientation, top, bottom } = scenario;
+    await openImportedReview(page, requested);
+    const board = page.locator("[data-board-orientation]");
+    await expect(board).toHaveAttribute("data-board-orientation", orientation);
+    await expect(page.getByLabel("Top player")).toContainText(top);
+    await expect(page.getByLabel("Bottom player")).toContainText(bottom);
+    await page.getByRole("button", { name: "Next" }).click();
+    await expect(page.getByText("Ply 1 / 4")).toBeVisible();
+
+    if (orientation === "black") {
+      await page.getByRole("button", { name: /Flip board/ }).click();
+      await expect(board).toHaveAttribute("data-board-orientation", "white");
+      await expect(page.getByLabel("Bottom player")).toContainText("Alice");
+      await expect(page.getByText("Ply 1 / 4")).toBeVisible();
+    }
+  });
+}
 
 test("runs the real worker/WASM review path and cleans up", async ({
   page,
