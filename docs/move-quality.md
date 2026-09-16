@@ -25,3 +25,5 @@ Played and best moves use lowercase UCI coordinate notation, including a promoti
 Whole-game analysis asks chess.js whether a position is terminal before invoking Stockfish. Checkmate records its winner; stalemate, insufficient material, repetition, the fifty-move rule, and other chess.js draws record an explicit draw reason. A final move can therefore have an engine observation before it and a terminal outcome after it without a fabricated engine score.
 
 Missing results (including an interrupted analysis sequence supplied only in part) produce an explicit unavailable loss. Structurally inconsistent games, duplicate/out-of-range indexes, and illegal engine best moves fail rather than silently misaligning moves and positions.
+
+The next pure-domain step classifies complete observations using Chessed's documented [ordinary move-classification methodology](move-classification.md).

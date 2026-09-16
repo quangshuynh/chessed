@@ -220,7 +220,7 @@ export function ReviewPage({ sessionId }: { sessionId: string }) {
             <ul className={styles.placeholderList}>
               <li>Engine evaluation timeline</li>
               <li>Best move lines (Stockfish)</li>
-              <li>Move classifications (Brilliant → Blunder)</li>
+              <li>Ordinary move classifications</li>
               <li>Accuracy scores by player</li>
               <li>Estimated performance ratings</li>
             </ul>
