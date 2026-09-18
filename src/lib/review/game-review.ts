@@ -24,6 +24,10 @@ import {
   type SpecialClassificationResult,
   type SpecialMoveClassification,
 } from "@/lib/review/special-classification";
+import {
+  calculateGameAccuracy,
+  type GameAccuracy,
+} from "@/lib/review/accuracy";
 
 export const REVIEW_METHODOLOGY_VERSION = "chessed-review-v3";
 
@@ -92,6 +96,7 @@ export interface WholeGameReview {
   moves: readonly ReviewMove[];
   counts: ClassificationCounts;
   specialCounts: Record<SpecialMoveClassification, number>;
+  accuracy: GameAccuracy;
   provenance: ReviewAnalysisProvenance;
 }
 
@@ -281,6 +286,7 @@ export function buildWholeGameReview(input: {
     moves,
     counts,
     specialCounts,
+    accuracy: calculateGameAccuracy(moves),
     provenance: buildProvenance(input.game, input.positions),
   };
 }

@@ -582,6 +582,11 @@ describe("whole-game review orchestration", () => {
       player: "black",
       san: "Kf7",
     });
+    expect(review.accuracy.black).toEqual({
+      value: 100,
+      scoredMoveCount: 1,
+      unavailableMoveCount: 0,
+    });
   });
 
   it("keeps a final checkmating move without analyzing the terminal position", async () => {
