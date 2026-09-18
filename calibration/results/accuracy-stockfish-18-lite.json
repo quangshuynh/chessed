@@ -1,0 +1,139 @@
+[
+  {
+    "id": "fischer-spassky-1972-game-6",
+    "provenance": "Fischer–Spassky, World Championship 1972 game 6: https://www.chessgames.com/perl/chessgame?gid=1044722",
+    "purpose": "Long, high-quality master game with a decisive attack.",
+    "accuracy": {
+      "white": {
+        "value": 96.9126814036652,
+        "scoredMoveCount": 41,
+        "unavailableMoveCount": 0
+      },
+      "black": {
+        "value": 94.2903668824483,
+        "scoredMoveCount": 40,
+        "unavailableMoveCount": 0
+      },
+      "methodology": {
+        "version": "chessed-accuracy-v1",
+        "outcomeExpectationScaleCentipawns": 410,
+        "perMoveTransform": "one-minus-drop-to-fourth-power",
+        "aggregation": "uniform-arithmetic-mean"
+      }
+    },
+    "classifications": {
+      "best": 54,
+      "good": 15,
+      "inaccuracy": 11,
+      "mistake": 1,
+      "blunder": 0,
+      "unavailable": 0
+    },
+    "majorOutcomeDrops": [
+      {
+        "ply": 72,
+        "san": "Qe8",
+        "player": "black",
+        "outcomeDrop": 0.07698509772263834
+      }
+    ],
+    "mateTransitions": []
+  },
+  {
+    "id": "morphy-opera-game-1858",
+    "provenance": "Morphy–Duke Karl/Count Isouard, Paris 1858: https://www.chessgames.com/perl/chessgame?gid=1233404",
+    "purpose": "Short tactical game with sacrifices and terminal mate.",
+    "accuracy": {
+      "white": {
+        "value": 94.1317543573239,
+        "scoredMoveCount": 17,
+        "unavailableMoveCount": 0
+      },
+      "black": {
+        "value": 85.76858943478173,
+        "scoredMoveCount": 16,
+        "unavailableMoveCount": 0
+      },
+      "methodology": {
+        "version": "chessed-accuracy-v1",
+        "outcomeExpectationScaleCentipawns": 410,
+        "perMoveTransform": "one-minus-drop-to-fourth-power",
+        "aggregation": "uniform-arithmetic-mean"
+      }
+    },
+    "classifications": {
+      "best": 23,
+      "good": 3,
+      "inaccuracy": 4,
+      "mistake": 1,
+      "blunder": 2,
+      "unavailable": 0
+    },
+    "majorOutcomeDrops": [
+      {
+        "ply": 18,
+        "san": "b5",
+        "player": "black",
+        "outcomeDrop": 0.09780061755608171
+      },
+      {
+        "ply": 29,
+        "san": "Bxd7+",
+        "player": "white",
+        "outcomeDrop": 0.20414784936707575
+      }
+    ],
+    "mateTransitions": [
+      {
+        "ply": 30,
+        "transition": "newly-allows-forced-mate"
+      },
+      {
+        "ply": 31,
+        "transition": "retains-favorable-mate"
+      },
+      {
+        "ply": 32,
+        "transition": "retains-unfavorable-mate"
+      }
+    ]
+  },
+  {
+    "id": "fools-mate",
+    "provenance": "Canonical Fool's Mate pattern: https://www.chessprogramming.org/Fool%27s_Mate",
+    "purpose": "Very short game with a catastrophic error and terminal mate.",
+    "accuracy": {
+      "white": {
+        "value": 43.698208179180284,
+        "scoredMoveCount": 2,
+        "unavailableMoveCount": 0
+      },
+      "black": {
+        "value": 100,
+        "scoredMoveCount": 2,
+        "unavailableMoveCount": 0
+      },
+      "methodology": {
+        "version": "chessed-accuracy-v1",
+        "outcomeExpectationScaleCentipawns": 410,
+        "perMoveTransform": "one-minus-drop-to-fourth-power",
+        "aggregation": "uniform-arithmetic-mean"
+      }
+    },
+    "classifications": {
+      "best": 2,
+      "good": 0,
+      "inaccuracy": 1,
+      "mistake": 0,
+      "blunder": 1,
+      "unavailable": 0
+    },
+    "majorOutcomeDrops": [],
+    "mateTransitions": [
+      {
+        "ply": 3,
+        "transition": "newly-allows-forced-mate"
+      }
+    ]
+  }
+]

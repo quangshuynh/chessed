@@ -121,6 +121,16 @@ function fakeReview(): WholeGameReview {
       unavailable: 0,
     },
     specialCounts: { great: 0, brilliant: 0, miss: 0 },
+    accuracy: {
+      white: { value: null, scoredMoveCount: 0, unavailableMoveCount: 3 },
+      black: { value: null, scoredMoveCount: 0, unavailableMoveCount: 2 },
+      methodology: {
+        version: "chessed-accuracy-v1",
+        outcomeExpectationScaleCentipawns: 410,
+        perMoveTransform: "one-minus-drop-to-fourth-power",
+        aggregation: "uniform-arithmetic-mean",
+      },
+    },
     provenance: {
       methodologyVersion: "chessed-review-v3",
       engines: [],

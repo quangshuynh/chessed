@@ -30,6 +30,12 @@ partial normalized position observations.
 - factual classification counts, including unavailable moves; and
 - engine/settings/methodology provenance.
 
+The completed result also derives independent White and Black Chessed Accuracy
+values from the normalized move evidence. This is cheap pure-domain arithmetic;
+it does not add an engine pass. Coverage counts and the separate
+`chessed-accuracy-v1` provenance are retained. See
+[accuracy scoring](accuracy-scoring.md).
+
 Each reviewed move retains its ply and PGN full-move number, color, SAN, UCI,
 before/after FENs, before-position best move and PV, normalized before/after
 engine evaluations where available, the complete player-relative observation,

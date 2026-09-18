@@ -95,6 +95,10 @@ Move-quality observations convert those scores centrally to the mover's perspect
 
 Chessed classifies complete observations as Best, Good, Inaccuracy, Mistake, or Blunder with a documented outcome-expectation policy. See [the ordinary classification methodology](docs/move-classification.md).
 
+Completed reviews also include independent per-player Chessed Accuracy scores,
+derived continuously from preserved objective outcome rather than classification
+labels. See [the accuracy methodology](docs/accuracy-scoring.md).
+
 An injected analyzer produces one ordered, provenance-bearing result for a complete game, which the review page consumes without recreating chess or classification logic. See [whole-game review orchestration](docs/whole-game-review.md).
 
 Chess.com avatar provenance, fallback behavior, sound precedence, navigation
