@@ -83,26 +83,89 @@
       "nearPerfectRate",
       "scoredMoveCount"
     ],
-    "thresholds": { "severeOutcomeDrop": 0.15, "moderateOutcomeDrop": 0.075, "nearPerfectAccuracy": 0.99 },
+    "thresholds": {
+      "severeOutcomeDrop": 0.15,
+      "moderateOutcomeDrop": 0.075,
+      "nearPerfectAccuracy": 0.99
+    },
     "optionalObjectiveChoice": "uniformly exclude only-legal moves; no candidate-separation difficulty claim",
-    "forbiddenProductionInputs": ["playerRating", "opponentRating", "averageRating", "ratingBand", "result", "username", "timeControl", "classificationCounts"]
+    "forbiddenProductionInputs": [
+      "playerRating",
+      "opponentRating",
+      "averageRating",
+      "ratingBand",
+      "result",
+      "username",
+      "timeControl",
+      "classificationCounts"
+    ]
   },
   "minimumEvidenceCandidates": [2, 5, 10, 15, 20],
   "models": [
     { "id": "constant", "predictors": [], "form": "training mean" },
-    { "id": "accuracy-only", "predictors": ["accuracy"], "form": "ordinary least squares" },
-    { "id": "accuracy-severe", "predictors": ["accuracy", "severeErrorRate"], "form": "ordinary least squares" },
-    { "id": "distribution", "predictors": ["accuracy", "lowerQuartileMoveAccuracy", "severeErrorRate", "nearPerfectRate"], "form": "ordinary least squares" },
-    { "id": "meaningful-choice", "predictors": ["meaningfulAccuracy", "meaningfulLowerQuartile", "meaningfulSevereErrorRate", "meaningfulMoveCount"], "form": "ordinary least squares" }
+    {
+      "id": "accuracy-only",
+      "predictors": ["accuracy"],
+      "form": "ordinary least squares"
+    },
+    {
+      "id": "accuracy-severe",
+      "predictors": ["accuracy", "severeErrorRate"],
+      "form": "ordinary least squares"
+    },
+    {
+      "id": "distribution",
+      "predictors": [
+        "accuracy",
+        "lowerQuartileMoveAccuracy",
+        "severeErrorRate",
+        "nearPerfectRate"
+      ],
+      "form": "ordinary least squares"
+    },
+    {
+      "id": "meaningful-choice",
+      "predictors": [
+        "meaningfulAccuracy",
+        "meaningfulLowerQuartile",
+        "meaningfulSevereErrorRate",
+        "meaningfulMoveCount"
+      ],
+      "form": "ordinary least squares"
+    }
   ],
   "boundsCandidates": ["unconstrained", "clip-400-3000"],
   "validationSelection": "For each nonconstant family, select evidence threshold and bounds by lowest validation MAE, tie-breaking by lower complexity, higher threshold, then lexical configuration id. Select the richer family by the same ordering. Write an immutable lock before reading holdout labels.",
-  "metrics": ["mae", "medianAbsoluteError", "rmse", "pearson", "spearman", "meanSignedError", "errorQuantiles25_50_75", "within100", "within200", "within400"],
+  "metrics": [
+    "mae",
+    "medianAbsoluteError",
+    "rmse",
+    "pearson",
+    "spearman",
+    "meanSignedError",
+    "errorQuantiles25_50_75",
+    "within100",
+    "within200",
+    "within400"
+  ],
   "uncertainty": "10000 deterministic game-cluster bootstrap replicates for holdout MAE difference, SHA-256 counter stream seeded by experiment version",
   "meaningfulImprovement": {
-    "validation": { "minimumMaeUnits": 25, "minimumMaePercent": 3, "medianRegressionLimit": 10 },
-    "holdout": { "minimumMaeUnits": 25, "minimumMaePercent": 3, "minimumMedianImprovement": 10, "bootstrap95UpperBoundBelowZero": true },
-    "subgroups": { "maximumMaeRegression": 50, "maximumAbsoluteBias": 150, "requiredDirection": "richer MAE lower than accuracy-only in at least three of four rating bands and no material regression in any preregistered subgroup with at least 10 player-games" },
+    "validation": {
+      "minimumMaeUnits": 25,
+      "minimumMaePercent": 3,
+      "medianRegressionLimit": 10
+    },
+    "holdout": {
+      "minimumMaeUnits": 25,
+      "minimumMaePercent": 3,
+      "minimumMedianImprovement": 10,
+      "bootstrap95UpperBoundBelowZero": true
+    },
+    "subgroups": {
+      "maximumMaeRegression": 50,
+      "maximumAbsoluteBias": 150,
+      "requiredDirection": "richer MAE lower than accuracy-only in at least three of four rating bands and no material regression in any preregistered subgroup with at least 10 player-games"
+    },
     "padding": { "addedTrivialPerfectMoves": 20, "maximumEstimateChange": 50 }
   },
   "rejection": [
