@@ -13,6 +13,7 @@ import { getMoveSound } from "@/lib/chess/move-sound";
 import { formatPrincipalVariation, uciMoveToSan } from "@/lib/chess/notation";
 import type { ParsedMove, ParsedReviewGame } from "@/lib/chess/types";
 import type { WholeGameReview } from "@/lib/review/game-review";
+import type { PlayerAccuracy } from "@/lib/review/accuracy";
 import type { EngineAnalyzer } from "@/lib/review/interfaces";
 import { playNavigationSound } from "@/lib/review/navigation-sound";
 import {
@@ -23,6 +24,8 @@ import type { ChessComPlayerProfile } from "@/lib/sources/chesscom/types";
 
 import {
   formatClassification,
+  formatAccuracy,
+  formatAccuracyCoverage,
   formatEvaluation,
   formatSpecialClassification,
   formatTerminalReason,
@@ -75,6 +78,9 @@ function PlayerIdentity({
   profile,
   boardSide,
   playerRole,
+  accuracy,
+  accuracyState,
+  accuracyMethodology,
 }: {
   color: "White" | "Black";
   name: string;
@@ -82,12 +88,35 @@ function PlayerIdentity({
   profile?: ChessComPlayerProfile | null;
   boardSide: "top" | "bottom";
   playerRole?: "reviewed" | "opponent";
+  accuracy?: PlayerAccuracy;
+  accuracyState: "idle" | "running" | "unavailable" | "complete";
+  accuracyMethodology?: WholeGameReview["accuracy"]["methodology"]["version"];
 }) {
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
   const initial = name.trim().charAt(0).toUpperCase() || "?";
   const avatarUrl = getAllowedAvatarUrl(profile?.avatarUrl);
 
   const imageFailed = avatarUrl !== null && failedUrl === avatarUrl;
+  const formattedAccuracy = accuracy ? formatAccuracy(accuracy.value) : null;
+  const coverage = accuracy ? formatAccuracyCoverage(accuracy) : null;
+  const accuracyText =
+    accuracyState === "running"
+      ? "Analyzing…"
+      : accuracyState === "complete" && formattedAccuracy
+        ? formattedAccuracy
+        : accuracyState === "unavailable"
+          ? "Unavailable"
+          : "—";
+  const accuracyLabel =
+    accuracyState === "running"
+      ? `${color} player Chessed Accuracy analyzing`
+      : accuracyState === "complete" && formattedAccuracy
+        ? `${color} player Chessed Accuracy ${formattedAccuracy}${coverage ? `. ${coverage}` : ""}`
+        : accuracyState === "complete" && accuracy?.value === null
+          ? `${color} player Chessed Accuracy unavailable. No scoreable moves. ${coverage}`
+          : accuracyState === "unavailable"
+            ? `${color} player Chessed Accuracy unavailable because analysis did not complete`
+            : `${color} player Chessed Accuracy not analyzed`;
 
   return (
     <div
@@ -109,9 +138,24 @@ function PlayerIdentity({
           <span>{initial}</span>
         )}
       </span>
-      <span>
+      <span className={styles.playerName}>
         <strong>{name}</strong>
         {typeof rating === "number" ? <small>{rating}</small> : null}
+      </span>
+      <span
+        className={styles.playerAccuracy}
+        aria-label={accuracyLabel}
+        data-accuracy-color={color.toLowerCase()}
+        data-accuracy-methodology={accuracyMethodology}
+      >
+        <span>
+          <small>Accuracy</small> <strong>{accuracyText}</strong>
+        </span>
+        {accuracyState === "complete" &&
+          accuracy &&
+          accuracy.unavailableMoveCount > 0 && (
+            <small className={styles.accuracyCoverage}>{coverage}</small>
+          )}
       </span>
     </div>
   );
@@ -576,6 +620,14 @@ export function ReviewPage({
   };
   const completedReview =
     analysis.status === "complete" ? analysis.review : null;
+  const accuracyState =
+    analysis.status === "running"
+      ? "running"
+      : analysis.status === "complete"
+        ? "complete"
+        : analysis.status === "failed" || analysis.status === "cancelled"
+          ? "unavailable"
+          : "idle";
   const fullMoveRows = groupMovesIntoFullMoves(game!.moves, game!.startingFen);
 
   function renderMoveCell(move: ParsedMove | undefined) {
@@ -655,6 +707,11 @@ export function ReviewPage({
                 playerRole={
                   reviewedColor === topColor ? "reviewed" : "opponent"
                 }
+                accuracy={completedReview?.accuracy[topColor]}
+                accuracyState={accuracyState}
+                accuracyMethodology={
+                  completedReview?.accuracy.methodology.version
+                }
               />
             </div>
             <div
@@ -685,6 +742,11 @@ export function ReviewPage({
                 boardSide="bottom"
                 playerRole={
                   reviewedColor === bottomColor ? "reviewed" : "opponent"
+                }
+                accuracy={completedReview?.accuracy[bottomColor]}
+                accuracyState={accuracyState}
+                accuracyMethodology={
+                  completedReview?.accuracy.methodology.version
                 }
               />
             </div>
@@ -728,6 +790,14 @@ export function ReviewPage({
             aria-labelledby="analysis-heading"
           >
             <h2 id="analysis-heading">Analysis</h2>
+            <details className={styles.accuracyHelp}>
+              <summary>About Chessed Accuracy</summary>
+              <p>
+                Chessed Accuracy measures how consistently a player&apos;s moves
+                preserved the objective quality of their position. It is not a
+                rating or win probability.
+              </p>
+            </details>
             {analysis.status === "idle" && (
               <p>
                 Engine review has not been run. You can still explore every

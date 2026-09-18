@@ -85,6 +85,25 @@ discards all partial state. A monotonically increasing run identity prevents a
 cancelled, replaced, or unmounted run from publishing late progress or results.
 Failure and cancellation both permit a fresh explicit retry.
 
+## Accuracy in the review UI
+
+After the whole-game review resolves, each compact player row shows that
+color's Chessed Accuracy to one decimal place. White's score always belongs to
+the White identity and Black's to Black; changing the automatic orientation or
+using **Flip Board** moves the identity and its score together without changing
+either value. Manual PGNs use the normal White-bottom orientation and do not
+infer a reviewed player.
+
+The rows reserve an `Accuracy —` state before analysis and show
+`Accuracy Analyzing…` while the engine runs. A failed or cancelled run shows an
+explicit unavailable state and cannot retain a partial or previous-game score.
+A null completed value is also unavailable because it has no scoreable moves.
+When some moves are unavailable, the row exposes scored and unavailable counts;
+complete coverage stays visually compact. Accuracy remains visible at the
+starting position and while navigating because it describes the completed game,
+not the selected move. The keyboard-accessible explanation beside the analysis
+panel distinguishes Chessed Accuracy from a rating or win probability.
+
 Repeated-run tests also resolve an older cancelled promise after its successor
 has started. Run identity prevents that stale completion from replacing current
 progress or results; retry resets progress and confirmation state to the new

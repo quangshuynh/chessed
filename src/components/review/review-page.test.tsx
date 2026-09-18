@@ -70,7 +70,18 @@ const cp = (value: number): EngineEvaluation => ({
   value,
 });
 
-function fakeReview(): WholeGameReview {
+function fakeReview(
+  accuracy: WholeGameReview["accuracy"] = {
+    white: { value: null, scoredMoveCount: 0, unavailableMoveCount: 3 },
+    black: { value: null, scoredMoveCount: 0, unavailableMoveCount: 2 },
+    methodology: {
+      version: "chessed-accuracy-v1",
+      outcomeExpectationScaleCentipawns: 410,
+      perMoveTransform: "one-minus-drop-to-fourth-power",
+      aggregation: "uniform-arithmetic-mean",
+    },
+  },
+): WholeGameReview {
   const classes = ["best", "good", "inaccuracy", "mistake", "blunder"] as const;
   return {
     metadata: {
@@ -121,16 +132,7 @@ function fakeReview(): WholeGameReview {
       unavailable: 0,
     },
     specialCounts: { great: 0, brilliant: 0, miss: 0 },
-    accuracy: {
-      white: { value: null, scoredMoveCount: 0, unavailableMoveCount: 3 },
-      black: { value: null, scoredMoveCount: 0, unavailableMoveCount: 2 },
-      methodology: {
-        version: "chessed-accuracy-v1",
-        outcomeExpectationScaleCentipawns: 410,
-        perMoveTransform: "one-minus-drop-to-fourth-power",
-        aggregation: "uniform-arithmetic-mean",
-      },
-    },
+    accuracy,
     provenance: {
       methodologyVersion: "chessed-review-v3",
       engines: [],
@@ -181,6 +183,84 @@ async function loaded() {
 }
 
 describe("review-page analysis workflow", () => {
+  const distinctAccuracy: WholeGameReview["accuracy"] = {
+    white: { value: 91.2, scoredMoveCount: 3, unavailableMoveCount: 0 },
+    black: { value: 73.4, scoredMoveCount: 1, unavailableMoveCount: 1 },
+    methodology: {
+      version: "chessed-accuracy-v1",
+      outcomeExpectationScaleCentipawns: 410,
+      perMoveTransform: "one-minus-drop-to-fourth-power",
+      aggregation: "uniform-arithmetic-mean",
+    },
+  };
+
+  it("shows truthful pre-analysis, pending, completed, and partial-coverage states", async () => {
+    const pending = Promise.withResolvers<WholeGameReview>();
+    renderPage({ reviewRunner: () => pending.promise });
+    await loaded();
+    expect(screen.getAllByText("—")).toHaveLength(2);
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    expect(await screen.findAllByText("Analyzing…")).toHaveLength(2);
+    await act(async () => pending.resolve(fakeReview(distinctAccuracy)));
+    expect(await screen.findByText("91.2%")).toBeTruthy();
+    expect(screen.getByText("73.4%")).toBeTruthy();
+    expect(screen.getByText("1 scored · 1 unavailable")).toBeTruthy();
+    expect(screen.queryByText("3 scored")).toBeNull();
+  });
+
+  it.each([
+    ["white", "black", "73.4%", "white", "91.2%"],
+    ["black", "white", "91.2%", "black", "73.4%"],
+  ] as const)(
+    "keeps color-owned accuracy with player rows in %s orientation",
+    async (orientation, topColor, topScore, bottomColor, bottomScore) => {
+      renderPage({
+        session:
+          orientation === "black"
+            ? {
+                ...session,
+                source: "chesscom",
+                summary: {
+                  id: "game",
+                  requestedUsername: "Bob",
+                  white: "Alice",
+                  black: "Bob",
+                },
+              }
+            : session,
+        reviewRunner: vi.fn().mockResolvedValue(fakeReview(distinctAccuracy)),
+      });
+      await loaded();
+      fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+      await screen.findByText("91.2%");
+      const top = document.querySelector('[data-board-side="top"]')!;
+      const bottom = document.querySelector('[data-board-side="bottom"]')!;
+      expect(top.getAttribute("data-player-color")).toBe(topColor);
+      expect(top.textContent).toContain(topScore);
+      expect(bottom.getAttribute("data-player-color")).toBe(bottomColor);
+      expect(bottom.textContent).toContain(bottomScore);
+    },
+  );
+
+  it("moves unchanged color-owned values on manual flip and keeps them across navigation", async () => {
+    renderPage({
+      reviewRunner: vi.fn().mockResolvedValue(fakeReview(distinctAccuracy)),
+    });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    await screen.findByText("91.2%");
+    fireEvent.click(screen.getByRole("button", { name: /Flip board/ }));
+    expect(
+      document.querySelector('[data-board-side="top"]')?.textContent,
+    ).toContain("91.2%");
+    expect(
+      document.querySelector('[data-board-side="bottom"]')?.textContent,
+    ).toContain("73.4%");
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+    expect(screen.getByText("91.2%")).toBeTruthy();
+    expect(screen.getByText("73.4%")).toBeTruthy();
+  });
+
   it.each([
     ["WhiteUser", "white", "WhiteUser", "BlackUser"],
     ["bLaCkUsEr", "black", "BlackUser", "WhiteUser"],
@@ -510,6 +590,7 @@ describe("review-page analysis workflow", () => {
       await screen.findByRole("button", { name: "Cancel analysis" }),
     );
     expect(await screen.findByText(/No partial review was kept/)).toBeTruthy();
+    expect(screen.getAllByText("Unavailable")).toHaveLength(2);
     expect(screen.queryByText("Best")).toBeNull();
     expect(analyzers).toHaveLength(1);
     fireEvent.click(screen.getByRole("button", { name: "Analyze Again" }));
@@ -556,9 +637,46 @@ describe("review-page analysis workflow", () => {
       "The game could not be analyzed",
     );
     expect(screen.queryByText(/secret stack/)).toBeNull();
+    expect(screen.getAllByText("Unavailable")).toHaveLength(2);
     fireEvent.click(screen.getByRole("button", { name: "Analyze Again" }));
     await screen.findByText("Engine evaluation:");
     expect(runner).toHaveBeenCalledTimes(2);
+  });
+
+  it("clears a completed score immediately when the session changes", async () => {
+    const sessions: Record<string, ReviewSessionPayload> = {
+      first: session,
+      second: {
+        ...session,
+        pgn: "1. d4 d5",
+        summary: { id: "two", white: "Carol", black: "Dan" },
+      },
+    };
+    const runner = vi.fn().mockResolvedValue(fakeReview(distinctAccuracy));
+    const view = render(
+      <ReviewPage
+        sessionId="first"
+        sessionReader={(id) => sessions[id]}
+        analyzerFactory={analyzer}
+        reviewRunner={runner}
+        soundPlayer={vi.fn()}
+      />,
+    );
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    await screen.findByText("91.2%");
+    view.rerender(
+      <ReviewPage
+        sessionId="second"
+        sessionReader={(id) => sessions[id]}
+        analyzerFactory={analyzer}
+        reviewRunner={runner}
+        soundPlayer={vi.fn()}
+      />,
+    );
+    expect(screen.queryByText("91.2%")).toBeNull();
+    await screen.findAllByText("Carol");
+    expect(screen.getAllByText("—")).toHaveLength(2);
   });
 
   it("rejects completed review data that does not match the loaded game", async () => {

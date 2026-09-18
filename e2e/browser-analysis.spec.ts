@@ -156,6 +156,7 @@ for (const scenario of [
 test("runs the real worker/WASM review path and cleans up", async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 1280, height: 650 });
   const engineResponses: string[] = [];
   page.on("response", (response) => {
     if (response.url().includes("/stockfish/"))
@@ -194,6 +195,30 @@ test("runs the real worker/WASM review path and cleans up", async ({
         .__chessedProgress,
   );
   expect(progress.some((value) => !value.includes("Analyzing 0 /"))).toBe(true);
+  const whiteRow = page.locator('[data-player-color="white"]');
+  const blackRow = page.locator('[data-player-color="black"]');
+  await expect(whiteRow.locator("[data-accuracy-color=white]")).toContainText(
+    /\d+\.\d%/,
+  );
+  await expect(blackRow.locator("[data-accuracy-color=black]")).toContainText(
+    /\d+\.\d%/,
+  );
+  const whiteAccuracy = await whiteRow
+    .locator("[data-accuracy-color=white]")
+    .textContent();
+  const blackAccuracy = await blackRow
+    .locator("[data-accuracy-color=black]")
+    .textContent();
+  await page.getByRole("button", { name: /Flip board/ }).click();
+  await expect(page.getByLabel("Top player")).toContainText(whiteAccuracy!);
+  await expect(page.getByLabel("Bottom player")).toContainText(blackAccuracy!);
+  expect(
+    await page
+      .locator("[data-board-stack]")
+      .evaluate(
+        (stack) => stack.getBoundingClientRect().bottom <= innerHeight + 1,
+      ),
+  ).toBe(true);
 
   await page.getByRole("button", { name: "Next" }).click();
   await expect(page.getByText("Ply 1 / 4")).toBeVisible();
@@ -207,6 +232,31 @@ test("runs the real worker/WASM review path and cleans up", async ({
     ),
   ).toBe(true);
   await expect.poll(() => stockfishWorkerCount(page)).toBe(0);
+});
+
+test("keeps completed accuracy with a Black reviewed player and clears it on game switch", async ({
+  page,
+}) => {
+  await openImportedReview(page, "Bob");
+  await page.getByRole("button", { name: "Analyze Game" }).click();
+  await expect(page.getByRole("button", { name: "Analyze Again" })).toBeVisible(
+    { timeout: 90_000 },
+  );
+  const bottom = page.getByLabel("Bottom player");
+  await expect(bottom.locator('[data-player-color="black"]')).toBeVisible();
+  await expect(bottom.locator("[data-accuracy-color=black]")).toContainText(
+    /\d+\.\d%/,
+  );
+  await openImportedReview(page, "Alice", {
+    pgn: MEDIUM_PGN,
+    white: "Alice",
+    black: "Carol",
+  });
+  await expect(page.locator("[data-accuracy-color]")).toHaveCount(2);
+  await expect(page.locator("[data-accuracy-color]").first()).toContainText(
+    "—",
+  );
+  await expect(page.locator("[data-accuracy-color]").last()).toContainText("—");
 });
 
 test("cancels a real analysis and completes a clean second run", async ({

@@ -1,6 +1,7 @@
 import type { OrdinaryMoveClassification } from "@/lib/review/classification";
 import type { EngineEvaluation, TerminalReason } from "@/lib/review/interfaces";
 import type { SpecialMoveClassification } from "@/lib/review/special-classification";
+import type { PlayerAccuracy } from "@/lib/review/accuracy";
 
 const CLASSIFICATION_LABELS: Record<OrdinaryMoveClassification, string> = {
   best: "Best",
@@ -49,4 +50,15 @@ export function formatTerminalReason(reason: TerminalReason): string {
     draw: "Draw",
   };
   return labels[reason];
+}
+
+export function formatAccuracy(value: number | null): string | null {
+  return value === null ? null : `${value.toFixed(1)}%`;
+}
+
+export function formatAccuracyCoverage(accuracy: PlayerAccuracy): string {
+  const scored = `${accuracy.scoredMoveCount} scored`;
+  return accuracy.unavailableMoveCount > 0
+    ? `${scored} · ${accuracy.unavailableMoveCount} unavailable`
+    : scored;
 }
