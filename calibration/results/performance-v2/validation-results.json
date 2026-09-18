@@ -1,0 +1,288 @@
+{
+  "experimentVersion": "performance-calibration-v2",
+  "generatedFrom": "13d13efd60446c7c8520482de1190ccd46e35dcd64bccc1221318c1de562e333",
+  "bestByFamily": [
+    {
+      "id": "constant",
+      "threshold": 10,
+      "bounds": "clip-400-3000",
+      "model": {
+        "id": "constant",
+        "predictors": [],
+        "intercept": 1679.3350694444443,
+        "coefficients": [],
+        "means": [],
+        "scales": []
+      },
+      "trainingCount": 576,
+      "validation": {
+        "count": 192,
+        "mae": 259.7603624131943,
+        "medianAbsoluteError": 259.16493055555566,
+        "rmse": 301.6709300052756,
+        "pearson": 0,
+        "spearman": null,
+        "meanSignedError": -3.1961805555549745,
+        "errorQuantiles25_50_75": [
+          -268.41493055555566, -10.664930555555657, 241.33506944444434
+        ],
+        "within100": 0.19270833333333334,
+        "within200": 0.3802083333333333,
+        "within400": 0.796875
+      }
+    },
+    {
+      "id": "accuracy-only",
+      "threshold": 10,
+      "bounds": "clip-400-3000",
+      "model": {
+        "id": "accuracy-only",
+        "predictors": ["accuracy"],
+        "intercept": 1679.335069444445,
+        "coefficients": [104.9664565995069],
+        "means": [90.93808030501171],
+        "scales": [4.00474116054401]
+      },
+      "trainingCount": 576,
+      "validation": {
+        "count": 192,
+        "mae": 241.55590713259107,
+        "medianAbsoluteError": 230.71355707933753,
+        "rmse": 282.34087625097385,
+        "pearson": 0.353073230835593,
+        "spearman": 0.3479652273183707,
+        "meanSignedError": -6.233048711180165,
+        "errorQuantiles25_50_75": [
+          -228.35603588145284, -23.18880969610302, 231.43252071296598
+        ],
+        "within100": 0.22916666666666666,
+        "within200": 0.4270833333333333,
+        "within400": 0.8229166666666666
+      }
+    },
+    {
+      "id": "accuracy-severe",
+      "threshold": 10,
+      "bounds": "clip-400-3000",
+      "model": {
+        "id": "accuracy-severe",
+        "predictors": ["accuracy", "severeErrorRate"],
+        "intercept": 1679.335069444445,
+        "coefficients": [110.92059969902397, 7.201413121994252],
+        "means": [90.93808030501171, 0.037881398987055385],
+        "scales": [4.00474116054401, 0.04355165535585331]
+      },
+      "trainingCount": 576,
+      "validation": {
+        "count": 192,
+        "mae": 240.7660680914663,
+        "medianAbsoluteError": 227.71090538896215,
+        "rmse": 281.775925187586,
+        "pearson": 0.3580449534506737,
+        "spearman": 0.3513680656451689,
+        "meanSignedError": -6.217935276649961,
+        "errorQuantiles25_50_75": [
+          -222.4605320089742, -21.15872523946257, 229.774273255757
+        ],
+        "within100": 0.23958333333333334,
+        "within200": 0.4322916666666667,
+        "within400": 0.8229166666666666
+      }
+    },
+    {
+      "id": "distribution",
+      "threshold": 10,
+      "bounds": "clip-400-3000",
+      "model": {
+        "id": "distribution",
+        "predictors": [
+          "accuracy",
+          "lowerQuartileMoveAccuracy",
+          "severeErrorRate",
+          "nearPerfectRate"
+        ],
+        "intercept": 1679.3350694444453,
+        "coefficients": [
+          107.58176502013848, 21.01923966345435, 13.291395857284707,
+          -18.688202936120405
+        ],
+        "means": [
+          90.93808030501171, 0.8867252768802552, 0.037881398987055385,
+          0.36211006454323996
+        ],
+        "scales": [
+          4.00474116054401, 0.06446865000875494, 0.04355165535585331,
+          0.11014475179763869
+        ]
+      },
+      "trainingCount": 576,
+      "validation": {
+        "count": 192,
+        "mae": 239.00598113349997,
+        "medianAbsoluteError": 234.05833524970717,
+        "rmse": 279.6204564684289,
+        "pearson": 0.3768223997966351,
+        "spearman": 0.3716180903368057,
+        "meanSignedError": -2.4845981198445273,
+        "errorQuantiles25_50_75": [
+          -216.35114679377722, -15.685850358354742, 237.29193610369947
+        ],
+        "within100": 0.21875,
+        "within200": 0.4322916666666667,
+        "within400": 0.8385416666666666
+      }
+    },
+    {
+      "id": "meaningful-choice",
+      "threshold": 10,
+      "bounds": "clip-400-3000",
+      "model": {
+        "id": "meaningful-choice",
+        "predictors": [
+          "meaningfulAccuracy",
+          "meaningfulLowerQuartile",
+          "meaningfulSevereErrorRate",
+          "meaningfulMoveCount"
+        ],
+        "intercept": 1679.3350694444455,
+        "coefficients": [
+          87.04014085313474, 23.658191098490036, 3.4175689906070517,
+          12.528903669276493
+        ],
+        "means": [
+          90.83863645573989, 0.8853188941439564, 0.03840125521127518,
+          35.61631944444444
+        ],
+        "scales": [
+          4.065799596466116, 0.06531020468384238, 0.04409794300794964,
+          15.330853886785148
+        ]
+      },
+      "trainingCount": 576,
+      "validation": {
+        "count": 192,
+        "mae": 238.43011302813719,
+        "medianAbsoluteError": 226.5408099795037,
+        "rmse": 280.7609308104041,
+        "pearson": 0.3667642776507366,
+        "spearman": 0.36680545626076344,
+        "meanSignedError": -7.655272662903688,
+        "errorQuantiles25_50_75": [
+          -225.8737410568517, -21.73322430494204, 227.37533196891684
+        ],
+        "within100": 0.22916666666666666,
+        "within200": 0.4322916666666667,
+        "within400": 0.8229166666666666
+      }
+    }
+  ],
+  "selectedRicher": {
+    "id": "meaningful-choice",
+    "threshold": 10,
+    "bounds": "clip-400-3000",
+    "model": {
+      "id": "meaningful-choice",
+      "predictors": [
+        "meaningfulAccuracy",
+        "meaningfulLowerQuartile",
+        "meaningfulSevereErrorRate",
+        "meaningfulMoveCount"
+      ],
+      "intercept": 1679.3350694444455,
+      "coefficients": [
+        87.04014085313474, 23.658191098490036, 3.4175689906070517,
+        12.528903669276493
+      ],
+      "means": [
+        90.83863645573989, 0.8853188941439564, 0.03840125521127518,
+        35.61631944444444
+      ],
+      "scales": [
+        4.065799596466116, 0.06531020468384238, 0.04409794300794964,
+        15.330853886785148
+      ]
+    },
+    "trainingCount": 576,
+    "validation": {
+      "count": 192,
+      "mae": 238.43011302813719,
+      "medianAbsoluteError": 226.5408099795037,
+      "rmse": 280.7609308104041,
+      "pearson": 0.3667642776507366,
+      "spearman": 0.36680545626076344,
+      "meanSignedError": -7.655272662903688,
+      "errorQuantiles25_50_75": [
+        -225.8737410568517, -21.73322430494204, 227.37533196891684
+      ],
+      "within100": 0.22916666666666666,
+      "within200": 0.4322916666666667,
+      "within400": 0.8229166666666666
+    }
+  },
+  "accuracyBaseline": {
+    "id": "accuracy-only",
+    "threshold": 10,
+    "bounds": "clip-400-3000",
+    "model": {
+      "id": "accuracy-only",
+      "predictors": ["accuracy"],
+      "intercept": 1679.335069444445,
+      "coefficients": [104.9664565995069],
+      "means": [90.93808030501171],
+      "scales": [4.00474116054401]
+    },
+    "trainingCount": 576,
+    "validation": {
+      "count": 192,
+      "mae": 241.55590713259107,
+      "medianAbsoluteError": 230.71355707933753,
+      "rmse": 282.34087625097385,
+      "pearson": 0.353073230835593,
+      "spearman": 0.3479652273183707,
+      "meanSignedError": -6.233048711180165,
+      "errorQuantiles25_50_75": [
+        -228.35603588145284, -23.18880969610302, 231.43252071296598
+      ],
+      "within100": 0.22916666666666666,
+      "within200": 0.4270833333333333,
+      "within400": 0.8229166666666666
+    }
+  },
+  "pairedValidation": {
+    "richer": {
+      "count": 192,
+      "mae": 238.43011302813719,
+      "medianAbsoluteError": 226.5408099795037,
+      "rmse": 280.7609308104041,
+      "pearson": 0.3667642776507366,
+      "spearman": 0.36680545626076344,
+      "meanSignedError": -7.655272662903688,
+      "errorQuantiles25_50_75": [
+        -225.8737410568517, -21.73322430494204, 227.37533196891684
+      ],
+      "within100": 0.22916666666666666,
+      "within200": 0.4322916666666667,
+      "within400": 0.8229166666666666
+    },
+    "accuracyBaseline": {
+      "count": 192,
+      "mae": 241.55590713259107,
+      "medianAbsoluteError": 230.71355707933753,
+      "rmse": 282.34087625097385,
+      "pearson": 0.353073230835593,
+      "spearman": 0.3479652273183707,
+      "meanSignedError": -6.233048711180165,
+      "errorQuantiles25_50_75": [
+        -228.35603588145284, -23.18880969610302, 231.43252071296598
+      ],
+      "within100": 0.22916666666666666,
+      "within200": 0.4270833333333333,
+      "within400": 0.8229166666666666
+    }
+  },
+  "validationImprovement": {
+    "units": 3.125794104453888,
+    "percent": 1.294025114748333,
+    "passed": false
+  }
+}

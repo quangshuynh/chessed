@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -107,5 +108,59 @@ describe("performance calibration v2 preregistration and sample", () => {
       derivePlayerFeatures(base).meaningfulAccuracy,
     );
     expect(derivePlayerFeatures(padded).meaningfulMoveCount).toBe(5);
+  });
+
+  it("makes missing and insufficient evidence explicit", () => {
+    const empty = derivePlayerFeatures([]);
+    expect(empty.accuracy).toBeNull();
+    expect(empty.meaningfulAccuracy).toBeNull();
+    expect(empty.scoredMoveCount).toBe(0);
+    expect(empty.meaningfulMoveCount).toBe(0);
+  });
+
+  it("keeps the committed analyzed artifact complete and internally valid", () => {
+    const records = readFileSync(
+      "calibration/results/performance-v2/analyzed-player-games.jsonl",
+      "utf8",
+    )
+      .trim()
+      .split(/\r?\n/)
+      .map((line) => JSON.parse(line) as Record<string, unknown>);
+    expect(records).toHaveLength(480);
+    expect(new Set(records.map((record) => record.gameId)).size).toBe(480);
+    for (const record of records) {
+      const { recordSha256, ...body } = record;
+      expect(
+        createHash("sha256").update(JSON.stringify(body)).digest("hex"),
+      ).toBe(recordSha256);
+      expect(record.engine).toEqual({
+        name: "Stockfish",
+        version: "18 lite",
+        depth: 12,
+      });
+      const players = record.players as { color: string }[];
+      expect(players.map((player) => player.color)).toEqual(["white", "black"]);
+    }
+  });
+
+  it("locks the rejected validation candidate reproducibly", () => {
+    const lock = JSON.parse(
+      readFileSync(
+        "calibration/results/performance-v2/validation-lock.json",
+        "utf8",
+      ),
+    ) as Record<string, unknown>;
+    const { lockSha256, ...body } = lock;
+    expect(sha256(canonicalJson(body))).toBe(lockSha256);
+    expect(lock.status).toBe("validation-rejected");
+
+    const holdout = JSON.parse(
+      readFileSync(
+        "calibration/results/performance-v2/holdout-results.json",
+        "utf8",
+      ),
+    ) as { lockSha256: string; decision: string };
+    expect(holdout.lockSha256).toBe(lockSha256);
+    expect(holdout.decision).toBe("do-not-freeze");
   });
 });
