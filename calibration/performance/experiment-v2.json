@@ -1,0 +1,180 @@
+{
+  "experimentVersion": "performance-calibration-v2",
+  "status": "preregistered-before-engine-analysis",
+  "preregisteredOn": "2026-09-18",
+  "source": {
+    "name": "Lichess standard rated games",
+    "license": "CC0",
+    "period": "2013-01",
+    "url": "https://database.lichess.org/standard/lichess_db_standard_rated_2013-01.pgn.zst",
+    "compressedSha256": "aa40b3671fa3cf1072eb182892cd90b0e1e003a4a5943492f64b77e7f3fd1635",
+    "ratings": "WhiteElo and BlackElo are the source's pre-game ratings"
+  },
+  "unit": { "source": "game", "model": "player-game", "split": "game" },
+  "targetGames": 480,
+  "ratingBands": [
+    { "id": "lower", "minimum": 1000, "maximum": 1399, "games": 120 },
+    { "id": "intermediate", "minimum": 1400, "maximum": 1699, "games": 120 },
+    { "id": "advanced", "minimum": 1700, "maximum": 1999, "games": 120 },
+    { "id": "expert", "minimum": 2000, "maximum": 3000, "games": 120 }
+  ],
+  "eligibility": {
+    "variant": "standard",
+    "rated": true,
+    "termination": "Normal",
+    "results": ["1-0", "0-1", "1/2-1/2"],
+    "minimumPlies": 20,
+    "maximumPlies": 160,
+    "minimumEstimatedSeconds": 30,
+    "requireNumericClock": true,
+    "requireBothRatings": true,
+    "requireLegalPgn": true,
+    "ratingBandUses": "arithmetic mean of WhiteElo and BlackElo"
+  },
+  "timeControls": {
+    "estimatedDuration": "initialSeconds + 40 * incrementSeconds",
+    "categories": [
+      { "id": "bullet", "minimum": 30, "maximumExclusive": 180 },
+      { "id": "blitz", "minimum": 180, "maximumExclusive": 480 },
+      { "id": "rapid", "minimum": 480, "maximumExclusive": 1500 },
+      { "id": "classical", "minimum": 1500 }
+    ],
+    "productionFeature": false,
+    "samplingQuota": false,
+    "note": "January 2013 expert games have sparse rapid and no eligible classical coverage."
+  },
+  "sampling": {
+    "identity": "lowercase normalized Lichess game id",
+    "ordering": "ascending SHA-256(experimentVersion + NUL + gameId), then gameId",
+    "selection": "first target count within each rating band",
+    "colorTarget": "both sides of every selected game, exactly balanced",
+    "outcomeTarget": "not quota-controlled; report observed distribution"
+  },
+  "split": {
+    "method": "within each band, selected games in deterministic hash order",
+    "trainPerBand": 72,
+    "validationPerBand": 24,
+    "holdoutPerBand": 24,
+    "holdoutRule": "evaluated once after validation lock is written"
+  },
+  "gameLengthBins": [
+    { "id": "short", "minimumPlies": 20, "maximumPlies": 49 },
+    { "id": "medium", "minimumPlies": 50, "maximumPlies": 100 },
+    { "id": "long", "minimumPlies": 101, "maximumPlies": 160 }
+  ],
+  "engine": {
+    "name": "Stockfish",
+    "version": "18 lite",
+    "depth": 12,
+    "baseMultiPv": 1,
+    "reuseProductionReviewSemantics": true,
+    "enrichment": "chessed-review-v3 production policy",
+    "confirmation": "depth 16/MultiPV 3 only for existing Great boundary policy",
+    "extraProductionPass": false
+  },
+  "features": {
+    "primary": [
+      "accuracy",
+      "medianMoveAccuracy",
+      "lowerQuartileMoveAccuracy",
+      "lowerDecileMoveAccuracy",
+      "severeErrorRate",
+      "moderateErrorRate",
+      "nearPerfectRate",
+      "scoredMoveCount"
+    ],
+    "thresholds": {
+      "severeOutcomeDrop": 0.15,
+      "moderateOutcomeDrop": 0.075,
+      "nearPerfectAccuracy": 0.99
+    },
+    "optionalObjectiveChoice": "uniformly exclude only-legal moves; no candidate-separation difficulty claim",
+    "forbiddenProductionInputs": [
+      "playerRating",
+      "opponentRating",
+      "averageRating",
+      "ratingBand",
+      "result",
+      "username",
+      "timeControl",
+      "classificationCounts"
+    ]
+  },
+  "minimumEvidenceCandidates": [2, 5, 10, 15, 20],
+  "models": [
+    { "id": "constant", "predictors": [], "form": "training mean" },
+    {
+      "id": "accuracy-only",
+      "predictors": ["accuracy"],
+      "form": "ordinary least squares"
+    },
+    {
+      "id": "accuracy-severe",
+      "predictors": ["accuracy", "severeErrorRate"],
+      "form": "ordinary least squares"
+    },
+    {
+      "id": "distribution",
+      "predictors": [
+        "accuracy",
+        "lowerQuartileMoveAccuracy",
+        "severeErrorRate",
+        "nearPerfectRate"
+      ],
+      "form": "ordinary least squares"
+    },
+    {
+      "id": "meaningful-choice",
+      "predictors": [
+        "meaningfulAccuracy",
+        "meaningfulLowerQuartile",
+        "meaningfulSevereErrorRate",
+        "meaningfulMoveCount"
+      ],
+      "form": "ordinary least squares"
+    }
+  ],
+  "boundsCandidates": ["unconstrained", "clip-400-3000"],
+  "validationSelection": "For each nonconstant family, select evidence threshold and bounds by lowest validation MAE, tie-breaking by lower complexity, higher threshold, then lexical configuration id. Select the richer family by the same ordering. Write an immutable lock before reading holdout labels.",
+  "metrics": [
+    "mae",
+    "medianAbsoluteError",
+    "rmse",
+    "pearson",
+    "spearman",
+    "meanSignedError",
+    "errorQuantiles25_50_75",
+    "within100",
+    "within200",
+    "within400"
+  ],
+  "uncertainty": "10000 deterministic game-cluster bootstrap replicates for holdout MAE difference, SHA-256 counter stream seeded by experiment version",
+  "meaningfulImprovement": {
+    "validation": {
+      "minimumMaeUnits": 25,
+      "minimumMaePercent": 3,
+      "medianRegressionLimit": 10
+    },
+    "holdout": {
+      "minimumMaeUnits": 25,
+      "minimumMaePercent": 3,
+      "minimumMedianImprovement": 10,
+      "bootstrap95UpperBoundBelowZero": true
+    },
+    "subgroups": {
+      "maximumMaeRegression": 50,
+      "maximumAbsoluteBias": 150,
+      "requiredDirection": "richer MAE lower than accuracy-only in at least three of four rating bands and no material regression in any preregistered subgroup with at least 10 player-games"
+    },
+    "padding": { "addedTrivialPerfectMoves": 20, "maximumEstimateChange": 50 }
+  },
+  "rejection": [
+    "insufficient completed corpus or holdout coverage",
+    "validation improvement threshold not met",
+    "holdout improvement threshold or confidence criterion not met",
+    "material subgroup regression or bias",
+    "unacceptable trivial-padding or short-sample behavior",
+    "rating/result leakage, nondeterminism, opacity, or need for another production engine pass"
+  ],
+  "freezeRule": "All 20 criteria in the interval request and every threshold above must pass; otherwise do not freeze chessed-performance-v1."
+}

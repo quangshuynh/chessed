@@ -2,6 +2,9 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./e2e",
+  outputDir: process.env.CHESSED_PERFORMANCE_SHARD
+    ? `test-results/performance-${process.env.CHESSED_PERFORMANCE_SHARD.replace("/", "-")}`
+    : "test-results",
   fullyParallel: false,
   timeout: 120_000,
   expect: { timeout: 30_000 },
