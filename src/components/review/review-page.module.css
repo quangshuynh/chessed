@@ -90,11 +90,12 @@
 }
 .playerIdentity {
   min-width: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 0.55rem;
 }
-.playerIdentity > span:last-child {
+.playerName {
   min-width: 0;
   display: grid;
 }
@@ -106,6 +107,36 @@
 .playerIdentity small {
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
+}
+.playerAccuracy {
+  min-width: 7.4rem;
+  display: grid;
+  justify-items: end;
+  color: var(--text);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.playerAccuracy > span > small {
+  margin-right: 0.3rem;
+}
+.playerAccuracy strong {
+  color: var(--accent-hover);
+}
+.accuracyCoverage {
+  font-size: 0.68rem;
+}
+.accuracyHelp {
+  margin-bottom: 0.8rem;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+.accuracyHelp summary {
+  color: var(--accent-hover);
+  cursor: pointer;
+}
+.accuracyHelp p {
+  margin: 0.5rem 0 0;
 }
 .avatar {
   width: 2.25rem;
