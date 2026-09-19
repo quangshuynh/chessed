@@ -1,0 +1,117 @@
+.graph {
+  min-width: 0;
+  margin: 0 0 0.9rem;
+  display: grid;
+  gap: 0.45rem;
+}
+.readout {
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+.readoutLabel {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-size: 0.66rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.readoutMove {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  color: var(--text);
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.readoutValue {
+  flex: 0 0 auto;
+  color: var(--accent-hover);
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.readoutValue[data-graph-state="terminal"] {
+  color: var(--info);
+}
+.readoutValue[data-graph-state="unavailable"] {
+  color: var(--text-muted);
+}
+.surface {
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+  background: #18181a;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.6rem;
+  cursor: pointer;
+  /* Vertical page scrolling must still start from inside the plot on touch. */
+  touch-action: pan-y;
+}
+.surface:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.plot {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.blackTerritory {
+  fill: #3b332e;
+}
+.whiteTerritory {
+  fill: #d4c3ae;
+}
+.gap {
+  fill: #2a2a2d;
+}
+.zeroLine {
+  stroke: #8a8a86;
+  stroke-width: 1;
+  stroke-dasharray: 5 5;
+  vector-effect: non-scaling-stroke;
+}
+.line {
+  fill: none;
+  stroke: #f4ece1;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.singlePoint {
+  fill: #f4ece1;
+}
+.hoverLine {
+  stroke: rgba(244, 236, 225, 0.55);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.selectedLine {
+  stroke: var(--accent);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.selectedPoint {
+  fill: var(--accent);
+  stroke: #18181a;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.caption {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+@media (prefers-reduced-motion: reduce) {
+  .surface,
+  .selectedLine,
+  .selectedPoint {
+    transition: none;
+  }
+}

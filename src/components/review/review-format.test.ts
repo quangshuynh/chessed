@@ -1,12 +1,32 @@
 import { describe, expect, it } from "vitest";
 
+import type { EvaluationGraphPoint } from "@/lib/review/evaluation-graph";
+
 import {
   formatAccuracy,
   formatAccuracyCoverage,
   formatClassification,
   formatEvaluation,
+  formatGraphPointValue,
   formatSpecialClassification,
 } from "./review-format";
+
+function graphPoint(
+  overrides: Partial<EvaluationGraphPoint>,
+): EvaluationGraphPoint {
+  return {
+    positionIndex: 1,
+    ply: 1,
+    moveNumber: 1,
+    player: "white",
+    san: "e4",
+    label: "1. e4",
+    evaluation: null,
+    terminal: null,
+    displayValue: null,
+    ...overrides,
+  };
+}
 
 describe("review presentation formatting", () => {
   it.each([
@@ -67,5 +87,52 @@ describe("review presentation formatting", () => {
     ["miss", "Miss"],
   ] as const)("labels the %s special classification", (value, expected) => {
     expect(formatSpecialClassification(value)).toBe(expected);
+  });
+
+  it("reports a graph point's semantic value, never its bounded plot value", () => {
+    expect(
+      formatGraphPointValue(
+        graphPoint({
+          evaluation: { kind: "mate", perspective: "white", moves: 3 },
+          displayValue: 10,
+        }),
+      ),
+    ).toBe("M3");
+    expect(
+      formatGraphPointValue(
+        graphPoint({
+          evaluation: { kind: "mate", perspective: "white", moves: -2 },
+          displayValue: -10,
+        }),
+      ),
+    ).toBe("-M2");
+    expect(
+      formatGraphPointValue(
+        graphPoint({
+          evaluation: { kind: "centipawns", perspective: "white", value: 4200 },
+          displayValue: 10,
+        }),
+      ),
+    ).toBe("+42.00");
+  });
+
+  it("names a terminal graph point by its outcome and a missing one as unavailable", () => {
+    expect(
+      formatGraphPointValue(
+        graphPoint({
+          terminal: { reason: "checkmate", winner: "black" },
+          displayValue: -10,
+        }),
+      ),
+    ).toBe("Checkmate");
+    expect(
+      formatGraphPointValue(
+        graphPoint({
+          terminal: { reason: "threefold-repetition", winner: null },
+          displayValue: 0,
+        }),
+      ),
+    ).toBe("Draw by threefold repetition");
+    expect(formatGraphPointValue(graphPoint({}))).toBe("Unavailable");
   });
 });

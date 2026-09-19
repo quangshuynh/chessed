@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Chessboard } from "react-chessboard";
 
 import type { GameAnalysisProgress } from "@/lib/analysis/game";
@@ -12,6 +12,7 @@ import { parsePgnToReviewGame } from "@/lib/chess/pgn";
 import { getMoveSound } from "@/lib/chess/move-sound";
 import { formatPrincipalVariation, uciMoveToSan } from "@/lib/chess/notation";
 import type { ParsedMove, ParsedReviewGame } from "@/lib/chess/types";
+import { buildEvaluationGraph } from "@/lib/review/evaluation-graph";
 import type { WholeGameReview } from "@/lib/review/game-review";
 import type { PlayerAccuracy } from "@/lib/review/accuracy";
 import type { EngineAnalyzer } from "@/lib/review/interfaces";
@@ -30,6 +31,7 @@ import {
   formatSpecialClassification,
   formatTerminalReason,
 } from "./review-format";
+import { EvaluationGraphView } from "./evaluation-graph";
 import { groupMovesIntoFullMoves } from "./full-move-rows";
 import styles from "./review-page.module.css";
 import {
@@ -501,6 +503,18 @@ export function ReviewPage({
     });
   }, [currentPly]);
 
+  /**
+   * Derived purely from the completed review's retained evidence: no extra
+   * engine pass, no network work, and nothing to show before completion.
+   */
+  const evaluationGraph = useMemo(
+    () =>
+      analysis.status === "complete"
+        ? buildEvaluationGraph(analysis.review)
+        : null,
+    [analysis],
+  );
+
   async function startAnalysis() {
     if (!game || activeRunRef.current) return;
     const number = ++runNumberRef.current;
@@ -830,6 +844,13 @@ export function ReviewPage({
                   max={Math.max(analysis.progress.totalPositions, 1)}
                 />
               </div>
+            )}
+            {analysis.status === "complete" && evaluationGraph && (
+              <EvaluationGraphView
+                graph={evaluationGraph}
+                selectedIndex={currentPly}
+                onSelectPosition={navigateTo}
+              />
             )}
             {analysis.status === "complete" && (
               <MoveReview currentPly={currentPly} review={analysis.review} />

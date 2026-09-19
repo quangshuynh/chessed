@@ -90,6 +90,21 @@ function fakeReview(
       customStartingPosition: false,
       moveCount: 5,
     },
+    // Deliberately distinct from moves[0].evaluationBefore so a test can tell
+    // retained position-0 evidence apart from move-level evidence.
+    startingPosition: {
+      status: "analyzed",
+      positionIndex: 0,
+      followingMovePly: 1,
+      analysis: {
+        fen: game.startingFen,
+        evaluation: cp(20),
+        bestMoveUci: "e2e4",
+        principalVariationUci: ["e2e4"],
+        limit: { requested: { kind: "depth", value: 12 }, achievedDepth: 12 },
+        engine: { name: "Stockfish" },
+      },
+    },
     moves: game.moves.map((move, index) => ({
       ply: move.ply,
       moveNumber: Math.floor(index / 2) + 1,
@@ -700,10 +715,11 @@ describe("review-page analysis workflow", () => {
     for (const label of ["Best", "Good", "Inaccuracy", "Mistake", "Blunder"])
       expect(screen.getByText(label)).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: /Black move e5/ }));
-    expect(screen.getByText("1... e5")).toBeTruthy();
+    // Scoped to the heading: the graph readout names the same position too.
+    expect(screen.getByRole("heading", { name: "1... e5" })).toBeTruthy();
     expect(screen.getByText("-1.42")).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: /White move Bb5/ }));
-    expect(screen.getByText("3. Bb5")).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "3. Bb5" })).toBeTruthy();
     expect(screen.getByText("M3")).toBeTruthy();
   });
 
@@ -778,5 +794,207 @@ describe("review-page analysis workflow", () => {
     view.unmount();
     expect(instance.dispose).toHaveBeenCalledTimes(1);
     await act(async () => resolve(fakeReview()));
+  });
+});
+
+describe("review-page evaluation graph", () => {
+  const GRAPH_WIDTH = 600;
+
+  /** jsdom has no layout, so the plot is given a deterministic width. */
+  function graph(): HTMLElement {
+    const element = screen.getByRole("slider", { name: /evaluation graph/i });
+    element.getBoundingClientRect = () =>
+      ({ left: 0, width: GRAPH_WIDTH }) as DOMRect;
+    return element;
+  }
+
+  function clickPosition(positionIndex: number, lastIndex: number) {
+    fireEvent.click(graph(), {
+      clientX: (positionIndex / lastIndex) * GRAPH_WIDTH,
+    });
+  }
+
+  async function analyzed(
+    options: Parameters<typeof renderPage>[0] = {},
+  ): Promise<void> {
+    renderPage({
+      reviewRunner: vi.fn().mockResolvedValue(fakeReview()),
+      ...options,
+    });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    await screen.findByRole("slider", { name: /evaluation graph/i });
+  }
+
+  it("shows no graph before a review completes", async () => {
+    const pending = Promise.withResolvers<WholeGameReview>();
+    renderPage({ reviewRunner: () => pending.promise });
+    await loaded();
+    expect(screen.queryByRole("slider")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    expect(screen.queryByRole("slider")).toBeNull();
+    await act(async () => pending.resolve(fakeReview()));
+    expect(
+      screen.getByRole("slider", { name: /evaluation graph/i }),
+    ).toBeTruthy();
+  });
+
+  it("plots one position per canonical index starting at the starting position", async () => {
+    await analyzed();
+    const plot = graph();
+    expect(plot.getAttribute("aria-valuemin")).toBe("0");
+    expect(plot.getAttribute("aria-valuemax")).toBe("5");
+    expect(plot.getAttribute("aria-valuenow")).toBe("0");
+    expect(plot.getAttribute("aria-valuetext")).toBe(
+      "Starting position, +0.20",
+    );
+  });
+
+  it("navigates the board, move list, and review from a graph selection", async () => {
+    await analyzed();
+    clickPosition(3, 5);
+    expect(graph().getAttribute("aria-valuenow")).toBe("3");
+    expect(screen.getByTestId("board").getAttribute("data-position")).toBe(
+      game.positions[3],
+    );
+    expect(screen.getByText("Ply 3 / 5")).toBeTruthy();
+    expect(
+      screen
+        .getByRole("button", { name: /White move Nf3/ })
+        .getAttribute("aria-current"),
+    ).toBe("step");
+    expect(screen.getByRole("heading", { name: "2. Nf3" })).toBeTruthy();
+  });
+
+  it("reflects a move-list selection back into the graph", async () => {
+    await analyzed();
+    fireEvent.click(screen.getByRole("button", { name: /Black move Nc6/ }));
+    const plot = graph();
+    expect(plot.getAttribute("aria-valuenow")).toBe("4");
+    expect(plot.getAttribute("aria-valuetext")).toBe("2... Nc6, +0.25");
+    expect(plot.getAttribute("data-selected-position")).toBe("4");
+  });
+
+  it("follows keyboard arrow navigation without double-stepping", async () => {
+    await analyzed();
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    expect(graph().getAttribute("aria-valuenow")).toBe("1");
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    expect(graph().getAttribute("aria-valuenow")).toBe("2");
+    fireEvent.keyDown(window, { key: "ArrowLeft" });
+    expect(graph().getAttribute("aria-valuenow")).toBe("1");
+  });
+
+  it("jumps to the first and last position with Home and End", async () => {
+    await analyzed();
+    fireEvent.keyDown(graph(), { key: "End" });
+    expect(graph().getAttribute("aria-valuenow")).toBe("5");
+    fireEvent.keyDown(graph(), { key: "Home" });
+    expect(graph().getAttribute("aria-valuenow")).toBe("0");
+  });
+
+  it("reports the semantic value rather than a bounded plot value", async () => {
+    await analyzed();
+    // Ply 5 retains a mate evaluation in the fixture's final position.
+    const review = fakeReview();
+    expect(review.moves[4].evaluationBefore).toMatchObject({ kind: "mate" });
+    clickPosition(1, 5);
+    expect(
+      document.querySelector("[data-graph-readout-value]")?.textContent,
+    ).toBe("-0.05");
+  });
+
+  it("plays exactly one destination sound and stays silent at position 0", async () => {
+    const soundPlayer = vi.fn();
+    await analyzed({ soundPlayer });
+    clickPosition(2, 5);
+    expect(soundPlayer).toHaveBeenCalledTimes(1);
+    clickPosition(2, 5);
+    expect(soundPlayer).toHaveBeenCalledTimes(1);
+    fireEvent.keyDown(graph(), { key: "Home" });
+    expect(soundPlayer).toHaveBeenCalledTimes(1);
+    expect(graph().getAttribute("aria-valuenow")).toBe("0");
+  });
+
+  it("is unchanged in value and order when the board is flipped", async () => {
+    await analyzed();
+    clickPosition(2, 5);
+    const before = graph().getAttribute("aria-valuetext");
+    fireEvent.click(screen.getByRole("button", { name: /Flip board/ }));
+    expect(screen.getByTestId("board").getAttribute("data-orientation")).toBe(
+      "black",
+    );
+    expect(graph().getAttribute("aria-valuetext")).toBe(before);
+    expect(graph().getAttribute("aria-valuenow")).toBe("2");
+  });
+
+  it.each(["cancelled", "failed"] as const)(
+    "keeps no stale graph after an incomplete %s review",
+    async (outcome) => {
+      const pending = Promise.withResolvers<WholeGameReview>();
+      const runner = vi
+        .fn()
+        .mockResolvedValueOnce(fakeReview())
+        .mockImplementationOnce(() => pending.promise);
+      renderPage({ reviewRunner: runner });
+      await loaded();
+      fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+      await screen.findByRole("slider", { name: /evaluation graph/i });
+
+      fireEvent.click(screen.getByRole("button", { name: "Analyze Again" }));
+      expect(screen.queryByRole("slider")).toBeNull();
+      if (outcome === "cancelled") {
+        fireEvent.click(
+          screen.getByRole("button", { name: "Cancel analysis" }),
+        );
+        await act(async () => pending.resolve(fakeReview()));
+        expect(
+          await screen.findByText(/No partial review was kept/),
+        ).toBeTruthy();
+      } else {
+        await act(async () => {
+          pending.reject(new Error("engine gone"));
+          await pending.promise.catch(() => undefined);
+        });
+        expect(await screen.findByRole("alert")).toBeTruthy();
+      }
+      expect(screen.queryByRole("slider")).toBeNull();
+    },
+  );
+
+  it("clears the previous game's graph immediately on a session change", async () => {
+    const sessions: Record<string, ReviewSessionPayload> = {
+      first: session,
+      second: {
+        ...session,
+        pgn: "1. d4 d5",
+        summary: { id: "two", white: "Carol", black: "Dan" },
+      },
+    };
+    const runner = vi.fn().mockResolvedValue(fakeReview());
+    const view = render(
+      <ReviewPage
+        sessionId="first"
+        sessionReader={(id) => sessions[id]}
+        analyzerFactory={analyzer}
+        reviewRunner={runner}
+        soundPlayer={vi.fn()}
+      />,
+    );
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    await screen.findByRole("slider", { name: /evaluation graph/i });
+    view.rerender(
+      <ReviewPage
+        sessionId="second"
+        sessionReader={(id) => sessions[id]}
+        analyzerFactory={analyzer}
+        reviewRunner={runner}
+        soundPlayer={vi.fn()}
+      />,
+    );
+    expect(screen.queryByRole("slider")).toBeNull();
+    await screen.findAllByText("Carol");
+    expect(screen.queryByRole("slider")).toBeNull();
   });
 });
