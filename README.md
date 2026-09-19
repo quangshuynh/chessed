@@ -21,12 +21,13 @@ This repository contains the initial MVP foundation:
 - Manual PGN paste flow
 - PGN parsing and move/position reconstruction (including custom FEN starts)
 - Interactive review screen with explicit client-side analysis, progress, cancellation, ordinary move classifications, and selected-move engine evidence
+- Deterministic, engine-evidence-based explanations of why the selected move received its review outcome
 - Score-sheet move history grouped by FEN-aware fullmove number while preserving one-based ply identity for every interactive move
 - Human-readable SAN best moves and position-aware, correctly numbered SAN principal variations
 - Source-proven Chess.com player avatars with resilient Chessed fallbacks
 - Optional Chessed-owned move, capture, check, and checkmate navigation sounds
 
-The Stockfish analysis boundary, engine-independent move-quality observations, Chessed's ordinary move-classification policy, and whole-game review orchestration are implemented. Accuracy scoring and performance-rating logic remain intentionally deferred.
+The Stockfish analysis boundary, engine-independent move-quality observations, Chessed's ordinary move-classification policy, whole-game review orchestration, Chessed Accuracy, the evaluation graph, and deterministic move explanations are implemented. Estimated Performance was researched and rejected rather than deferred.
 
 ## MVP workflow
 
@@ -73,6 +74,7 @@ npm run test:e2e
 - `src/lib/review/move-quality.ts`: pure player-relative move-quality observations
 - `src/lib/review/classification.ts`: pure ordinary move-classification policy
 - `src/lib/review/game-review.ts`: pure whole-game review contract and composition
+- `src/lib/review/move-explanation.ts`: pure deterministic move-explanation derivation
 - `src/lib/analysis/*`: Stockfish worker adapter, UCI normalization, and serial game-position analysis
 - `src/components/*`: UI presentation components
 - `docs/images/chessed-logo.png`: transparent Chessed brand source; optimized derivatives live at `public/brand/chessed-logo.png` and `src/app/icon.png`
@@ -87,7 +89,13 @@ Chess.com/PGN → PGN parsing → chess positions → Stockfish analysis → Che
 - Review sessions are stored in browser session storage (no backend persistence)
 - Chess.com games without PGN data cannot be opened
 - Analysis is rerun after a page reload; there is no persistent analysis cache
-- Accuracy and performance estimates are intentionally unavailable
+- Move explanations render only retained engine evidence; they are not coaching, strategic analysis, or opening theory
+
+### Scoring and explanation scope
+
+- **Chessed Accuracy: implemented.** Per-player scores are computed and shown; see [the accuracy methodology](docs/accuracy-scoring.md).
+- **Estimated Performance: evaluated and dropped.** A preregistered 480-game calibration found that a richer model did not beat an honestly fitted accuracy-only baseline on untouched holdout data, so `chessed-performance-v1` was never frozen. This is a rejected result, not deferred work; see [the performance research](docs/game-performance-research.md).
+- **Deterministic move explanations: implemented.** Each selected move is explained from evidence the completed review already holds, with zero additional Stockfish work; see [deterministic move explanations](docs/move-explanations.md).
 
 Stockfish runs client-side in a single-threaded WebAssembly Web Worker. The default limit is depth 12, and normalized evaluations are always from White's perspective. See [the analysis architecture](docs/stockfish-analysis.md).
 
@@ -105,6 +113,11 @@ A completed review also drives an interactive evaluation graph that visualizes
 the existing White-relative engine evidence across canonical game positions. It
 runs no extra analysis and is not win probability. See
 [the evaluation graph](docs/evaluation-graph.md).
+
+Each selected move also carries a deterministic explanation derived only from
+evidence the completed review already retains. It runs no extra Stockfish work
+and never claims a chess concept the evidence cannot establish. See
+[deterministic move explanations](docs/move-explanations.md).
 
 Chess.com avatar provenance, fallback behavior, sound precedence, navigation
 semantics, and the persisted mute preference are documented in
