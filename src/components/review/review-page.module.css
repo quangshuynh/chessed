@@ -368,6 +368,27 @@
   overflow-wrap: anywhere;
   font-variant-numeric: tabular-nums;
 }
+.explanation {
+  margin: 0.8rem 0 0;
+  padding: 0.65rem 0.7rem;
+  background: var(--surface-raised);
+  border-left: 3px solid var(--accent);
+  border-radius: 0.45rem;
+}
+.explanationSummary {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.explanationDetails {
+  margin: 0.45rem 0 0;
+  padding-left: 1.05rem;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+}
+.explanationDetails li + li {
+  margin-top: 0.2rem;
+}
 .line,
 .terminal,
 .unavailable,

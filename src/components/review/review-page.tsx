@@ -14,6 +14,10 @@ import { formatPrincipalVariation, uciMoveToSan } from "@/lib/chess/notation";
 import type { ParsedMove, ParsedReviewGame } from "@/lib/chess/types";
 import { buildEvaluationGraph } from "@/lib/review/evaluation-graph";
 import type { WholeGameReview } from "@/lib/review/game-review";
+import {
+  explainReviewMoves,
+  type MoveExplanation,
+} from "@/lib/review/move-explanation";
 import type { PlayerAccuracy } from "@/lib/review/accuracy";
 import type { EngineAnalyzer } from "@/lib/review/interfaces";
 import { playNavigationSound } from "@/lib/review/navigation-sound";
@@ -208,12 +212,37 @@ function reviewMatchesGame(
   );
 }
 
+function MoveExplanationView({
+  explanation,
+}: {
+  explanation: MoveExplanation;
+}) {
+  return (
+    <section
+      className={styles.explanation}
+      aria-label="Move explanation"
+      data-move-explanation={explanation.reason}
+    >
+      <p className={styles.explanationSummary}>{explanation.summary}</p>
+      {explanation.details && explanation.details.length > 0 && (
+        <ul className={styles.explanationDetails}>
+          {explanation.details.map((detail) => (
+            <li key={detail}>{detail}</li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
+}
+
 function MoveReview({
   currentPly,
   review,
+  explanations,
 }: {
   currentPly: number;
   review: WholeGameReview;
+  explanations: readonly MoveExplanation[];
 }) {
   if (currentPly === 0) {
     const evaluation = review.moves[0]?.evaluationBefore ?? null;
@@ -227,6 +256,9 @@ function MoveReview({
           ) : (
             "Unavailable"
           )}
+        </p>
+        <p className={styles.unavailable}>
+          There is no move to explain at the starting position.
         </p>
         <p className={styles.perspective}>Evaluations are White-relative.</p>
       </div>
@@ -258,6 +290,7 @@ function MoveReview({
     move.fenBefore,
     move.principalVariationUci,
   );
+  const explanation = explanations[currentPly - 1];
 
   return (
     <div className={styles.moveReview}>
@@ -300,6 +333,7 @@ function MoveReview({
           <dd>{bestMoveSan ?? "Unavailable"}</dd>
         </div>
       </dl>
+      {explanation && <MoveExplanationView explanation={explanation} />}
       {principalVariation && principalVariation.sanMoves.length > 0 && (
         <p className={styles.line}>
           <span>Principal variation</span> {principalVariation.text}
@@ -511,6 +545,18 @@ export function ReviewPage({
     () =>
       analysis.status === "complete"
         ? buildEvaluationGraph(analysis.review)
+        : null,
+    [analysis],
+  );
+
+  /**
+   * Explanations are a pure rendering of the same completed review, derived
+   * once per result rather than on every navigation or render.
+   */
+  const explanations = useMemo(
+    () =>
+      analysis.status === "complete"
+        ? explainReviewMoves(analysis.review.moves)
         : null,
     [analysis],
   );
@@ -852,8 +898,12 @@ export function ReviewPage({
                 onSelectPosition={navigateTo}
               />
             )}
-            {analysis.status === "complete" && (
-              <MoveReview currentPly={currentPly} review={analysis.review} />
+            {analysis.status === "complete" && explanations && (
+              <MoveReview
+                currentPly={currentPly}
+                review={analysis.review}
+                explanations={explanations}
+              />
             )}
             <div className={styles.analysisActions}>
               {analysis.status === "running" ? (
