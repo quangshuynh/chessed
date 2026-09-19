@@ -101,6 +101,11 @@ labels. See [the accuracy methodology](docs/accuracy-scoring.md).
 
 An injected analyzer produces one ordered, provenance-bearing result for a complete game, which the review page consumes without recreating chess or classification logic. See [whole-game review orchestration](docs/whole-game-review.md).
 
+A completed review also drives an interactive evaluation graph that visualizes
+the existing White-relative engine evidence across canonical game positions. It
+runs no extra analysis and is not win probability. See
+[the evaluation graph](docs/evaluation-graph.md).
+
 Chess.com avatar provenance, fallback behavior, sound precedence, navigation
 semantics, and the persisted mute preference are documented in
 [player avatars and sounds](docs/player-avatars-and-sounds.md).

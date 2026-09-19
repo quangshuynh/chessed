@@ -93,6 +93,11 @@ export type ClassificationCounts = Record<
 
 export interface WholeGameReview {
   metadata: ReviewGameMetadata;
+  /**
+   * Already-computed evidence for position 0. Every later position is retained
+   * by the move that reached it, but the starting position belongs to no move.
+   */
+  startingPosition: GamePositionAnalysis | null;
   moves: readonly ReviewMove[];
   counts: ClassificationCounts;
   specialCounts: Record<SpecialMoveClassification, number>;
@@ -283,6 +288,7 @@ export function buildWholeGameReview(input: {
   });
   return {
     metadata: metadata(input.game),
+    startingPosition: positionsByIndex.get(0) ?? null,
     moves,
     counts,
     specialCounts,

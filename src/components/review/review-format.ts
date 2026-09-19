@@ -1,4 +1,5 @@
 import type { OrdinaryMoveClassification } from "@/lib/review/classification";
+import type { EvaluationGraphPoint } from "@/lib/review/evaluation-graph";
 import type { EngineEvaluation, TerminalReason } from "@/lib/review/interfaces";
 import type { SpecialMoveClassification } from "@/lib/review/special-classification";
 import type { PlayerAccuracy } from "@/lib/review/accuracy";
@@ -61,4 +62,14 @@ export function formatAccuracyCoverage(accuracy: PlayerAccuracy): string {
   return accuracy.unavailableMoveCount > 0
     ? `${scored} · ${accuracy.unavailableMoveCount} unavailable`
     : scored;
+}
+
+/**
+ * The semantic value of a graph position. Mate and terminal outcomes keep their
+ * own wording so a bounded plot never reads back as a fake centipawn score.
+ */
+export function formatGraphPointValue(point: EvaluationGraphPoint): string {
+  if (point.evaluation) return formatEvaluation(point.evaluation);
+  if (point.terminal) return formatTerminalReason(point.terminal.reason);
+  return "Unavailable";
 }
