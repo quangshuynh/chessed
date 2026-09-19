@@ -765,6 +765,54 @@ describe("whole-game review orchestration", () => {
     );
   });
 
+  it("retains position-0 evidence that belongs to no move", () => {
+    const game = parsePgnToReviewGame("1. e4 e5");
+    const review = buildWholeGameReview({
+      game,
+      positions: [
+        analyzedPosition(game, 0, cp(24)),
+        analyzedPosition(game, 1, cp(30)),
+        analyzedPosition(game, 2, cp(18)),
+      ],
+    });
+    expect(review.startingPosition).toMatchObject({
+      status: "analyzed",
+      positionIndex: 0,
+      analysis: { evaluation: cp(24) },
+    });
+    expect(review.moves[0].evaluationBefore).toEqual(cp(24));
+  });
+
+  it("retains a moveless game's starting position and an unanalyzed one as null", () => {
+    const moveless = parsePgnToReviewGame(`[SetUp "1"]
+[FEN "7k/5Q2/6K1/8/8/8/8/8 b - - 0 40"]
+
+*`);
+    expect(
+      buildWholeGameReview({
+        game: moveless,
+        positions: [
+          {
+            status: "terminal",
+            positionIndex: 0,
+            followingMovePly: null,
+            fen: moveless.positions[0],
+            reason: "checkmate",
+            winner: "white",
+          },
+        ],
+      }).startingPosition,
+    ).toMatchObject({ status: "terminal", reason: "checkmate" });
+
+    const game = parsePgnToReviewGame("1. e4");
+    expect(
+      buildWholeGameReview({
+        game,
+        positions: [null, analyzedPosition(game, 1, cp(30))],
+      }).startingPosition,
+    ).toBeNull();
+  });
+
   it("keeps repetition detection history-aware rather than reusing board-only analysis", async () => {
     const game = parsePgnToReviewGame(
       "1. Nf3 Nf6 2. Ng1 Ng8 3. Nf3 Nf6 4. Ng1 Ng8",
