@@ -997,4 +997,114 @@ describe("review-page evaluation graph", () => {
     await screen.findAllByText("Carol");
     expect(screen.queryByRole("slider")).toBeNull();
   });
+  it("renders a deterministic explanation that follows the canonical selected ply", async () => {
+    renderPage({ reviewRunner: vi.fn().mockResolvedValue(fakeReview()) });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    await screen.findByRole("slider", { name: /evaluation graph/i });
+    // Position 0 has no move, so no explanation exists until one is selected.
+    expect(document.querySelector("[data-move-explanation]")).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: /White move e4/ }));
+    await screen.findByRole("region", { name: "Move explanation" });
+    expect(
+      document
+        .querySelector("[data-move-explanation]")
+        ?.getAttribute("data-move-explanation"),
+    ).toBe("best-move");
+    expect(screen.getByText("This was the engine's top choice.")).toBeTruthy();
+
+    fireEvent.click(screen.getByRole("button", { name: /Black move Nc6/ }));
+    expect(
+      document
+        .querySelector("[data-move-explanation]")
+        ?.getAttribute("data-move-explanation"),
+    ).toBe("moderate-eval-drop");
+  });
+
+  it("shows a starting-position state and no move explanation at position zero", async () => {
+    renderPage({ reviewRunner: vi.fn().mockResolvedValue(fakeReview()) });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    await screen.findByRole("slider", { name: /evaluation graph/i });
+    expect(
+      screen.getByText("There is no move to explain at the starting position."),
+    ).toBeTruthy();
+    expect(document.querySelector("[data-move-explanation]")).toBeNull();
+  });
+
+  it("keeps the explanation identical across keyboard navigation and a board flip", async () => {
+    renderPage({ reviewRunner: vi.fn().mockResolvedValue(fakeReview()) });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    await screen.findByRole("slider", { name: /evaluation graph/i });
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+    const afterClick = document.querySelector(
+      "[data-move-explanation]",
+    )?.textContent;
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    fireEvent.keyDown(window, { key: "ArrowLeft" });
+    expect(document.querySelector("[data-move-explanation]")?.textContent).toBe(
+      afterClick,
+    );
+    fireEvent.click(screen.getByRole("button", { name: /Flip board/ }));
+    expect(document.querySelector("[data-move-explanation]")?.textContent).toBe(
+      afterClick,
+    );
+  });
+
+  it("shows no explanation before analysis, while running, or after cancellation", async () => {
+    const pending = Promise.withResolvers<WholeGameReview>();
+    const analyzers = [analyzer()];
+    renderPage({
+      reviewRunner: vi.fn(() => pending.promise),
+      analyzerFactory: () => analyzers[0],
+    });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "White move e4" }));
+    expect(document.querySelector("[data-move-explanation]")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    expect(document.querySelector("[data-move-explanation]")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Cancel analysis" }));
+    await screen.findByText(/Analysis was cancelled/);
+    expect(document.querySelector("[data-move-explanation]")).toBeNull();
+  });
+
+  it("clears the previous game's explanation immediately on a session change", async () => {
+    const sessions: Record<string, ReviewSessionPayload> = {
+      first: session,
+      second: {
+        ...session,
+        pgn: "1. d4 d5",
+        summary: { id: "two", white: "Carol", black: "Dan" },
+      },
+    };
+    const runner = vi.fn().mockResolvedValue(fakeReview());
+    const view = render(
+      <ReviewPage
+        sessionId="first"
+        sessionReader={(id) => sessions[id]}
+        analyzerFactory={analyzer}
+        reviewRunner={runner}
+        soundPlayer={vi.fn()}
+      />,
+    );
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    await screen.findByRole("slider", { name: /evaluation graph/i });
+    fireEvent.click(screen.getByRole("button", { name: /White move e4/ }));
+    await screen.findByRole("region", { name: "Move explanation" });
+    view.rerender(
+      <ReviewPage
+        sessionId="second"
+        sessionReader={(id) => sessions[id]}
+        analyzerFactory={analyzer}
+        reviewRunner={runner}
+        soundPlayer={vi.fn()}
+      />,
+    );
+    expect(document.querySelector("[data-move-explanation]")).toBeNull();
+    await screen.findAllByText("Carol");
+    expect(document.querySelector("[data-move-explanation]")).toBeNull();
+  });
 });
