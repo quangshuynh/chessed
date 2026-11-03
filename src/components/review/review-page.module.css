@@ -264,6 +264,64 @@
 }
 .analysisActions {
   margin-top: 1rem;
+  display: grid;
+  gap: 0.55rem;
+}
+.movesActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+.shortcutHint {
+  margin: 0 0 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+.shortcutHint kbd {
+  padding: 0.05rem 0.3rem;
+  color: var(--text);
+  background: #2d2d30;
+  border: 1px solid #4a4a4f;
+  border-radius: 0.3rem;
+  font-family: inherit;
+  font-size: 0.72rem;
+}
+.actionStatus {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+.actionStatus:not(:empty) {
+  margin: 0.55rem 0 0;
+}
+.movesHeading + .shortcutHint + .actionStatus:not(:empty) {
+  margin: 0 0 0.6rem;
+}
+.inlineError p {
+  margin: 0 0 0.45rem;
+}
+.manualFen {
+  width: 100%;
+  min-width: 0;
+  padding: 0.4rem 0.5rem;
+  color: var(--text);
+  background: #1f1f21;
+  border: 1px solid #55555a;
+  border-radius: 0.4rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.manualFen:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.analysisCard .actionStatus + .inlineError {
+  margin-top: 0.55rem;
+}
+.shortcutHint ~ .inlineError {
+  margin-bottom: 0.6rem;
 }
 .primaryButton,
 .secondaryButton {

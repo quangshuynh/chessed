@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Chessboard } from "react-chessboard";
 
 import type { GameAnalysisProgress } from "@/lib/analysis/game";
@@ -20,6 +27,10 @@ import {
 } from "@/lib/review/move-explanation";
 import type { PlayerAccuracy } from "@/lib/review/accuracy";
 import type { EngineAnalyzer } from "@/lib/review/interfaces";
+import {
+  renderReviewReport,
+  reviewReportFilename,
+} from "@/lib/review/markdown-report";
 import { playNavigationSound } from "@/lib/review/navigation-sound";
 import {
   type ReviewSessionPayload,
@@ -37,6 +48,7 @@ import {
 } from "./review-format";
 import { EvaluationGraphView } from "./evaluation-graph";
 import { groupMovesIntoFullMoves } from "./full-move-rows";
+import { reviewNavigationStep } from "./keyboard-navigation";
 import styles from "./review-page.module.css";
 import {
   type BoardPerspective,
@@ -63,7 +75,26 @@ export interface ReviewPageProps {
   reviewRunner?: typeof reviewGame;
   profileLoader?: (username: string) => Promise<ChessComPlayerProfile>;
   soundPlayer?: typeof playNavigationSound;
+  clipboardWriter?: (text: string) => Promise<void>;
+  reportDownloader?: (file: ReportFile) => void;
 }
+
+export interface ReportFile {
+  filename: string;
+  content: string;
+}
+
+type FenCopyState = {
+  sessionId: string;
+  ply: number;
+  fen: string;
+  status: "copied" | "failed";
+};
+type ReportExportState = {
+  review: WholeGameReview;
+  status: "exported" | "failed";
+  filename?: string;
+};
 
 const SOUND_PREFERENCE_KEY = "chessed.sound.enabled.v1";
 
@@ -75,6 +106,32 @@ async function loadChessComProfile(
   );
   if (!response.ok) throw new Error("Profile unavailable");
   return (await response.json()) as ChessComPlayerProfile;
+}
+
+async function writeToClipboard(text: string): Promise<void> {
+  if (typeof navigator === "undefined" || !navigator.clipboard?.writeText) {
+    throw new Error("Clipboard unavailable");
+  }
+  await navigator.clipboard.writeText(text);
+}
+
+/** Saves an in-memory file through the browser; nothing leaves the device. */
+function downloadReportFile({ filename, content }: ReportFile): void {
+  const url = URL.createObjectURL(
+    new Blob([content], { type: "text/markdown;charset=utf-8" }),
+  );
+  try {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.hidden = true;
+    document.body.append(link);
+    link.click();
+    link.remove();
+  } finally {
+    // Revoke after the click has handed the blob to the download manager.
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
 }
 
 function PlayerIdentity({
@@ -365,6 +422,8 @@ export function ReviewPage({
   reviewRunner = reviewGame,
   profileLoader = loadChessComProfile,
   soundPlayer = playNavigationSound,
+  clipboardWriter = writeToClipboard,
+  reportDownloader = downloadReportFile,
 }: ReviewPageProps) {
   const [loaded, setLoaded] = useState<LoadedGame | null | "invalid">();
   const [currentPly, setCurrentPly] = useState(0);
@@ -376,6 +435,11 @@ export function ReviewPage({
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [boardPerspective, setBoardPerspective] =
     useState<BoardPerspective>("white");
+  const [fenCopy, setFenCopy] = useState<FenCopyState | null>(null);
+  const [reportExport, setReportExport] = useState<ReportExportState | null>(
+    null,
+  );
+  const shortcutHintId = useId();
   const mountedRef = useRef(false);
   const runNumberRef = useRef(0);
   const activeRunRef = useRef<
@@ -424,6 +488,8 @@ export function ReviewPage({
     runNumberRef.current += 1;
     const loadTimer = window.setTimeout(() => {
       setCurrentPly(0);
+      setFenCopy(null);
+      setReportExport(null);
       setBoardPerspective("white");
       setProfiles({});
       setAnalysis({ status: "idle" });
@@ -474,11 +540,17 @@ export function ReviewPage({
     };
   }, [loaded, profileLoader, sessionId]);
 
-  const navigateTo = useCallback(
-    (destination: number) => {
+  /** The single navigation path shared by every control and shortcut. */
+  const navigate = useCallback(
+    (resolve: (current: number) => number) => {
       if (!game) return;
+      // A copy confirmation describes one position; it never follows navigation.
+      setFenCopy(null);
       setCurrentPly((current) => {
-        const target = Math.max(0, Math.min(destination, game.moves.length));
+        const target = Math.max(
+          0,
+          Math.min(resolve(current), game.moves.length),
+        );
         if (target === current) return current;
         if (soundEnabled && target > 0) {
           const move = game.moves[target - 1];
@@ -489,16 +561,26 @@ export function ReviewPage({
     },
     [game, soundEnabled, soundPlayer],
   );
+  const navigateTo = useCallback(
+    (destination: number) => navigate(() => destination),
+    [navigate],
+  );
+  const stepBy = useCallback(
+    (offset: number) => navigate((current) => current + offset),
+    [navigate],
+  );
 
   useEffect(() => {
+    if (!game) return;
     function onKeyDown(event: KeyboardEvent) {
-      if (!game || event.altKey || event.ctrlKey || event.metaKey) return;
-      if (event.key === "ArrowLeft") navigateTo(currentPly - 1);
-      if (event.key === "ArrowRight") navigateTo(currentPly + 1);
+      const step = reviewNavigationStep(event);
+      if (step === null) return;
+      event.preventDefault();
+      stepBy(step);
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [currentPly, game, navigateTo]);
+  }, [game, stepBy]);
 
   function toggleSound() {
     setSoundEnabled((enabled) => {
@@ -622,6 +704,37 @@ export function ReviewPage({
     }
   }
 
+  /** Copies the exact position the board shows; no chess state is rebuilt. */
+  async function copySelectedFen() {
+    if (!game) return;
+    const ply = currentPly;
+    const fen = game.positions[ply];
+    if (fen === undefined) return;
+    let status: FenCopyState["status"] = "copied";
+    try {
+      await clipboardWriter(fen);
+    } catch {
+      status = "failed";
+    }
+    if (mountedRef.current) setFenCopy({ sessionId, ply, fen, status });
+  }
+
+  /** Renders the completed review only; export never starts engine work. */
+  function exportReport() {
+    if (analysis.status !== "complete" || !game) return;
+    const { review } = analysis;
+    try {
+      const file = {
+        filename: reviewReportFilename(review),
+        content: renderReviewReport({ review, headers: game.headers }),
+      };
+      reportDownloader(file);
+      setReportExport({ review, status: "exported", filename: file.filename });
+    } catch {
+      setReportExport({ review, status: "failed" });
+    }
+  }
+
   function cancelAnalysis() {
     if (!activeRunRef.current) return;
     stopActiveRun();
@@ -689,6 +802,17 @@ export function ReviewPage({
           ? "unavailable"
           : "idle";
   const fullMoveRows = groupMovesIntoFullMoves(game!.moves, game!.startingFen);
+  const visibleFenCopy =
+    fenCopy &&
+    fenCopy.sessionId === sessionId &&
+    fenCopy.ply === currentPly &&
+    fenCopy.fen === currentFen
+      ? fenCopy
+      : null;
+  const visibleReportExport =
+    reportExport && reportExport.review === completedReview
+      ? reportExport
+      : null;
 
   function renderMoveCell(move: ParsedMove | undefined) {
     if (!move) return <span className={styles.emptyMove} aria-hidden="true" />;
@@ -826,8 +950,10 @@ export function ReviewPage({
             </button>
             <button
               type="button"
-              onClick={() => navigateTo(currentPly - 1)}
+              onClick={() => stepBy(-1)}
               disabled={currentPly === 0}
+              aria-keyshortcuts="ArrowLeft"
+              aria-describedby={shortcutHintId}
             >
               Previous
             </button>
@@ -837,8 +963,10 @@ export function ReviewPage({
             </p>
             <button
               type="button"
-              onClick={() => navigateTo(currentPly + 1)}
+              onClick={() => stepBy(1)}
               disabled={currentPly >= game!.positions.length - 1}
+              aria-keyshortcuts="ArrowRight"
+              aria-describedby={shortcutHintId}
             >
               Next
             </button>
@@ -906,6 +1034,15 @@ export function ReviewPage({
               />
             )}
             <div className={styles.analysisActions}>
+              {analysis.status === "complete" && (
+                <button
+                  type="button"
+                  className={styles.secondaryButton}
+                  onClick={exportReport}
+                >
+                  Export report (Markdown)
+                </button>
+              )}
               {analysis.status === "running" ? (
                 <button
                   type="button"
@@ -926,27 +1063,71 @@ export function ReviewPage({
                 </button>
               )}
             </div>
+            <p className={styles.actionStatus} role="status">
+              {visibleReportExport?.status === "exported" &&
+                `Report saved as ${visibleReportExport.filename}.`}
+            </p>
+            {visibleReportExport?.status === "failed" && (
+              <p className={styles.inlineError} role="alert">
+                The report could not be exported. The review is unchanged; try
+                again.
+              </p>
+            )}
           </section>
           <section className={styles.infoCard}>
             <div className={styles.movesHeading}>
               <h2>Moves</h2>
-              <button
-                type="button"
-                className={styles.soundToggle}
-                aria-pressed={!soundEnabled}
-                aria-label={
-                  soundEnabled ? "Mute move sounds" : "Unmute move sounds"
-                }
-                onClick={toggleSound}
-              >
-                Sound: {soundEnabled ? "On" : "Off"}
-              </button>
+              <div className={styles.movesActions}>
+                <button
+                  type="button"
+                  className={styles.soundToggle}
+                  onClick={copySelectedFen}
+                  title="Copy the selected position's FEN"
+                >
+                  Copy FEN
+                </button>
+                <button
+                  type="button"
+                  className={styles.soundToggle}
+                  aria-pressed={!soundEnabled}
+                  aria-label={
+                    soundEnabled ? "Mute move sounds" : "Unmute move sounds"
+                  }
+                  onClick={toggleSound}
+                >
+                  Sound: {soundEnabled ? "On" : "Off"}
+                </button>
+              </div>
             </div>
+            <p id={shortcutHintId} className={styles.shortcutHint}>
+              Keyboard: <kbd>Left Arrow</kbd> previous move,{" "}
+              <kbd>Right Arrow</kbd> next move.
+            </p>
+            <p className={styles.actionStatus} role="status">
+              {visibleFenCopy?.status === "copied" &&
+                (currentPly === 0
+                  ? "Copied FEN of the starting position."
+                  : `Copied FEN after ply ${currentPly}.`)}
+            </p>
+            {visibleFenCopy?.status === "failed" && (
+              <div className={styles.inlineError} role="alert">
+                <p>Clipboard access was unavailable. Copy the FEN manually:</p>
+                <input
+                  className={styles.manualFen}
+                  type="text"
+                  readOnly
+                  value={visibleFenCopy.fen}
+                  aria-label="Selected position FEN"
+                  onFocus={(event) => event.currentTarget.select()}
+                />
+              </div>
+            )}
             <div
               className={styles.moveList}
               ref={moveListRef}
               role="grid"
               aria-label="Move history"
+              aria-describedby={shortcutHintId}
             >
               <div className={styles.moveListHeading} role="row">
                 <span role="columnheader" aria-label="Move number" />
