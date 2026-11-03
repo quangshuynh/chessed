@@ -136,3 +136,22 @@ describe("review presentation formatting", () => {
     expect(formatGraphPointValue(graphPoint({}))).toBe("Unavailable");
   });
 });
+
+describe("report wording parity", () => {
+  it("exports evaluations with exactly the wording the review UI shows", async () => {
+    const { formatReportEvaluation } =
+      await import("@/lib/review/markdown-report");
+    for (const evaluation of [
+      { kind: "centipawns", perspective: "white", value: 0 },
+      { kind: "centipawns", perspective: "white", value: 5 },
+      { kind: "centipawns", perspective: "white", value: -142 },
+      { kind: "centipawns", perspective: "white", value: 1234 },
+      { kind: "mate", perspective: "white", moves: 3 },
+      { kind: "mate", perspective: "white", moves: -1 },
+    ] as const) {
+      expect(formatReportEvaluation(evaluation)).toBe(
+        formatEvaluation(evaluation),
+      );
+    }
+  });
+});

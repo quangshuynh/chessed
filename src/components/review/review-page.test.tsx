@@ -12,7 +12,11 @@ import type { ReactNode } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { parsePgnToReviewGame } from "@/lib/chess/pgn";
-import type { WholeGameReview } from "@/lib/review/game-review";
+import {
+  buildWholeGameReview,
+  type WholeGameReview,
+} from "@/lib/review/game-review";
+import { renderReviewReport } from "@/lib/review/markdown-report";
 import type { EngineAnalyzer, EngineEvaluation } from "@/lib/review/interfaces";
 import type { ReviewSessionPayload } from "@/lib/review/session-store";
 
@@ -176,6 +180,8 @@ function renderPage(
     ) => Promise<import("@/lib/sources/chesscom/types").ChessComPlayerProfile>;
     soundPlayer?: (sound: import("@/lib/chess/move-sound").MoveSound) => void;
     session?: ReviewSessionPayload;
+    clipboardWriter?: (text: string) => Promise<void>;
+    reportDownloader?: (file: import("./review-page").ReportFile) => void;
   } = {},
 ) {
   return render(
@@ -186,6 +192,8 @@ function renderPage(
       reviewRunner={options.reviewRunner}
       profileLoader={options.profileLoader}
       soundPlayer={options.soundPlayer ?? vi.fn()}
+      clipboardWriter={options.clipboardWriter}
+      reportDownloader={options.reportDownloader}
     />,
   );
 }
@@ -1106,5 +1114,460 @@ describe("review-page evaluation graph", () => {
     expect(document.querySelector("[data-move-explanation]")).toBeNull();
     await screen.findAllByText("Carol");
     expect(document.querySelector("[data-move-explanation]")).toBeNull();
+  });
+});
+
+function cleanReview(): WholeGameReview {
+  const position = (index: number, value: number, best: string | null) => ({
+    status: "analyzed" as const,
+    positionIndex: index,
+    followingMovePly: game.moves[index]?.ply ?? null,
+    analysis: {
+      fen: game.positions[index],
+      evaluation: cp(value),
+      bestMoveUci: best,
+      principalVariationUci: best ? [best] : [],
+      limit: {
+        requested: { kind: "depth" as const, value: 12 },
+        achievedDepth: 12,
+      },
+      engine: { name: "Stockfish", version: "18" },
+    },
+  });
+  return buildWholeGameReview({
+    game,
+    positions: [
+      position(0, 20, "e2e4"),
+      position(1, 25, "e7e5"),
+      position(2, 30, "g1f3"),
+      position(3, 20, "b8c6"),
+      position(4, 25, "f1b5"),
+      position(5, 30, null),
+    ],
+  });
+}
+
+function plyLabel() {
+  return document.querySelector('[class*="navigation"] p')?.textContent;
+}
+
+function boardFen() {
+  return screen.getByTestId("board").getAttribute("data-position");
+}
+
+function activeKeydownListeners(spy: {
+  add: ReturnType<typeof vi.spyOn>;
+  remove: ReturnType<typeof vi.spyOn>;
+}) {
+  const count = (mock: ReturnType<typeof vi.spyOn>) =>
+    mock.mock.calls.filter(([type]) => type === "keydown").length;
+  return count(spy.add) - count(spy.remove);
+}
+
+describe("keyboard move navigation", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    document.body.innerHTML = "";
+  });
+
+  it("steps one ply per arrow and stops at both ends", async () => {
+    renderPage();
+    await loaded();
+    fireEvent.keyDown(window, { key: "ArrowLeft" });
+    expect(plyLabel()).toBe("Starting position / 5");
+    expect(boardFen()).toBe(game.positions[0]);
+    for (let press = 1; press <= 5; press += 1) {
+      fireEvent.keyDown(window, { key: "ArrowRight" });
+      expect(plyLabel()).toBe(`Ply ${press} / 5`);
+      expect(boardFen()).toBe(game.positions[press]);
+    }
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    expect(plyLabel()).toBe("Ply 5 / 5");
+    expect(screen.getByRole("button", { name: "Next" })).toHaveProperty(
+      "disabled",
+      true,
+    );
+    for (let press = 4; press >= 0; press -= 1) {
+      fireEvent.keyDown(window, { key: "ArrowLeft" });
+    }
+    fireEvent.keyDown(window, { key: "ArrowLeft" });
+    expect(plyLabel()).toBe("Starting position / 5");
+  });
+
+  it("consumes a handled arrow but not modified or unrelated keys", async () => {
+    renderPage();
+    await loaded();
+    expect(fireEvent.keyDown(window, { key: "ArrowRight" })).toBe(false);
+    expect(
+      fireEvent.keyDown(window, { key: "ArrowRight", ctrlKey: true }),
+    ).toBe(true);
+    expect(fireEvent.keyDown(window, { key: "ArrowUp" })).toBe(true);
+    expect(plyLabel()).toBe("Ply 1 / 5");
+  });
+
+  it.each([
+    ["input", () => document.createElement("input")],
+    ["textarea", () => document.createElement("textarea")],
+    [
+      "contenteditable",
+      () => {
+        const element = document.createElement("div");
+        element.setAttribute("contenteditable", "true");
+        return element;
+      },
+    ],
+  ])("does not navigate while typing in a %s", async (_name, create) => {
+    renderPage();
+    await loaded();
+    const editable = create();
+    document.body.append(editable);
+    editable.focus();
+    fireEvent.keyDown(editable, { key: "ArrowRight" });
+    fireEvent.keyDown(editable, { key: "ArrowLeft" });
+    expect(plyLabel()).toBe("Starting position / 5");
+    // The same key outside the field still navigates.
+    fireEvent.keyDown(document.body, { key: "ArrowRight" });
+    expect(plyLabel()).toBe("Ply 1 / 5");
+  });
+
+  it("keeps exactly one shortcut listener and removes it on unmount", async () => {
+    const spy = {
+      add: vi.spyOn(window, "addEventListener"),
+      remove: vi.spyOn(window, "removeEventListener"),
+    };
+    const view = renderPage();
+    await loaded();
+    expect(activeKeydownListeners(spy)).toBe(1);
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    fireEvent.click(screen.getByRole("button", { name: "Mute move sounds" }));
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    expect(activeKeydownListeners(spy)).toBe(1);
+    // One press is one step even after the handler was re-bound.
+    expect(plyLabel()).toBe("Ply 2 / 5");
+    view.unmount();
+    expect(activeKeydownListeners(spy)).toBe(0);
+  });
+
+  it("describes the shortcuts accessibly on the navigation controls", async () => {
+    renderPage();
+    await loaded();
+    const previous = screen.getByRole("button", { name: "Previous" });
+    const next = screen.getByRole("button", { name: "Next" });
+    expect(previous.getAttribute("aria-keyshortcuts")).toBe("ArrowLeft");
+    expect(next.getAttribute("aria-keyshortcuts")).toBe("ArrowRight");
+    const hintId = next.getAttribute("aria-describedby");
+    expect(hintId).toBeTruthy();
+    expect(previous.getAttribute("aria-describedby")).toBe(hintId);
+    expect(
+      screen
+        .getByRole("grid", { name: "Move history" })
+        .getAttribute("aria-describedby"),
+    ).toBe(hintId);
+    expect(document.getElementById(hintId!)?.textContent).toBe(
+      "Keyboard: Left Arrow previous move, Right Arrow next move.",
+    );
+  });
+
+  it("keeps the flipped orientation and selected-move evidence in sync", async () => {
+    renderPage({ reviewRunner: vi.fn().mockResolvedValue(cleanReview()) });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    await screen.findByRole("slider", { name: /evaluation graph/i });
+    fireEvent.click(screen.getByRole("button", { name: /Flip board/ }));
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    expect(screen.getByTestId("board").getAttribute("data-orientation")).toBe(
+      "black",
+    );
+    expect(boardFen()).toBe(game.positions[2]);
+    expect(screen.getByRole("heading", { name: "1... e5" })).toBeTruthy();
+    expect(
+      screen
+        .getByRole("button", { name: /Black move e5/ })
+        .getAttribute("aria-current"),
+    ).toBe("step");
+    expect(
+      screen
+        .getByRole("slider", { name: /evaluation graph/i })
+        .getAttribute("aria-valuenow"),
+    ).toBe("2");
+  });
+});
+
+describe("copy FEN", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  async function copy() {
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Copy FEN" }));
+    });
+  }
+
+  it("copies the exact starting, intermediate, and final positions", async () => {
+    const writer = vi.fn<(text: string) => Promise<void>>(async () => {});
+    renderPage({ clipboardWriter: writer });
+    await loaded();
+    await copy();
+    expect(writer).toHaveBeenLastCalledWith(game.positions[0]);
+    expect(
+      screen.getByText("Copied FEN of the starting position."),
+    ).toBeTruthy();
+
+    fireEvent.click(screen.getByRole("button", { name: "Black move e5" }));
+    await copy();
+    expect(writer).toHaveBeenLastCalledWith(game.positions[2]);
+    expect(writer.mock.lastCall?.[0]).toBe(boardFen());
+    expect(screen.getByText("Copied FEN after ply 2.")).toBeTruthy();
+
+    fireEvent.click(screen.getByRole("button", { name: "White move Bb5" }));
+    await copy();
+    expect(writer).toHaveBeenLastCalledWith(game.positions[5]);
+    expect(writer).toHaveBeenCalledTimes(3);
+  });
+
+  it("copies a custom starting FEN exactly as the game holds it", async () => {
+    const fen =
+      "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 4 4";
+    const customPgn = `[SetUp "1"]\n[FEN "${fen}"]\n\n4... Bc5 5. c3 *`;
+    const writer = vi.fn<(text: string) => Promise<void>>(async () => {});
+    renderPage({
+      clipboardWriter: writer,
+      session: { ...session, pgn: customPgn },
+    });
+    await loaded();
+    await copy();
+    expect(writer).toHaveBeenLastCalledWith(fen);
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    await copy();
+    expect(writer).toHaveBeenLastCalledWith(
+      parsePgnToReviewGame(customPgn).positions[2],
+    );
+  });
+
+  it("clears a confirmation once the selection moves", async () => {
+    renderPage({ clipboardWriter: vi.fn(async () => undefined) });
+    await loaded();
+    await copy();
+    expect(
+      screen.getByText("Copied FEN of the starting position."),
+    ).toBeTruthy();
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    fireEvent.keyDown(window, { key: "ArrowLeft" });
+    expect(screen.queryByText(/Copied FEN/)).toBeNull();
+  });
+
+  it("explains a clipboard failure and offers the FEN for manual copying", async () => {
+    renderPage({
+      clipboardWriter: vi.fn(async () => {
+        throw new DOMException("Denied", "NotAllowedError");
+      }),
+    });
+    await loaded();
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    await copy();
+    const alert = screen.getByRole("alert");
+    expect(alert.textContent).toContain("Clipboard access was unavailable");
+    const field = screen.getByRole("textbox", {
+      name: "Selected position FEN",
+    }) as HTMLInputElement;
+    expect(field.value).toBe(game.positions[1]);
+    expect(field.readOnly).toBe(true);
+    expect(screen.queryByText(/Copied FEN/)).toBeNull();
+    // Arrow keys inside the manual-copy field move its caret, not the game.
+    field.focus();
+    fireEvent.keyDown(field, { key: "ArrowRight" });
+    expect(plyLabel()).toBe("Ply 1 / 5");
+  });
+
+  it("uses the browser clipboard by default and reports its absence", async () => {
+    const writeText = vi.fn(async () => undefined);
+    vi.stubGlobal("navigator", { ...navigator, clipboard: { writeText } });
+    const view = renderPage();
+    await loaded();
+    await copy();
+    expect(writeText).toHaveBeenCalledWith(game.positions[0]);
+    view.unmount();
+
+    vi.stubGlobal("navigator", { ...navigator, clipboard: undefined });
+    renderPage();
+    await loaded();
+    await copy();
+    expect(screen.getByRole("alert").textContent).toContain(
+      "Clipboard access was unavailable",
+    );
+  });
+
+  it("is a keyboard-focusable native button that does no network or engine work", async () => {
+    const fetchSpy = vi.fn();
+    vi.stubGlobal("fetch", fetchSpy);
+    const runner = vi.fn();
+    const factory = vi.fn(analyzer);
+    renderPage({
+      clipboardWriter: vi.fn(async () => undefined),
+      reviewRunner: runner,
+      analyzerFactory: factory,
+    });
+    await loaded();
+    const button = screen.getByRole("button", { name: "Copy FEN" });
+    expect(button.tagName).toBe("BUTTON");
+    expect(button.getAttribute("type")).toBe("button");
+    button.focus();
+    expect(document.activeElement).toBe(button);
+    await copy();
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(runner).not.toHaveBeenCalled();
+    expect(factory).not.toHaveBeenCalled();
+  });
+});
+
+describe("Markdown report export", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  it("is offered only for a completed review", async () => {
+    const pending = Promise.withResolvers<WholeGameReview>();
+    renderPage({ reviewRunner: () => pending.promise });
+    await loaded();
+    const exportButton = () =>
+      screen.queryByRole("button", { name: "Export report (Markdown)" });
+    expect(exportButton()).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    expect(exportButton()).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Cancel analysis" }));
+    await screen.findByText(/Analysis was cancelled/);
+    expect(exportButton()).toBeNull();
+  });
+
+  it("downloads the deterministic report of the completed review without engine work", async () => {
+    const fetchSpy = vi.fn();
+    vi.stubGlobal("fetch", fetchSpy);
+    const review = cleanReview();
+    const before = JSON.stringify(review);
+    const runner = vi.fn().mockResolvedValue(review);
+    const engine = analyzer();
+    const factory = vi.fn(() => engine);
+    const downloader = vi.fn();
+    renderPage({
+      reviewRunner: runner,
+      analyzerFactory: factory,
+      reportDownloader: downloader,
+    });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    const button = await screen.findByRole("button", {
+      name: "Export report (Markdown)",
+    });
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    fireEvent.click(button);
+    fireEvent.click(button);
+
+    expect(downloader).toHaveBeenCalledTimes(2);
+    const [first, second] = downloader.mock.calls.map(([file]) => file);
+    // The report reads the review's PGN-recorded metadata, not the session
+    // summary; this fixture's PGN has no player tags.
+    expect(first.filename).toBe("chessed-review-white-vs-black.md");
+    expect(first.content).toBe(
+      renderReviewReport({ review, headers: game.headers }),
+    );
+    expect(second).toEqual(first);
+    expect(
+      screen.getByText(/Report saved as chessed-review-white-vs-black\.md/),
+    ).toBeTruthy();
+    // Exporting is not analysis: one run, no extra engine, no network.
+    expect(runner).toHaveBeenCalledTimes(1);
+    expect(factory).toHaveBeenCalledTimes(1);
+    expect(engine.analyzePosition).not.toHaveBeenCalled();
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(JSON.stringify(review)).toBe(before);
+    expect(plyLabel()).toBe("Ply 1 / 5");
+  });
+
+  it("reports a failed download without disturbing the review", async () => {
+    renderPage({
+      reviewRunner: vi.fn().mockResolvedValue(cleanReview()),
+      reportDownloader: () => {
+        throw new Error("Blocked");
+      },
+    });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    fireEvent.click(
+      await screen.findByRole("button", { name: "Export report (Markdown)" }),
+    );
+    expect(screen.getByRole("alert").textContent).toContain(
+      "The report could not be exported",
+    );
+    expect(screen.queryByText(/Report saved/)).toBeNull();
+    expect(
+      screen.getByRole("slider", { name: /evaluation graph/i }),
+    ).toBeTruthy();
+  });
+
+  it("never offers export for a review that does not match the game", async () => {
+    const downloader = vi.fn();
+    const complete = cleanReview();
+    const partial: WholeGameReview = {
+      ...complete,
+      metadata: { ...complete.metadata, moveCount: 6 },
+    };
+    renderPage({
+      reviewRunner: vi.fn().mockResolvedValue(partial),
+      reportDownloader: downloader,
+    });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    // The page itself already rejects a review that does not match the game.
+    expect((await screen.findByRole("alert")).textContent).toContain(
+      "could not be analyzed",
+    );
+    expect(
+      screen.queryByRole("button", { name: "Export report (Markdown)" }),
+    ).toBeNull();
+    expect(downloader).not.toHaveBeenCalled();
+  });
+
+  it("saves a local Markdown blob through the browser by default", async () => {
+    const blobs: Blob[] = [];
+    const createObjectURL = vi.fn((blob: Blob) => {
+      blobs.push(blob);
+      return "blob:chessed-report";
+    });
+    const revokeObjectURL = vi.fn();
+    vi.stubGlobal(
+      "URL",
+      Object.assign(URL, { createObjectURL, revokeObjectURL }),
+    );
+    const clicks: HTMLAnchorElement[] = [];
+    vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function (
+      this: HTMLAnchorElement,
+    ) {
+      clicks.push(this);
+    });
+    const review = cleanReview();
+    renderPage({ reviewRunner: vi.fn().mockResolvedValue(review) });
+    await loaded();
+    fireEvent.click(screen.getByRole("button", { name: "Analyze Game" }));
+    fireEvent.click(
+      await screen.findByRole("button", { name: "Export report (Markdown)" }),
+    );
+    expect(clicks).toHaveLength(1);
+    expect(clicks[0].download).toBe("chessed-review-white-vs-black.md");
+    expect(clicks[0].getAttribute("href")).toBe("blob:chessed-report");
+    expect(clicks[0].isConnected).toBe(false);
+    expect(blobs[0].type).toBe("text/markdown;charset=utf-8");
+    expect(await blobs[0].text()).toBe(
+      renderReviewReport({ review, headers: game.headers }),
+    );
+    await act(async () => {
+      await new Promise((resolve) => window.setTimeout(resolve, 0));
+    });
+    expect(revokeObjectURL).toHaveBeenCalledWith("blob:chessed-report");
   });
 });
