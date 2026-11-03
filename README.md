@@ -119,6 +119,11 @@ evidence the completed review already retains. It runs no extra Stockfish work
 and never claims a chess concept the evidence cannot establish. See
 [deterministic move explanations](docs/move-explanations.md).
 
+Left/Right Arrow step through the game (except while typing in a field), Copy
+FEN copies the selected position exactly as the review holds it, and a
+completed review can be exported locally as deterministic Markdown without any
+engine or network work. See [review navigation and export](docs/review-export.md).
+
 Chess.com avatar provenance, fallback behavior, sound precedence, navigation
 semantics, and the persisted mute preference are documented in
 [player avatars and sounds](docs/player-avatars-and-sounds.md).
